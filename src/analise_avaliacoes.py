@@ -18,25 +18,29 @@ def resumir_avaliacoes(avaliacoes):
             resumo[restaurante] = {
                 "quantidade": 0,
                 "media": 0,
-                "classificao": "",
+                "classificacao": "",
             }
         resumo[restaurante]["quantidade"] += 1
         quantidade = resumo[restaurante]["quantidade"]
         media_atual = resumo[restaurante]["media"]
-        resumo[restaurante]["media"] = round(
-            media_atual + (avaliacao["nota"] - media_atual) / quantidade,
-            2,
-        )
+        resumo[restaurante]["media"] = media_atual + (
+            avaliacao["nota"] - media_atual
+        ) / quantidade
 
-        if resumo[restaurante]["media"] >= 4:
-            resumo[restaurante]["classificao"] = "Bom"
-        elif resumo[restaurante]["media"] >= 3:
-            resumo[restaurante]["classificao"] = "Regular"
+    for dados in resumo.values():
+        media = dados["media"]
+        dados["media"] = round(media, 2)
+
+        if media >= 4:
+            dados["classificacao"] = "Bom"
+        elif media >= 3:
+            dados["classificacao"] = "Regular"
         else:
-            resumo[restaurante]["classificao"] = "Ruim"
+            dados["classificacao"] = "Ruim"
 
     return resumo
 
 
-resultado = resumir_avaliacoes(avaliacoes)
-print(resultado)
+if __name__ == "__main__":
+    resultado = resumir_avaliacoes(avaliacoes)
+    print(resultado)
