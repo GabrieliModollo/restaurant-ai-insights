@@ -8,26 +8,31 @@ Navegador (HTML, CSS, JS puro, Canvas)
     │  POST /api/simulacoes  parâmetros → financeiro + operação + eventos
     ▼
 FastAPI / Uvicorn, na mesma origem
+    │
+    ▼
+Núcleo, sem dependência de HTTP
     ├─ parametros.py   valida
-    ├─ operacao.py     simula filas e gera eventos
-    └─ financeiro.py   calcula sobre os pedidos concluídos
+    └─ simulacao.py    executa, nesta ordem:
+         ├─ operacao.py     simula filas e gera eventos
+         └─ financeiro.py   calcula sobre os pedidos concluídos
 ```
 
 ## Componentes
 
-*Existente* significa que o código está na pasta de trabalho, ainda **sem commit**; veja
-`docs/progress.md`.
+*Núcleo* está na entrega 1. *Local* significa que o código está na pasta de trabalho, ainda
+**sem commit**; veja `docs/progress.md`.
 
 | Componente | Responsabilidade | Situação |
 | --- | --- | --- |
-| `src/simulador/parametros.py` | Limites, valores iniciais e validação | Existente |
-| `src/simulador/financeiro.py` | Cálculos em centavos | Existente |
-| `src/simulador/operacao.py` | Filas, capacidade, diagnóstico e eventos | Existente |
-| `src/simulador/api.py` | Rotas e entrega da interface | Existente |
-| `src/simulador/web/js/api.js` | Comunicação HTTP | Existente |
-| `src/simulador/web/js/formulario.js` | Controles e validação imediata | Existente |
-| `src/simulador/web/js/indicadores.js` | Exibição dos resultados | Existente |
-| `src/simulador/web/js/principal.js` | Liga formulário, API e indicadores | Existente |
+| `src/simulador/parametros.py` | Limites, valores iniciais e validação | Núcleo |
+| `src/simulador/financeiro.py` | Cálculos em centavos | Núcleo |
+| `src/simulador/operacao.py` | Filas, capacidade, diagnóstico e eventos | Núcleo |
+| `src/simulador/simulacao.py` | Executa operação e finanças em sequência | Núcleo |
+| `src/simulador/api.py` | Rotas e entrega da interface | Local |
+| `src/simulador/web/js/api.js` | Comunicação HTTP | Local |
+| `src/simulador/web/js/formulario.js` | Controles e validação imediata | Local |
+| `src/simulador/web/js/indicadores.js` | Exibição dos resultados | Local |
+| `src/simulador/web/js/principal.js` | Liga formulário, API e indicadores | Local |
 | Cena isométrica | Desenho e clique nas estações | Planejado |
 | Reprodução | Relógio e estado derivado dos eventos | Planejado |
 | Cenários | Guarda o cenário A e compara com o atual | Planejado |
@@ -47,8 +52,10 @@ FastAPI / Uvicorn, na mesma origem
 | Interface e API na mesma origem, sem CDN nem etapa de build | Execução local simples, sem CORS e sem depender de internet. |
 | "Gargalo observado" exige fluxo de entrada acima do ritmo **e** fila no fim do turno | Fila passageira ou pedido em andamento não provam sobrecarga. |
 | "Menor capacidade" é um indicador separado de gargalo | Uma estação pode ser a mais lenta sem nunca formar fila. |
-| Uvicorn sem extras e versões fixas em `requirements.txt` | Instalação leve e reproduzível. |
-| `httpx2` só para testes | O `TestClient` da versão instalada do Starlette o utiliza. |
+| Versões fixas em `requirements.txt`, só com o necessário a cada entrega | Instalação leve e reproduzível; o clone limpo prova que o núcleo não depende de HTTP. |
+| Validação concentrada em `ParametrosSimulacao`; os cálculos confiam nela | Evita repetir regras. `executar_simulacao` exige esse tipo para deixar o contrato explícito. |
+| Casas decimais conferidas com `quantize` e comparação exata | `normalize()` arredonda aos 28 dígitos do contexto padrão e deixaria passar valores inválidos. |
+| Eventos no mesmo instante: fim, depois chegada, depois início | A pessoa termina um pedido antes de começar o próximo. Isso sustentará a reprodução. |
 
 ## Decisões propostas
 
@@ -56,6 +63,8 @@ Serão confirmadas na entrega correspondente.
 
 | Proposta | Justificativa |
 | --- | --- |
+| Uvicorn sem extras | Requisito do projeto; instalação leve. |
+| `httpx2` só para testes | O `TestClient` da versão local do Starlette o utiliza. |
 | Canvas API nativa, sem biblioteca | Requisito do projeto; leve para 8 GB de RAM. |
 | Lógica pura de JavaScript (geometria, reprodução, comparação) separada do desenho e testada com `node --test` | Testa regras sem navegador e sem instalar pacotes npm. Node v24 já está instalado. |
 | Cenário A como cópia imutável, em memória no navegador | Não exige banco de dados; recarregar a página o descarta. |

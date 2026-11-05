@@ -5,8 +5,8 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 
 | # | Entrega | Branch sugerida | Depende de | Status |
 | --- | --- | --- | --- | --- |
-| 0 | Documentação e coordenação | `docs/project-coordination` | Nenhuma | Em revisão |
-| 1 | Núcleo financeiro e simulação | `feat/nucleo-simulacao` | 0 | Código local sem commit |
+| 0 | Documentação e coordenação | `docs/project-coordination` | Nenhuma | Concluída (PR #1) |
+| 1 | Núcleo financeiro e simulação | `feat/nucleo-simulacao` | 0 | Em revisão |
 | 2 | API, parâmetros e indicadores | `feat/api-interface` | 1 | Código local sem commit |
 | 3 | Canvas isométrico e estações | `feat/canvas-isometrico` | 2 | Pendente |
 | 4 | Reprodução dos eventos | `feat/reproducao-eventos` | 3 | Pendente |
@@ -28,24 +28,30 @@ verificação em navegador é um critério à parte e só é marcada quando real
 
 - [x] `CLAUDE.md` e os quatro documentos refletem o que foi encontrado no repositório.
 - [x] O simulador local não é alterado nem incluído no commit.
-- [ ] PR revisado pela pessoa responsável.
+- [x] PR revisado e integrado pela pessoa responsável.
 
 ### 1. Núcleo financeiro e simulação
 
-Arquivos: `parametros.py`, `financeiro.py`, `operacao.py`, `__init__.py`, os testes desses módulos,
-`requirements.txt` e `.gitignore`.
+Arquivos: `parametros.py`, `financeiro.py`, `operacao.py`, `simulacao.py`, `__init__.py`, os testes
+desses módulos, `requirements.txt` e `.gitignore`.
 
 - [x] Testes de zero pedidos, contribuição negativa e arredondamento monetário.
 - [x] Testes de filas, múltiplos funcionários e conclusão exatamente no fim do turno.
-- [ ] Teste de desconto inválido sem depender de HTTP. Hoje ele só existe em `tests/test_api.py`,
-  que pertence à entrega 2.
-- [ ] Testes passam em um clone limpo da branch, após instalar `requirements.txt`.
+- [x] Teste de desconto negativo ou maior que o preço, sem depender de HTTP.
+- [x] Teste de coerência: totais reconstruídos dos eventos coincidem com os da simulação.
+- [x] Receita e contribuição contam só pedidos concluídos, com teste sem HTTP.
+- [x] Testes passam em um clone limpo da branch, sem API, interface ou dependências HTTP.
+- [ ] PR revisado e integrado pela pessoa responsável.
 
 ### 2. API, parâmetros e indicadores
 
-Arquivos: `api.py`, `web/`, `tests/test_api.py` e `README.md`.
+Arquivos: `api.py`, `web/`, `tests/test_api.py`, `README.md` e as dependências `fastapi`, `uvicorn`
+e `httpx2` em `requirements.txt`.
 
 - [x] API devolve finanças, operação e eventos, e rejeita parâmetros inválidos com erro por campo.
+- [ ] `api.py` usa `executar_simulacao`, em vez de repetir a sequência de cálculos.
+- [ ] Testes de validação de `test_api.py` revistos para cobrir o contrato HTTP, sem repetir
+  `test_parametros.py`.
 - [x] Indicadores de conclusão, filas, espera, receita e contribuição são calculados no servidor.
 - [x] Aviso de simulação ilustrativa e explicação dos custos excluídos aparecem na interface.
 - [ ] **Lacuna:** cada controle mostra seus limites antes de ocorrer um erro.
@@ -82,7 +88,9 @@ Arquivos: `api.py`, `web/`, `tests/test_api.py` e `README.md`.
 
 ## Decisões pendentes da pessoa responsável
 
-1. **Branch `feature/analise-avaliacoes`:** tem dois commits fora da `main` e um módulo sem testes,
-   não usado pelo simulador. Manter separada, integrar ou encerrar?
-2. **Descrição do repositório no GitHub:** ainda diz "AI-powered restaurant review analysis using
+1. **Descrição do repositório no GitHub:** ainda diz "AI-powered restaurant review analysis using
    Python and Machine Learning", o que não descreve o simulador sem IA. Alterá-la?
+
+## Decisões tomadas
+
+- **Branch `feature/analise-avaliacoes`:** permanece separada do simulador.

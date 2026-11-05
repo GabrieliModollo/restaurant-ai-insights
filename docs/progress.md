@@ -4,48 +4,71 @@
 
 ## Estado atual
 
-**Entrega 0 em revisão.** Nenhuma funcionalidade do simulador está em `main` nem em outra branch
-remota até aqui.
+- **Entrega 0:** integrada à `main` pelo PR #1 (merge `f9e9d24`).
+- **Entrega 1:** em revisão, na branch `feat/nucleo-simulacao`.
+- **Demais entregas:** não iniciadas nesta etapa. API e interface existem apenas localmente.
 
 | Onde | O que existe |
 | --- | --- |
-| `main` | Estrutura inicial, README antigo, `src/analise_avaliacoes.py` vazio |
-| `feature/analise-avaliacoes` | Módulo de resumo de avaliações, sem testes; não usado pelo simulador |
-| `docs/project-coordination` | Tudo da `main`, mais `CLAUDE.md` e `docs/` |
-| Pasta de trabalho, **sem commit** | Simulador em `src/simulador/`, três arquivos de teste, alterações em `README.md`, `requirements.txt` e `.gitignore` |
+| `main` | Estrutura inicial, README antigo, `CLAUDE.md` e `docs/` |
+| `feat/nucleo-simulacao` | Tudo da `main`, mais o núcleo do simulador e seus testes |
+| `feature/analise-avaliacoes` | Módulo de resumo de avaliações; mantido separado do simulador |
 
-**Risco principal:** o simulador só existe neste computador. A próxima entrega resolve isso.
+### Versionado na entrega 1
 
-**Ao trocar de branch:** `src/analise_avaliacoes.py` aparece vazio fora da
-`feature/analise-avaliacoes`. É o comportamento esperado do Git: o conteúdo segue nessa branch.
+- `src/simulador/`: `__init__.py`, `parametros.py`, `financeiro.py`, `operacao.py`, `simulacao.py`.
+- `tests/`: `test_parametros.py`, `test_financeiro.py`, `test_operacao.py`, `test_simulacao.py`.
+- `requirements.txt`, apenas com `pydantic` e `pytest`, e `.gitignore`.
+
+### Continua local e sem commit
+
+**Risco:** estes arquivos só existem neste computador, além da cópia de segurança em
+`restaurant-ai-insights-backups`, na Área de Trabalho, conferida por hash.
+
+- `src/simulador/api.py` e `src/simulador/web/` (HTML, CSS e quatro módulos JavaScript).
+- `tests/test_api.py`.
+- `README.md`, com a documentação do simulador completo.
+- `requirements.txt` local, diferente do commitado: inclui `fastapi`, `uvicorn` e `httpx2`.
+
+### Ao trocar de branch
+
+Antes do merge da entrega 1, em outra branch, os arquivos do núcleo somem da pasta de trabalho, e a
+API local deixa de iniciar até voltar a `feat/nucleo-simulacao`. Nada se perde: eles estão no
+commit. `src/analise_avaliacoes.py` aparece vazio fora de `feature/analise-avaliacoes`.
 
 ## Verificações executadas
 
-Em 2026-11-04, no Windows, com Python 3.15.0, sobre a pasta de trabalho:
+**Clone limpo do commit `1373ad4`**, em pasta nova, no Windows, com Python 3.15.0. Só arquivos
+commitados, sem copiar nada da pasta de trabalho:
 
 | Verificação | Resultado |
 | --- | --- |
-| `pytest`, suíte completa | 51 aprovados |
-| `pytest` só em `test_financeiro.py` e `test_operacao.py` | 21 aprovados |
-| `pip install -r requirements.txt --dry-run` e `pip check` | Sem erros nem dependências quebradas |
-| Servidor iniciado na porta 8011, sem `--reload` | `GET /` e `GET /api/campos` responderam 200 |
-| `POST /api/simulacoes` com o cenário padrão | 18 concluídos, contribuição de R$ 283,50, 96 eventos |
-| `POST /api/simulacoes` com desconto acima do preço | 422 |
+| Ambiente virtual novo e `pip install -r requirements.txt` | Sem erros |
+| `pip check` | Sem dependências quebradas |
+| `api.py`, `web/` e `test_api.py` no clone | Ausentes |
+| `fastapi`, `starlette`, `uvicorn`, `httpx` e `httpx2` no ambiente | Não instalados |
+| `pytest` | 101 aprovados |
+| Cenário padrão via `executar_simulacao`, sem HTTP (no commit `0c203c4`; só testes mudaram depois) | 18 concluídos, contribuição de R$ 283,50, 96 eventos |
 
-O comando com `--reload --port 8010` não foi iniciado nesta verificação. Uma instância aberta fora
-dela já ocupava a porta com esse comando e foi mantida em execução.
+**Defeitos injetados de propósito**, em cópia descartável do mesmo commit: 16 de 16 detectados pelos
+testes. A primeira rodada detectou 14 e revelou duas lacunas, cobertas com novos testes. A lista é
+uma amostra das regras principais, não uma medida exaustiva.
+
+**Só na pasta de trabalho**, sem valer para a branch: `pytest` com `test_api.py` local teve 131
+aprovados.
 
 ## Limitações
 
-- **Navegador:** nenhuma tela foi aberta nesta verificação. Formulário, indicadores e JavaScript
-  não têm teste automatizado.
-- **Clone limpo:** ainda não testado. A criação de um novo `.venv` também não foi repetida.
-- **Lacunas na interface:** limites dos campos só aparecem em mensagens de erro; falta indicar "sem
-  IA conectada" (ver `docs/backlog.md`).
+- **Clone desta branch não inicia servidor nem interface:** isso depende da entrega 2.
+- **README na branch:** ainda é o antigo e não descreve o simulador. A atualização é da entrega 2.
+- **Navegador:** a interface local não foi aberta. JavaScript não tem teste automatizado.
+- **Ambiente:** clone limpo verificado apenas no Windows e no Python 3.15.0.
+- **Chamadas diretas:** `simular_operacao` e `calcular_financeiro` não validam entradas. A validação
+  fica em `ParametrosSimulacao`, e `executar_simulacao` exige esse tipo.
 - **Ainda não implementado:** Canvas, reprodução, comparação de cenários e explicações por regras.
 - **GitHub CLI:** o comando `gh` não está instalado.
 
 ## Próxima tarefa
 
-**Entrega 1**, depois da revisão e do merge da entrega 0: criar `feat/nucleo-simulacao` a partir da
-`main` e versionar o núcleo, sem reimplementá-lo, completando os critérios de `docs/backlog.md`.
+**Entrega 2**, depois da revisão e do merge da entrega 1: criar `feat/api-interface` a partir da
+`main` e versionar API e interface, cumprindo os critérios de `docs/backlog.md`.

@@ -27,12 +27,22 @@ curta para verificar o entendimento.
 
 ## Comandos verificados
 
-PowerShell, na raiz do projeto. Python 3.15.0. **Dependem de arquivos do simulador que ainda não
-têm commit** (ver `docs/progress.md`); em um clone limpo, só funcionam depois das entregas 1 e 2.
+PowerShell, na raiz do projeto. Python 3.15.0.
+
+**Núcleo**, verificado em clone limpo de `feat/nucleo-simulacao`, sem API nem interface:
 
 ```powershell
+python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m pytest
+```
+
+Na pasta de trabalho, `pytest` também executa `tests/test_api.py`, ainda sem commit. Esse resultado
+não vale para a branch: para verificá-la, use um clone limpo, com um ambiente virtual próprio.
+
+**Servidor e interface**, apenas na pasta de trabalho até a entrega 2, com o `requirements.txt` local:
+
+```powershell
 .\.venv\Scripts\python.exe -m uvicorn src.simulador.api:app --reload --port 8010
 ```
 
@@ -78,7 +88,7 @@ aplicações, alterar permissões e adicionar serviços pagos.
 
 ## Ao terminar uma entrega
 
-1. Rode os testes e registre o resultado real.
+1. Rode os testes em um clone limpo da branch e registre o resultado real.
 2. Atualize `docs/progress.md` e o status em `docs/backlog.md`.
 3. Faça commit, push e abra o PR, se possível.
 4. Pare para revisão. Só comece a entrega seguinte depois da confirmação da pessoa responsável.
