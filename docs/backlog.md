@@ -10,8 +10,20 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 2 | API, parâmetros e indicadores | `feat/api-interface` | 1 | Concluída (PR #3) |
 | 3 | Canvas isométrico e estações | `feat/canvas-isometrico` | 2 | Concluída (PR #4) |
 | 4 | Reprodução dos eventos e primeiro uso | `feat/reproducao-eventos` | 3 | Concluída (PR #5) |
-| 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Em revisão |
-| 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Pendente |
+| 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Concluída (PR #6) |
+| 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Em revisão |
+| — | Validação com usuários | Sem branch | Pessoas reais | Pendente |
+
+## Classificação final dos critérios
+
+Conferida contra o código na revisão final. Os detalhes de cada verificação estão em
+`docs/progress.md`.
+
+| Classificação | Itens |
+| --- | --- |
+| **Verificado** | Núcleo, regras financeiras e filas; API e erros; formulário e limites; indicadores; cena, seleção e agrupamento; reprodução e totais finais; resumo, comparação, ajuda e exemplos; instalação em clone limpo; teclado no Chrome; fluidez medida em números nesta máquina; tema escuro |
+| **Implementado, mas não verificado em condição real** | Troca real de aba; preferência real por menos movimento; tema claro real; falha real de `/api/campos`; zoom real; toque e aparelho celular real; tela de alta densidade; outros navegadores; leitor de tela |
+| **Pendente** | Teste de uso com pessoas reais |
 
 ## Mudança em relação ao plano original
 
@@ -116,30 +128,37 @@ Primeiro uso (orientação para quem tem pouca familiaridade com software):
 - [x] Três exemplos fictícios, pelo fluxo normal, com teste do que cada um anuncia.
 - [x] Fluxo verificado no navegador, em desktop, 390 e 320 px, e por teclado.
 - [x] Testes passam em um clone limpo da branch.
-- [ ] PR revisado e integrado.
+- [x] PR revisado e integrado.
 
 ### 6. Revisão final e demonstração
 
-- [ ] Roteiro de demonstração reproduzível a partir de um clone limpo.
-- [ ] README revisado, sem repetir `docs/` e sem declarar como pronto o que não está.
-- [ ] Revisão completa de escopo, restrições e critérios desta lista.
-- [ ] Verificar fluidez em uso normal, troca real de aba e preferência real por menos movimento.
-- [ ] Teste de uso real com as tarefas abaixo, corrigindo os problemas prioritários.
-- [ ] Se o teste não ocorrer, declarar explicitamente a ausência de validação com usuários.
+Revisão técnica:
 
-Tarefas do teste de uso:
+- [x] Roteiro de demonstração reproduzível, em `docs/demonstracao.md`.
+- [x] README revisado, sem declarar como pronto o que não está.
+- [x] Revisão de escopo, restrições e critérios desta lista, com a classificação acima.
+- [x] Fluidez medida nesta máquina.
+- [x] Busca por credenciais, arquivos temporários, recursos externos e dependências sem uso.
+- [x] Ausência de validação com usuários declarada no README e em `docs/progress.md`.
+- [ ] PR revisado e integrado.
 
-1. Descobrir quantos pedidos ficam prontos no cenário inicial.
-2. Alterar preço ou desconto e explicar o efeito no resultado.
-3. Identificar onde há pedidos esperando e comparar uma mudança de equipe.
+Limitações de ambiente, sem bloquear a revisão técnica:
 
-Registrar conclusão sem ajuda, erros, pedidos de ajuda e interpretações incorretas. Não inventar
-participantes, observações ou resultados.
+- [ ] Troca real de aba e preferência real do sistema por menos movimento.
+
+Validação com pessoas reais, que depende da pessoa responsável:
+
+- [x] Roteiro pronto, em `docs/teste-de-uso.md`.
+- [ ] Sessões realizadas com pessoas reais, sem participantes ou resultados inventados.
+- [ ] Problemas prioritários analisados e corrigidos.
 
 ## Decisões pendentes da pessoa responsável
 
 1. **Descrição do repositório no GitHub:** ainda diz "AI-powered restaurant review analysis using
    Python and Machine Learning", o que não descreve o simulador sem IA. Alterá-la?
+2. **Arquivos vazios na `main`:** `src/analise_avaliacoes.py` e `tests/test_analise_avaliacoes.py`
+   vêm da estrutura inicial e têm relação com `feature/analise-avaliacoes`. Não foram removidos.
+   Mantê-los ou removê-los?
 
 ## Decisões tomadas
 

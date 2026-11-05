@@ -14,6 +14,7 @@ ficar preso na fila e não gerar receita dentro do turno.
   testadas e decisões técnicas.
 
 A facilidade de uso ainda não foi validada com usuários. O que existe até aqui é verificação técnica.
+O roteiro do teste está em `docs/teste-de-uso.md`.
 
 ## Objetivo
 

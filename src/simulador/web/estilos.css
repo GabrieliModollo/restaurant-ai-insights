@@ -144,8 +144,21 @@ h2 {
 
 /* Navegação entre as partes da página, só em telas estreitas */
 .navegacao-movel,
-.somente-celular {
+.somente-celular,
+.atalhos {
   display: none;
+}
+
+.atalhos a {
+  padding: 0.35rem 0.1rem;
+  color: var(--destaque);
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.atalhos a:focus-visible {
+  outline: 2px solid var(--destaque);
+  outline-offset: 2px;
 }
 
 .navegacao-movel .botao[aria-pressed="true"] {
@@ -879,6 +892,12 @@ legend {
   .somente-celular {
     display: block;
     margin-top: 1rem;
+  }
+
+  .atalhos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1rem;
   }
 
   body[data-vista="ajustar"] .coluna-resultados,

@@ -24,6 +24,8 @@ curta para verificar o entendimento.
 | Entregas, critérios de aceitação, dependências e status | `docs/backlog.md` |
 | Componentes e decisões com justificativas | `docs/architecture.md` |
 | Estado atual, verificações, limitações e próxima tarefa | `docs/progress.md` |
+| Roteiro de demonstração | `docs/demonstracao.md` |
+| Roteiro do teste com pessoas reais | `docs/teste-de-uso.md` |
 
 ## Comandos verificados
 
