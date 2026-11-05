@@ -1,1 +1,6 @@
-pytest
+# Regras do simulador
+# Fornece pydantic-core, importado diretamente em parametros.py
+pydantic==2.14.2
+
+# Testes
+pytest==9.2.0

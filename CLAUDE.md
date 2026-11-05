@@ -27,12 +27,22 @@ curta para verificar o entendimento.
 
 ## Comandos verificados
 
-PowerShell, na raiz do projeto. Python 3.15.0. **Dependem de arquivos do simulador que ainda não
-têm commit** (ver `docs/progress.md`); em um clone limpo, só funcionam depois das entregas 1 e 2.
+PowerShell, na raiz do projeto. Python 3.15.0.
+
+**Núcleo**, verificado em clone limpo de `feat/nucleo-simulacao`, sem API nem interface:
 
 ```powershell
+python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m pytest
+```
+
+Na pasta de trabalho, `pytest` também executa `tests/test_api.py`, ainda sem commit. Esse resultado
+não vale para a branch: para verificá-la, use um clone limpo, com um ambiente virtual próprio.
+
+**Servidor e interface**, apenas na pasta de trabalho até a entrega 2, com o `requirements.txt` local:
+
+```powershell
 .\.venv\Scripts\python.exe -m uvicorn src.simulador.api:app --reload --port 8010
 ```
 
@@ -67,6 +77,10 @@ existente depois de verificar o destino e abrir PRs com ferramenta autenticada d
 **Não autorizado:** merge automático, force push, apagar repositórios ou histórico, publicar
 aplicações, alterar permissões e adicionar serviços pagos.
 
+**Divisão de papéis:** o Claude Code implementa, revisa, testa e envia as alterações. A integração
+é feita pelo coordenador no ChatGPT ou pela pessoa responsável. O Claude Code não faz merge sem
+autorização dada no próprio chat.
+
 - Uma branch por entrega, com nome descritivo, a partir de `main`.
 - Commits coesos, sem atividade artificial, commits vazios ou datas falsas.
 - Revise o diff e adicione arquivos pelo nome. Evite `git add .`: a pasta pode ter trabalho de
@@ -78,7 +92,7 @@ aplicações, alterar permissões e adicionar serviços pagos.
 
 ## Ao terminar uma entrega
 
-1. Rode os testes e registre o resultado real.
+1. Rode os testes em um clone limpo da branch e registre o resultado real.
 2. Atualize `docs/progress.md` e o status em `docs/backlog.md`.
 3. Faça commit, push e abra o PR, se possível.
 4. Pare para revisão. Só comece a entrega seguinte depois da confirmação da pessoa responsável.
