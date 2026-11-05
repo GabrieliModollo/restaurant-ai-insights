@@ -143,6 +143,55 @@ def test_fila_no_fim_do_turno_sem_sobrecarga_nao_e_gargalo():
     assert resultado["gargalos_observados"] == ["preparo"]
 
 
+def test_sobrecarga_sem_fila_no_fim_do_turno_nao_e_gargalo():
+    # Chegadas nos minutos 0 e 5: 0,2 pedido/min contra um ritmo de 0,17. O 2º espera do minuto
+    # 5 ao 6, mas no minuto 10 já está em atendimento, então não sobra fila.
+    resultado = _simular(pedidos=2, duracao_turno_min=10, tempo_preparo_min=6)
+    preparo = resultado["estacoes"]["preparo"]
+
+    assert preparo["chegada_acima_do_ritmo"] is True
+    assert preparo["fila_maxima"] == 1
+    assert preparo["fila_final"] == 0
+    assert preparo["em_atendimento_final"] == 1
+    assert preparo["diagnostico"] == "fila_temporaria"
+    assert resultado["gargalos_observados"] == []
+
+
+def test_ordem_dos_eventos_no_mesmo_instante():
+    # No minuto 2: o 1º termina o preparo e libera a pessoa, o 3º chega, o 2º sai da fila
+    # e começa o preparo, e o 1º começa a embalagem.
+    resultado = _simular(pedidos=4, duracao_turno_min=4, tempo_preparo_min=2)
+
+    no_minuto_2 = [
+        (evento["tipo"], evento["pedido"])
+        for evento in resultado["eventos"]
+        if evento["minuto"] == 2
+    ]
+    assert no_minuto_2 == [
+        ("fim_preparo", 1),
+        ("chegada", 3),
+        ("inicio_preparo", 2),
+        ("inicio_embalagem", 1),
+    ]
+
+
+def test_fim_de_embalagem_vem_antes_de_fim_de_preparo_no_mesmo_instante():
+    # Minuto 4: o 1º termina a embalagem (2 + 2) e o 2º termina o preparo (2 + 2).
+    resultado = _simular(
+        pedidos=2,
+        duracao_turno_min=4,
+        tempo_preparo_min=2,
+        tempo_embalagem_min=2,
+    )
+
+    no_minuto_4 = [
+        (evento["tipo"], evento["pedido"])
+        for evento in resultado["eventos"]
+        if evento["minuto"] == 4
+    ]
+    assert no_minuto_4[:2] == [("fim_embalagem", 1), ("fim_preparo", 2)]
+
+
 def test_tempos_medios_somam_espera_das_duas_filas():
     # Chegadas a cada 2 min, preparo de 3 min e embalagem de 4 min, com uma pessoa em cada.
     # Pedido: espera no preparo + espera na embalagem = espera total | tempo total
