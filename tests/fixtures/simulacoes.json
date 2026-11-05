@@ -724,6 +724,13 @@
      "posto": 1
     }
    ]
+  },
+  "resumo": {
+   "identificacao": "Análise gerada por regras, sem IA conectada. Considera o turno completo.",
+   "conclusao": "18 de 20 pedidos ficaram prontos até o fim do turno.",
+   "pendentes": "2 pedidos continuavam pendentes ao final: 0 em fila e 2 em processamento.",
+   "valor": "Valor que sobra após os custos por pedido (margem de contribuição): R$ 283,50. Impostos, salários, aluguel e desperdício ainda não foram descontados.",
+   "atencao": null
   }
  },
  "gargalo_na_embalagem": {
@@ -1684,6 +1691,13 @@
      "posto": 2
     }
    ]
+  },
+  "resumo": {
+   "identificacao": "Análise gerada por regras, sem IA conectada. Considera o turno completo.",
+   "conclusao": "19 de 30 pedidos ficaram prontos até o fim do turno.",
+   "pendentes": "11 pedidos continuavam pendentes ao final: 10 em fila e 1 em processamento.",
+   "valor": "Valor que sobra após os custos por pedido (margem de contribuição): R$ 299,25. Impostos, salários, aluguel e desperdício ainda não foram descontados.",
+   "atencao": "Onde os pedidos estão acumulando: embalagem. Os pedidos chegam mais rápido do que a estação atende, e sobrou fila no fim do turno."
   }
  },
  "eventos_simultaneos": {
@@ -1825,6 +1839,13 @@
      "posto": 1
     }
    ]
+  },
+  "resumo": {
+   "identificacao": "Análise gerada por regras, sem IA conectada. Considera o turno completo.",
+   "conclusao": "1 de 4 pedidos ficou pronto até o fim do turno.",
+   "pendentes": "3 pedidos continuavam pendentes ao final: 1 em fila e 2 em processamento.",
+   "valor": "Valor que sobra após os custos por pedido (margem de contribuição): R$ 15,75. Impostos, salários, aluguel e desperdício ainda não foram descontados.",
+   "atencao": "Onde os pedidos estão acumulando: preparo. Os pedidos chegam mais rápido do que a estação atende, e sobrou fila no fim do turno."
   }
  },
  "fim_exato": {
@@ -1915,6 +1936,13 @@
      "posto": 1
     }
    ]
+  },
+  "resumo": {
+   "identificacao": "Análise gerada por regras, sem IA conectada. Considera o turno completo.",
+   "conclusao": "1 de 1 pedidos ficou pronto até o fim do turno.",
+   "pendentes": "Nenhum pedido ficou em fila ou em processamento ao final.",
+   "valor": "Valor que sobra após os custos por pedido (margem de contribuição): R$ 15,75. Impostos, salários, aluguel e desperdício ainda não foram descontados.",
+   "atencao": null
   }
  },
  "sem_pedidos": {
@@ -1969,6 +1997,13 @@
    ],
    "gargalos_observados": [],
    "eventos": []
+  },
+  "resumo": {
+   "identificacao": "Análise gerada por regras, sem IA conectada. Considera o turno completo.",
+   "conclusao": "Nenhum pedido foi informado para este turno.",
+   "pendentes": "Nenhum pedido ficou em fila ou em processamento ao final.",
+   "valor": "Sem pedidos concluídos, o valor que sobra após os custos por pedido (margem de contribuição) é R$ 0,00. Impostos, salários, aluguel e desperdício ainda não foram descontados.",
+   "atencao": null
   }
  }
 }

@@ -111,6 +111,7 @@ CAMPOS = (
         padrao=Decimal(15),
         maximo_slider=Decimal(40),
         passo_slider=Decimal("0.5"),
+        dica="Percentual cobrado pelo aplicativo ou canal de venda, sobre o preço com desconto.",
     ),
     _inteiro("pessoas_preparo", "Pessoas no preparo", "pessoas", GRUPO_EQUIPE, 1, 50, 2, 10),
     _inteiro("pessoas_embalagem", "Pessoas na embalagem", "pessoas", GRUPO_EQUIPE, 1, 50, 1, 10),
@@ -121,6 +122,32 @@ CAMPOS = (
 
 _CAMPOS_POR_NOME = {campo.nome: campo for campo in CAMPOS}
 
+# Só guardam parâmetros: o resultado vem sempre do fluxo normal de validação e cálculo.
+_EXEMPLOS = (
+    {
+        "id": "pouca_espera",
+        "titulo": "Exemplo fictício: operação com pouca espera",
+        "o_que_explorar": "A equipe dá conta dos pedidos. Veja a espera e o que fica pendente.",
+        "alteracoes": {"pedidos": 15},
+    },
+    {
+        "id": "acumulo_preparo",
+        "titulo": "Exemplo fictício: acúmulo no preparo",
+        "o_que_explorar": (
+            "Chegam mais pedidos do que o preparo atende. Veja onde eles acumulam e mude a equipe."
+        ),
+        "alteracoes": {"pedidos": 60, "pessoas_embalagem": 3},
+    },
+    {
+        "id": "desconto",
+        "titulo": "Exemplo fictício: desconto com o mesmo volume de pedidos",
+        "o_que_explorar": (
+            "O número de pedidos não muda. Veja o efeito do desconto sobre o valor que sobra."
+        ),
+        "alteracoes": {"desconto": 5},
+    },
+)
+
 
 def campos_para_interface() -> list[dict]:
     """Descreve os campos em JSON para o navegador montar o formulário."""
@@ -130,6 +157,20 @@ def campos_para_interface() -> list[dict]:
             for chave, valor in asdict(campo).items()
         }
         for campo in CAMPOS
+    ]
+
+
+def exemplos_para_interface() -> list[dict]:
+    """Exemplos com todos os parâmetros: o valor inicial de cada campo, mais as alterações."""
+    padroes = {campo.nome: float(campo.padrao) for campo in CAMPOS}
+    return [
+        {
+            "id": exemplo["id"],
+            "titulo": exemplo["titulo"],
+            "o_que_explorar": exemplo["o_que_explorar"],
+            "parametros": {**padroes, **exemplo["alteracoes"]},
+        }
+        for exemplo in _EXEMPLOS
     ]
 
 

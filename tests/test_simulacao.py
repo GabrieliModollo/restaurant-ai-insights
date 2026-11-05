@@ -3,7 +3,7 @@
 import json
 from pathlib import Path
 
-from src.simulador.parametros import CAMPOS, ParametrosSimulacao
+from src.simulador.parametros import CAMPOS, ParametrosSimulacao, exemplos_para_interface
 from src.simulador.simulacao import executar_simulacao
 
 PADRAO = {campo.nome: campo.padrao for campo in CAMPOS}
@@ -33,6 +33,48 @@ CENARIOS_DA_FIXTURE = {
 def resultado_da_fixture(alteracoes):
     resultado = executar_simulacao(ParametrosSimulacao(**{**PADRAO, **alteracoes}))
     return json.loads(json.dumps(resultado))
+
+
+def _executar_exemplo(identificador):
+    exemplo = next(item for item in exemplos_para_interface() if item["id"] == identificador)
+    return executar_simulacao(ParametrosSimulacao(**exemplo["parametros"]))
+
+
+def test_ha_tres_exemplos_ficticios_validos_e_explicados():
+    exemplos = exemplos_para_interface()
+
+    assert {item["id"] for item in exemplos} == {"pouca_espera", "acumulo_preparo", "desconto"}
+    for exemplo in exemplos:
+        assert "fictício" in exemplo["titulo"].lower()
+        assert exemplo["o_que_explorar"]
+        assert set(exemplo["parametros"]) == set(PADRAO)
+        ParametrosSimulacao(**exemplo["parametros"])
+
+
+def test_exemplo_de_pouca_espera_faz_o_que_anuncia():
+    operacao = _executar_exemplo("pouca_espera")["operacao"]
+
+    assert operacao["espera_media_fila_min"] == 0
+    assert operacao["gargalos_observados"] == []
+
+
+def test_exemplo_de_acumulo_no_preparo_faz_o_que_anuncia():
+    operacao = _executar_exemplo("acumulo_preparo")["operacao"]
+
+    assert operacao["gargalos_observados"] == ["preparo"]
+    assert operacao["estacoes"]["preparo"]["fila_final"] > 0
+
+
+def test_exemplo_de_desconto_mantem_o_volume_e_reduz_o_valor_por_pedido():
+    base = executar_simulacao(ParametrosSimulacao(**PADRAO))
+    com_desconto = _executar_exemplo("desconto")
+
+    assert com_desconto["operacao"]["pedidos_recebidos"] == base["operacao"]["pedidos_recebidos"]
+    assert com_desconto["operacao"]["pedidos_concluidos"] == base["operacao"]["pedidos_concluidos"]
+    assert (
+        com_desconto["financeiro"]["contribuicao_por_pedido_centavos"]
+        < base["financeiro"]["contribuicao_por_pedido_centavos"]
+    )
 
 
 def test_fixture_dos_testes_de_javascript_continua_igual_ao_nucleo():
