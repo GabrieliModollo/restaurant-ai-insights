@@ -399,6 +399,10 @@ def test_medias_informadas_coincidem_com_os_eventos(cenario):
     )
 
 
+def test_resultado_informa_a_duracao_do_turno_que_representa():
+    assert _simular(duracao_turno_min=45)["duracao_turno_min"] == 45
+
+
 def test_mesmos_parametros_geram_o_mesmo_resultado():
     parametros = {"pedidos": 40, "pessoas_preparo": 2, "tempo_preparo_min": 5}
 

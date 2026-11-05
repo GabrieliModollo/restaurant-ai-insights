@@ -27,8 +27,7 @@ curta para verificar o entendimento.
 
 ## Comandos verificados
 
-PowerShell, na raiz do projeto. Python 3.15.0 e Node 24. Verificados em clone limpo da branch
-`feat/api-interface`:
+PowerShell, na raiz do projeto. Python 3.15.0 e Node 24. Verificados em clone limpo:
 
 ```powershell
 python -m venv .venv

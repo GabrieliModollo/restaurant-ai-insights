@@ -33,6 +33,30 @@
         </div>
 
         <div id="resultados" class="resultados" hidden>
+          <section aria-labelledby="titulo-cena">
+            <h2 id="titulo-cena">Restaurante ao fim do turno</h2>
+            <p id="cena-estado" class="cena-estado" data-atual="false"></p>
+            <div id="cena-quadro" class="cena-quadro">
+              <canvas id="cena" role="img">
+                Cena do restaurante. Os mesmos dados aparecem nos botões e nas seções abaixo.
+              </canvas>
+            </div>
+            <p class="cena-legenda">
+              Foto do último instante do turno, sem animação. Os números escritos são exatos; em
+              quantidades grandes, uma pilha representa vários pedidos, e um par de figuras, várias
+              pessoas. Quem está atendendo aparece com um pedido ao lado.
+            </p>
+            <div class="cena-botoes" role="group" aria-label="Selecionar estação">
+              <button class="botao" type="button" data-estacao="preparo" aria-pressed="false">
+                Preparo
+              </button>
+              <button class="botao" type="button" data-estacao="embalagem" aria-pressed="false">
+                Embalagem
+              </button>
+            </div>
+            <div id="cena-detalhe" class="cena-detalhe" aria-live="polite"></div>
+          </section>
+
           <section aria-labelledby="titulo-financeiro">
             <h2 id="titulo-financeiro">Resultado financeiro</h2>
             <dl class="grade-indicadores grade-financeira">

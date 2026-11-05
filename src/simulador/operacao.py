@@ -182,6 +182,7 @@ def simular_operacao(
     menor_ritmo = min(ritmos.values())
 
     return {
+        "duracao_turno_min": float(turno),
         "pedidos_recebidos": pedidos,
         "pedidos_concluidos": concluidos,
         "pedidos_pendentes": pedidos - concluidos,

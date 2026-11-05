@@ -1,6 +1,7 @@
 // Liga as partes: mudança no formulário → validação → API → indicadores.
 
 import { buscarCampos, descreverErro, ErroDeValidacao, simular } from "./api.js";
+import { criarCena } from "./cena/pagina.js";
 import { criarExecutor } from "./execucao.js";
 import { criarFormulario } from "./formulario.js";
 import { renderizarResultado } from "./indicadores.js";
@@ -11,6 +12,7 @@ const AVISO_ULTIMO_CENARIO = "Os indicadores mostrados são do último cenário 
 const status = document.getElementById("status");
 const resultados = document.getElementById("resultados");
 const botaoRepetir = document.getElementById("tentar-novamente");
+const cena = criarCena();
 
 let formulario;
 let temporizador;
@@ -22,6 +24,7 @@ function definirStatus(estado, texto) {
   resultados.dataset.desatualizado = String(estado === "desatualizado" || estado === "erro");
   resultados.setAttribute("aria-busy", String(estado === "calculando"));
   botaoRepetir.hidden = estado !== "erro";
+  cena.definirEstado(estado);
 }
 
 function mostrarFalha(erro, acaoDeRepetir) {
@@ -35,6 +38,7 @@ const executor = criarExecutor({
   aoResultado(resultado) {
     renderizarResultado(resultado);
     resultados.hidden = false;
+    cena.atualizar(resultado.operacao);
     definirStatus("atualizado", "Indicadores calculados pelo servidor para os parâmetros atuais.");
   },
   aoErro(erro) {

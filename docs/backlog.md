@@ -7,8 +7,8 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | --- | --- | --- | --- | --- |
 | 0 | Documentação e coordenação | `docs/project-coordination` | Nenhuma | Concluída (PR #1) |
 | 1 | Núcleo financeiro e simulação | `feat/nucleo-simulacao` | 0 | Concluída (PR #2) |
-| 2 | API, parâmetros e indicadores | `feat/api-interface` | 1 | Em revisão |
-| 3 | Canvas isométrico e estações | `feat/canvas-isometrico` | 2 | Pendente |
+| 2 | API, parâmetros e indicadores | `feat/api-interface` | 1 | Concluída (PR #3) |
+| 3 | Canvas isométrico e estações | `feat/canvas-isometrico` | 2 | Em revisão |
 | 4 | Reprodução dos eventos | `feat/reproducao-eventos` | 3 | Pendente |
 | 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Pendente |
 | 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Pendente |
@@ -61,14 +61,23 @@ Arquivos: `api.py`, `web/`, `tests/test_api.py`, `tests/js/`, `README.md` e as d
 - [x] Interface utilizável por teclado e sem estouro em 1920, 390 e 320 px de largura.
 - [x] Interface verificada em navegador, com o resultado registrado.
 - [x] Testes passam em um clone limpo da branch.
-- [ ] PR revisado e integrado.
+- [x] PR revisado e integrado.
 
 ### 3. Canvas isométrico e estações
 
-- [ ] Canvas nativo desenha o restaurante, as estações, as pessoas e as filas.
-- [ ] Clicar em uma estação mostra os dados dela no resultado atual.
-- [ ] As mesmas informações continuam acessíveis por teclado, fora do Canvas.
-- [ ] A detecção de clique tem teste automatizado.
+- [x] Canvas nativo desenha piso, preparo, embalagem, retirada, pessoas e filas.
+- [x] A cena avisa que representa o fim do turno, com os valores recebidos do servidor.
+- [x] Quantidades grandes são agrupadas, com os totais exatos escritos.
+- [x] Clicar em uma estação mostra os dados dela no resultado atual, com destaque visual.
+- [x] Botões HTML selecionam as estações por teclado; os dados continuam fora do Canvas.
+- [x] Seleção e gargalo aparecem também em texto, sem depender só de cor.
+- [x] Geometria, modelo, detecção de clique, desenho e página em módulos separados.
+- [x] A detecção de clique, a escala e o agrupamento têm testes automatizados.
+- [x] O Canvas acompanha o painel e a densidade de pixels, sem repetição contínua.
+- [x] Em espera, entrada inválida ou falha, a cena indica que é o último cenário válido.
+- [x] Verificada no navegador em desktop, 390 e 320 px de largura.
+- [x] Testes passam em um clone limpo da branch.
+- [ ] PR revisado e integrado.
 
 ### 4. Reprodução dos eventos
 

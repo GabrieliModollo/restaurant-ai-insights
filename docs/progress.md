@@ -4,77 +4,75 @@
 
 ## Estado atual
 
-- **Entrega 0:** integrada à `main` pelo PR #1 (merge `f9e9d24`).
-- **Entrega 1:** integrada à `main` pelo PR #2 (merge `14fa0be`).
-- **Entrega 2:** em revisão, na branch `feat/api-interface`.
+- **Entregas 0, 1 e 2:** integradas à `main` pelos PRs #1, #2 e #3 (último merge `a37ed35`).
+- **Entrega 3:** em revisão, na branch `feat/canvas-isometrico`.
 - **Demais entregas:** não iniciadas.
 
 | Onde | O que existe |
 | --- | --- |
-| `main` | Núcleo do simulador, testes, `CLAUDE.md`, `docs/` e README antigo |
-| `feat/api-interface` | Tudo da `main`, mais API, interface, testes HTTP e JavaScript, e README novo |
+| `main` | Núcleo, API, formulário, indicadores, testes e documentos |
+| `feat/canvas-isometrico` | Tudo da `main`, mais a cena isométrica e seus testes |
 | `feature/analise-avaliacoes` | Módulo de resumo de avaliações; mantido separado do simulador |
 
-### Versionado na entrega 2
+### Versionado na entrega 3
 
-- `src/simulador/api.py` e `src/simulador/web/`.
-- `tests/test_api.py` e `tests/js/`.
-- `README.md` e `requirements.txt`, agora com `fastapi`, `uvicorn` e `httpx2`.
+- `src/simulador/web/js/cena/`: `geometria.js`, `modelo.js`, `deteccao.js`, `desenho.js` e `pagina.js`.
+- `tests/js/`: um arquivo de teste para cada módulo, exceto `pagina.js`.
+- Ajustes em `index.html`, `estilos.css`, `principal.js`, `indicadores.js`, `api.py` e `operacao.py`,
+  que agora devolve `duracao_turno_min`.
 
-### Continua local e sem commit
-
-Nada do simulador. A cópia de segurança anterior à entrega fica em `restaurant-ai-insights-backups`,
-na Área de Trabalho, conferida por hash.
+Nada do simulador continua local e sem commit.
 
 ## Verificações executadas
 
-**Clone limpo do commit `adc3178`, o último com código**, em pasta nova, no Windows, com Python
-3.15.0 e Node 24. Só arquivos commitados, sem copiar nada da pasta de trabalho. Commits posteriores
-alteram apenas documentação. Um arquivo não pode citar o próprio commit, então o SHA final e o
-resultado do clone dele ficam na descrição do PR.
+**Clone limpo do commit `00862cb`, o último com código**, em pasta nova, no Windows, com Python
+3.15.0 e Node 24. Só arquivos commitados. Commits posteriores alteram apenas documentação. Um arquivo
+não pode citar o próprio commit, então o SHA final e o resultado do clone dele ficam na descrição do
+PR.
 
 | Verificação | Resultado |
 | --- | --- |
 | Ambiente virtual novo, `pip install -r requirements.txt` e `pip check` | Sem erros |
-| `pytest` | 137 aprovados |
-| `node --test "tests/js/*.test.mjs"` | 21 aprovados |
+| `pytest` | 142 aprovados |
+| `node --test "tests/js/*.test.mjs"` | 51 aprovados |
 
-**Servidor do clone limpo**, sem `--reload`, em porta própria e no commit `150b0b4` (depois dele só
-mudou o foco do botão de repetir):
-
-| Verificação | Resultado |
-| --- | --- |
-| `GET /` e `GET /api/campos` | 200 |
-| `POST /api/simulacoes` com o cenário padrão | 18 concluídos, contribuição de R$ 283,50, 96 eventos |
-| `POST` com desconto acima do preço e com JSON quebrado | 422 |
-| `GET /docs` | 404 |
-
-**Navegador:** Chrome real, com o servidor do clone limpo, entre os commits `8804f23` e `adc3178`;
-nesse intervalo só mudaram o estilo do painel e o foco do botão de repetir, ambos reverificados. Sem
-erros no console e sem recursos externos carregados.
+**Navegador:** Chrome real, com o servidor desse clone. Sem erros no console e sem recursos externos.
 
 | Situação | Como foi feita | Resultado |
 | --- | --- | --- |
-| Tela de desktop | Janela de 1920 px | Sem rolagem horizontal |
-| Largura de celular | `iframe` de 390 e 320 px, não um aparelho real | Sem estouro depois de corrigir o painel em 320 px |
-| Zero pedidos | Digitação | "Sem pedidos concluídos" nas duas médias |
-| Desconto acima do preço | Digitação | Mensagem no campo e indicadores marcados como antigos |
-| Slider e botão de repetir | Só teclado | Funcionam; o foco é mantido ao repetir |
-| Resposta antiga chegando depois da nova | `fetch` alterado na página | A tela manteve o cenário mais recente |
-| Erro 500 e demora | `fetch` alterado na página, com os 10 s reais | Mensagem própria e botão de repetir |
-| Servidor parado | Processo encerrado de verdade | Mensagem de conexão; recuperou pelo botão ao voltar |
+| Cena inicial | Janela de 1920 px | Coerente com o servidor: 18 prontos, 1/2 e 1/1 em atendimento |
+| Seleção por clique | Clique real no Canvas | Destaque, botão marcado e dados da estação |
+| Seleção por teclado | Tab e espaço nos botões | Troca de estação e dados atualizados |
+| Mudança de parâmetros | 1.000 pedidos, 50 pessoas | Totais iguais aos da API: 699 + 50 + 200 + 3 + 48 = 1.000; seleção mantida |
+| Quantidades grandes | Mesmo cenário | Pilhas e grupo de pessoas, com os totais exatos escritos |
+| Larguras de 390 e 320 px | `iframe`, não um aparelho real | Sem estouro nem sobreposição; clique funciona nas duas |
+| Espera e falha | Durante o cálculo e com erro 500 simulado | Aviso de último cenário válido, depois recuperação |
+
+**Com os mesmos arquivos, em servidor da pasta de trabalho:**
+
+| Situação | Como foi feita | Resultado |
+| --- | --- | --- |
+| Clique fora das estações | Clique real | Limpa a seleção |
+| Entrada inválida | Desconto acima do preço | Cena apagada, com os dois avisos legíveis |
+| Zero pedidos | Parâmetro alterado | Cena vazia, equipe presente e "0 prontos" |
+| Tema claro | Regras do tema escuro removidas na página | Cena legível |
+| Densidade de pixels 2 | `devicePixelRatio` substituído na página | Quadro interno dobrado, tamanho visual mantido |
+| Redimensionamento | `iframe` de 320 para 600 px | Redesenho correto e seleção mantida |
 
 ## Limitações
 
-- **Não verificado:** aparelho celular real, outros navegadores, leitor de tela e falha na primeira
-  carga dos campos dentro do navegador.
-- **Testes de JavaScript:** cobrem a lógica sem desenhar a tela. A ligação com a página foi conferida
-  só manualmente, na lista acima.
+- **Não verificado:** aparelho celular real, tela de alta densidade real, outros navegadores e leitor
+  de tela. Toque foi testado apenas como clique de mouse.
+- **Rótulos:** o teste de sobreposição estima a largura do texto. A largura real foi conferida só
+  visualmente, nos casos acima.
+- **Testes de JavaScript:** cobrem geometria, modelo, clique e os textos desenhados com um contexto
+  falso. A aparência e `pagina.js` foram conferidos só manualmente.
 - **Ambiente:** clone limpo verificado apenas no Windows, com Python 3.15.0.
-- **Ainda não implementado:** Canvas, reprodução, comparação de cenários e explicações por regras.
+- **A cena é estática:** mostra apenas o fim do turno. Reprodução, comparação de cenários e explicações
+  por regras ainda não foram implementadas.
 - **GitHub CLI:** o comando `gh` não está instalado.
 
 ## Próxima tarefa
 
-**Entrega 3**, depois da revisão e do merge da entrega 2: Canvas isométrico e estações clicáveis, em
-`feat/canvas-isometrico`, conforme `docs/backlog.md`.
+**Entrega 4**, depois da revisão e do merge da entrega 3: reprodução dos eventos, em
+`feat/reproducao-eventos`, conforme `docs/backlog.md`.
