@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Restaurant AI Insights</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="estilos.css" />
+    <script type="module" src="js/principal.js"></script>
+  </head>
+  <body>
+    <header class="cabecalho">
+      <div>
+        <h1>Restaurant AI Insights</h1>
+        <p>Teste como preço, custos e equipe afetam um turno do restaurante.</p>
+      </div>
+      <p class="aviso-ficticio">Simulação ilustrativa com dados fictícios — sem IA conectada</p>
+    </header>
+
+    <main class="layout">
+      <section class="painel" aria-labelledby="titulo-parametros">
+        <h2 id="titulo-parametros">Parâmetros do cenário</h2>
+        <form id="formulario" novalidate></form>
+      </section>
+
+      <div class="coluna-resultados">
+        <div class="barra-status">
+          <p id="status" class="status" role="status" data-estado="calculando">Carregando…</p>
+          <button id="tentar-novamente" class="botao" type="button" hidden>Tentar novamente</button>
+        </div>
+
+        <div id="resultados" class="resultados" hidden>
+          <section aria-labelledby="titulo-financeiro">
+            <h2 id="titulo-financeiro">Resultado financeiro</h2>
+            <dl class="grade-indicadores grade-financeira">
+              <div class="indicador indicador-destaque">
+                <dt>Contribuição total</dt>
+                <dd id="contribuicao-total" class="valor"></dd>
+                <dd class="nota">Por pedido × pedidos concluídos</dd>
+              </div>
+              <div class="indicador indicador-destaque">
+                <dt>Contribuição por pedido</dt>
+                <dd id="contribuicao-por-pedido" class="valor"></dd>
+                <dd id="nota-contribuicao" class="nota"></dd>
+              </div>
+              <div class="indicador">
+                <dt>Receita atendida</dt>
+                <dd id="receita-atendida" class="valor"></dd>
+                <dd class="nota">Preço líquido × pedidos concluídos</dd>
+              </div>
+              <div class="indicador">
+                <dt>Preço líquido</dt>
+                <dd id="preco-liquido" class="valor"></dd>
+                <dd class="nota">Preço de venda − desconto</dd>
+              </div>
+              <div class="indicador">
+                <dt>Taxa do canal por pedido</dt>
+                <dd id="taxa-canal" class="valor"></dd>
+                <dd class="nota">Sobre o preço líquido</dd>
+              </div>
+            </dl>
+            <p class="ressalva">
+              <strong>Contribuição não é lucro líquido.</strong> É o que sobra de cada pedido
+              concluído depois da taxa do canal, dos ingredientes e da embalagem. Impostos, salários,
+              aluguel e desperdício não estão incluídos. Pedidos ainda em processo também podem ter
+              custos que este cálculo simplificado não reconhece.
+            </p>
+            <p class="ressalva">
+              <strong>A demanda é informada por você.</strong> A quantidade de pedidos é uma
+              hipótese: o simulador não a estima, e o desconto não a altera.
+            </p>
+          </section>
+
+          <section aria-labelledby="titulo-operacao">
+            <h2 id="titulo-operacao">Operação no turno</h2>
+            <dl class="grade-indicadores">
+              <div class="indicador">
+                <dt>Pedidos recebidos</dt>
+                <dd id="pedidos-recebidos" class="valor"></dd>
+                <dd class="nota">Hipótese informada por você</dd>
+              </div>
+              <div class="indicador">
+                <dt>Pedidos concluídos</dt>
+                <dd id="pedidos-concluidos" class="valor"></dd>
+                <dd class="nota">Embalagem terminada até o fim do turno</dd>
+              </div>
+              <div class="indicador">
+                <dt>Pedidos pendentes</dt>
+                <dd id="pedidos-pendentes" class="valor"></dd>
+                <dd id="nota-pendentes" class="nota"></dd>
+              </div>
+              <div class="indicador indicador-metade">
+                <dt>Espera média em filas</dt>
+                <dd id="espera-media" class="valor"></dd>
+                <dd class="nota">Só pedidos concluídos</dd>
+              </div>
+              <div class="indicador indicador-metade">
+                <dt>Tempo total médio</dt>
+                <dd id="tempo-medio" class="valor"></dd>
+                <dd class="nota">Da chegada à embalagem pronta</dd>
+              </div>
+            </dl>
+          </section>
+
+          <section aria-labelledby="titulo-estacoes">
+            <h2 id="titulo-estacoes">Estações</h2>
+            <div id="estacoes" class="grade-estacoes"></div>
+          </section>
+        </div>
+
+        <section class="explicacoes" aria-labelledby="titulo-explicacoes">
+          <h2 id="titulo-explicacoes">Como ler estes números</h2>
+
+          <details>
+            <summary>Fórmulas financeiras</summary>
+            <ul>
+              <li>Preço líquido = preço de venda − desconto.</li>
+              <li>Taxa do canal = preço líquido × percentual da taxa.</li>
+              <li>
+                Contribuição por pedido = preço líquido − taxa do canal − ingredientes − embalagem.
+              </li>
+              <li>Receita atendida = preço líquido × pedidos concluídos.</li>
+              <li>Contribuição total = contribuição por pedido × pedidos concluídos.</li>
+              <li>
+                Arredondamento: a taxa do canal é arredondada ao centavo em cada pedido, com meio
+                centavo para cima. Os totais usam esse valor já arredondado.
+              </li>
+            </ul>
+          </details>
+
+          <details>
+            <summary>Capacidade e gargalo</summary>
+            <ul>
+              <li>Capacidade teórica = pessoas × duração do turno ÷ tempo por pedido, sem fração.</li>
+              <li>
+                <strong>Menor capacidade</strong> é a estação que atende menos por minuto, mesmo que
+                nunca forme fila.
+              </li>
+              <li>
+                <strong>Gargalo observado</strong> exige duas condições: pedidos chegando mais
+                rápido do que a estação atende e fila restante no fim do turno.
+              </li>
+              <li>
+                Pedidos em andamento no fim do turno não provam sobrecarga: eles podem apenas ter
+                chegado tarde demais para terminar.
+              </li>
+            </ul>
+          </details>
+
+          <details>
+            <summary>Hipóteses e limites do modelo</summary>
+            <ul>
+              <li>
+                A quantidade de pedidos é uma hipótese sua. O simulador não presume que um desconto
+                aumenta a demanda.
+              </li>
+              <li>Os pedidos chegam em intervalos iguais, começando no minuto 0.</li>
+              <li>Um único produto, com tempos sempre iguais e sem pausas ou erros da equipe.</li>
+              <li>Todos os pedidos recebidos são aceitos; ninguém cancela nem desiste.</li>
+              <li>O resultado descreve este modelo. Não é previsão nem garantia de resultado real.</li>
+            </ul>
+          </details>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
