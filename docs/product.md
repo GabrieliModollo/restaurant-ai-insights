@@ -8,11 +8,12 @@ ficar preso na fila e não gerar receita dentro do turno.
 
 ## Público
 
-*Hipótese a confirmar; não foi validada com usuários.*
-
-- **Principal:** quem avalia este portfólio, que precisa ver raciocínio de produto, regras
+- **Usuário principal:** pessoa que gerencia um pequeno restaurante e tem pouca familiaridade com
+  software.
+- **Demonstração do portfólio:** recrutadores, que precisam ver raciocínio de produto, regras
   testadas e decisões técnicas.
-- **Ilustrativo:** pessoas que gerenciam restaurantes, representadas com dados fictícios.
+
+A facilidade de uso ainda não foi validada com usuários. O que existe até aqui é verificação técnica.
 
 ## Objetivo
 
@@ -33,6 +34,7 @@ do modelo.
 - Comparação entre um cenário A preservado e o cenário atual.
 - Explicações por regras, identificadas como sem IA conectada.
 - Aviso de simulação ilustrativa com dados fictícios.
+- Primeiro uso compreensível: orientação inicial, linguagem clara, ajuda contextual e exemplos.
 
 ## Regras financeiras
 

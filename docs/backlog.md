@@ -8,8 +8,8 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 0 | Documentação e coordenação | `docs/project-coordination` | Nenhuma | Concluída (PR #1) |
 | 1 | Núcleo financeiro e simulação | `feat/nucleo-simulacao` | 0 | Concluída (PR #2) |
 | 2 | API, parâmetros e indicadores | `feat/api-interface` | 1 | Concluída (PR #3) |
-| 3 | Canvas isométrico e estações | `feat/canvas-isometrico` | 2 | Em revisão |
-| 4 | Reprodução dos eventos | `feat/reproducao-eventos` | 3 | Pendente |
+| 3 | Canvas isométrico e estações | `feat/canvas-isometrico` | 2 | Concluída (PR #4) |
+| 4 | Reprodução dos eventos e primeiro uso | `feat/reproducao-eventos` | 3 | Em revisão |
 | 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Pendente |
 | 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Pendente |
 
@@ -77,14 +77,30 @@ Arquivos: `api.py`, `web/`, `tests/test_api.py`, `tests/js/`, `README.md` e as d
 - [x] Em espera, entrada inválida ou falha, a cena indica que é o último cenário válido.
 - [x] Verificada no navegador em desktop, 390 e 320 px de largura.
 - [x] Testes passam em um clone limpo da branch.
+- [x] PR revisado e integrado.
+
+### 4. Reprodução dos eventos e primeiro uso
+
+Reprodução:
+
+- [x] Iniciar, pausar, reiniciar, velocidade e relógio, sem início automático.
+- [x] O estado de cada instante é derivado apenas dos eventos recebidos do servidor.
+- [x] Teste: ao terminar, os totais reconstruídos coincidem com os da API.
+- [x] Alterar parâmetros para a reprodução anterior e volta ao início.
+- [x] A cena mostra o momento do relógio; os indicadores são identificados como do turno completo.
+- [x] A estação selecionada separa o momento dos dados do turno completo.
+- [x] O ciclo de quadros só existe durante a reprodução; ao voltar de outra aba, fica pausado.
+- [x] Com menos movimento pedido pelo sistema, o acompanhamento é por etapas.
+
+Primeiro uso (orientação para quem tem pouca familiaridade com software):
+
+- [x] Orientação curta antes do formulário; cenário inicial utilizável sem preencher nada.
+- [x] Parâmetros agrupados, com equipe e tempos recolhíveis e custos sempre visíveis.
+- [x] "Atend." e "prontos" trocados por textos claros; legenda dividida em itens curtos.
+- [x] Navegação explícita no celular entre "Ajustar cenário" e "Ver resultados", sem perder valores.
+- [x] Verificado no navegador em desktop, 390 e 320 px de largura, e por teclado.
+- [x] Testes passam em um clone limpo da branch.
 - [ ] PR revisado e integrado.
-
-### 4. Reprodução dos eventos
-
-- [ ] Controles de reproduzir, pausar, reiniciar, velocidade e relógio do turno.
-- [ ] A posição dos pedidos é derivada apenas dos eventos recebidos do servidor.
-- [ ] Teste: no fim do turno, os estados reproduzidos coincidem com os totais do servidor.
-- [ ] Alterar parâmetros reinicia a reprodução com os novos eventos.
 
 ### 5. Comparação e explicações
 
@@ -93,12 +109,26 @@ Arquivos: `api.py`, `web/`, `tests/test_api.py`, `tests/js/`, `README.md` e as d
 - [ ] Explicações por regras, com teste, baseadas nos valores simulados.
 - [ ] As explicações por regras são identificadas como sem IA conectada.
 - [ ] Nenhum texto atribui ao desconto um aumento de demanda.
+- [ ] Resumo em linguagem simples, com números e o significado deles.
+- [ ] Ajuda contextual para os termos, sem renomear contribuição como lucro.
+- [ ] Três exemplos fictícios, identificados como tais.
 
 ### 6. Revisão final e demonstração
 
 - [ ] Roteiro de demonstração reproduzível a partir de um clone limpo.
 - [ ] README revisado, sem repetir `docs/` e sem declarar como pronto o que não está.
 - [ ] Revisão completa de escopo, restrições e critérios desta lista.
+- [ ] Teste de uso real com as tarefas abaixo, corrigindo os problemas prioritários.
+- [ ] Se o teste não ocorrer, declarar explicitamente a ausência de validação com usuários.
+
+Tarefas do teste de uso:
+
+1. Descobrir quantos pedidos ficam prontos no cenário inicial.
+2. Alterar preço ou desconto e explicar o efeito no resultado.
+3. Identificar onde há pedidos esperando e comparar uma mudança de equipe.
+
+Registrar conclusão sem ajuda, erros, pedidos de ajuda e interpretações incorretas. Não inventar
+participantes, observações ou resultados.
 
 ## Decisões pendentes da pessoa responsável
 
