@@ -35,6 +35,15 @@
     <main class="layout">
       <section class="painel" aria-labelledby="titulo-parametros">
         <h2 id="titulo-parametros">Seu cenário</h2>
+        <details id="exemplos" class="exemplos">
+          <summary>Ver exemplos fictícios</summary>
+          <p class="dica">
+            Ao usar um exemplo, os valores atuais do formulário serão substituídos e a reprodução
+            volta ao início. O cenário A é mantido.
+          </p>
+          <div id="lista-exemplos"></div>
+          <p id="exemplo-aplicado" class="dica" role="status"></p>
+        </details>
         <form id="formulario" novalidate></form>
         <button class="botao botao-principal somente-celular" type="button" data-ir-para="resultados">
           Ver resultados
@@ -50,16 +59,43 @@
         </div>
 
         <div id="resultados" class="resultados" hidden>
+          <section id="resumo" class="resumo" aria-labelledby="titulo-resumo">
+            <h2 id="titulo-resumo">Resumo do turno completo</h2>
+            <p id="resumo-conclusao" class="resumo-conclusao"></p>
+            <p id="resumo-pendentes"></p>
+            <p id="resumo-valor"></p>
+            <p id="resumo-bloco-atencao" class="resumo-atencao" hidden>
+              <strong>Ponto de atenção:</strong> <span id="resumo-atencao"></span>
+            </p>
+            <p id="resumo-identificacao" class="cena-dica"></p>
+          </section>
+
+          <section aria-labelledby="titulo-comparacao">
+            <h2 id="titulo-comparacao">Compare com outro cenário</h2>
+            <div class="comparacao-acoes">
+              <div class="cena-botoes">
+                <button id="a-salvar" class="botao" type="button">Guardar como cenário A</button>
+                <button id="a-limpar" class="botao" type="button" hidden>Limpar cenário A</button>
+              </div>
+              <p id="a-dica" class="cena-dica"></p>
+              <p class="cena-dica">Recarregar a página descarta o cenário A.</p>
+              <p id="a-anuncio" class="somente-leitor" aria-live="polite"></p>
+            </div>
+            <div id="a-conteudo" class="comparacao-conteudo"></div>
+          </section>
+
           <section aria-labelledby="titulo-financeiro">
             <h2 id="titulo-financeiro">Resultado financeiro do turno completo</h2>
             <dl class="grade-indicadores grade-financeira">
               <div class="indicador indicador-destaque">
-                <dt>Contribuição total</dt>
+                <dt>Valor que sobra no turno</dt>
                 <dd id="contribuicao-total" class="valor"></dd>
-                <dd class="nota">Por pedido × pedidos concluídos</dd>
+                <dd class="nota">
+                  Valor que sobra após os custos por pedido, em todos os pedidos concluídos
+                </dd>
               </div>
               <div class="indicador indicador-destaque">
-                <dt>Contribuição por pedido</dt>
+                <dt>Valor que sobra por pedido</dt>
                 <dd id="contribuicao-por-pedido" class="valor"></dd>
                 <dd id="nota-contribuicao" class="nota"></dd>
               </div>
@@ -76,9 +112,16 @@
               <div class="indicador">
                 <dt>Taxa do canal por pedido</dt>
                 <dd id="taxa-canal" class="valor"></dd>
-                <dd class="nota">Sobre o preço líquido</dd>
+                <dd class="nota">Cobrada pelo canal de venda, sobre o preço líquido</dd>
               </div>
             </dl>
+            <details class="ajuda">
+              <summary>O que é o valor que sobra?</summary>
+              <p>
+                É o preço com desconto menos a taxa do canal, os ingredientes e a embalagem de cada
+                pedido concluído. O nome técnico é margem de contribuição.
+              </p>
+            </details>
             <p class="ressalva">
               <strong>Contribuição não é lucro líquido.</strong> É o que sobra de cada pedido
               concluído depois da taxa do canal, dos ingredientes e da embalagem. Impostos, salários,
@@ -182,6 +225,25 @@
 
           <section aria-labelledby="titulo-estacoes">
             <h2 id="titulo-estacoes">Estações no turno completo</h2>
+            <details class="ajuda">
+              <summary>O que é capacidade estimada?</summary>
+              <p>
+                Capacidade estimada neste modelo: quantos pedidos a equipe atenderia trabalhando sem
+                parar, com tempos sempre iguais. O modelo não considera pausas nem imprevistos.
+              </p>
+            </details>
+            <details class="ajuda">
+              <summary>O que significam os diagnósticos?</summary>
+              <ul>
+                <li>Sem fila: nenhum pedido precisou esperar na estação.</li>
+                <li>Fila sem sobrecarga comprovada: houve espera, mas sem evidência de sobrecarga.</li>
+                <li>
+                  Gargalo observado: os pedidos chegam mais rápido do que a estação atende, e sobrou
+                  fila no fim do turno.
+                </li>
+                <li>Menor capacidade: a estação que atende menos por minuto, mesmo sem formar fila.</li>
+              </ul>
+            </details>
             <div id="estacoes" class="grade-estacoes"></div>
           </section>
         </div>
@@ -209,7 +271,9 @@
           <details>
             <summary>Capacidade e gargalo</summary>
             <ul>
-              <li>Capacidade teórica = pessoas × duração do turno ÷ tempo por pedido, sem fração.</li>
+              <li>
+                Capacidade estimada = pessoas × duração do turno ÷ tempo por pedido, sem fração.
+              </li>
               <li>
                 <strong>Menor capacidade</strong> é a estação que atende menos por minuto, mesmo que
                 nunca forme fila.

@@ -79,8 +79,8 @@ export function criarCartaoEstacao(nome, estacao, temMenorCapacidade) {
 
   const dados = document.createElement("dl");
   const linhas = [
-    ["Capacidade teórica no turno", plural(estacao.capacidade_teorica_turno, "pedido", "pedidos")],
-    ["Capacidade teórica por hora", `${numero.format(estacao.capacidade_teorica_hora)} pedidos`],
+    ["Capacidade estimada no turno", plural(estacao.capacidade_teorica_turno, "pedido", "pedidos")],
+    ["Capacidade estimada por hora", `${numero.format(estacao.capacidade_teorica_hora)} pedidos`],
     ["Finalizados na estação", numero.format(estacao.finalizados)],
     ["Em atendimento no fim", numero.format(estacao.em_atendimento_final)],
     ["Na fila no fim", numero.format(estacao.fila_final)],
@@ -100,7 +100,17 @@ export function criarCartaoEstacao(nome, estacao, temMenorCapacidade) {
   return cartao;
 }
 
-export function renderizarResultado({ financeiro, operacao }) {
+function renderizarResumo(resumo) {
+  definirTexto("resumo-identificacao", resumo.identificacao);
+  definirTexto("resumo-conclusao", resumo.conclusao);
+  definirTexto("resumo-pendentes", resumo.pendentes);
+  definirTexto("resumo-valor", resumo.valor);
+  document.getElementById("resumo-bloco-atencao").hidden = !resumo.atencao;
+  definirTexto("resumo-atencao", resumo.atencao ?? "");
+}
+
+export function renderizarResultado({ financeiro, operacao, resumo }) {
+  renderizarResumo(resumo);
   definirMoeda("contribuicao-total", financeiro.contribuicao_total_centavos);
   definirMoeda("contribuicao-por-pedido", financeiro.contribuicao_por_pedido_centavos);
   definirMoeda("receita-atendida", financeiro.receita_atendida_centavos);
@@ -109,7 +119,7 @@ export function renderizarResultado({ financeiro, operacao }) {
   definirTexto(
     "nota-contribuicao",
     financeiro.contribuicao_por_pedido_centavos < 0
-      ? "Negativa: cada pedido concluído reduz a contribuição"
+      ? "Negativo: cada pedido concluído reduz o valor que sobra"
       : "Líquido − taxa − ingredientes − embalagem",
   );
 
