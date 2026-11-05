@@ -140,6 +140,16 @@ def test_campo_ausente_e_campo_desconhecido_sao_rejeitados():
     }
 
 
+def test_parametros_validados_nao_podem_ser_alterados():
+    # Sem isso, um desconto acima do preço passaria depois da validação.
+    parametros = _parametros()
+
+    with pytest.raises(ValidationError):
+        parametros.desconto = Decimal("9999")
+
+    assert parametros.desconto == PADRAO["desconto"]
+
+
 def test_modelo_e_tabela_de_campos_descrevem_os_mesmos_parametros():
     assert set(ParametrosSimulacao.model_fields) == {campo.nome for campo in CAMPOS}
 

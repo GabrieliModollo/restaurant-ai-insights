@@ -167,7 +167,7 @@ def _validar_campo(campo: Campo, valor: object) -> Decimal | int:
 class ParametrosSimulacao(BaseModel):
     """Corpo de POST /api/simulacoes. A ordem importa: preco_venda vem antes de desconto."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
     preco_venda: Decimal
     desconto: Decimal
