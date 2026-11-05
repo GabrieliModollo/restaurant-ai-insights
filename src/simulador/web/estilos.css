@@ -140,6 +140,7 @@ h2 {
 
 /* Formulário */
 fieldset {
+  min-width: 0; /* por padrão, um fieldset não encolhe abaixo da largura do conteúdo */
   padding: 0;
   border: 0;
 }
