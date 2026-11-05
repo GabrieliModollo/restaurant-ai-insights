@@ -120,6 +120,61 @@ h2 {
   font-weight: 600;
 }
 
+/* Orientação inicial */
+.guia {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0.25rem 1.5rem 0.25rem;
+  font-size: 0.95rem;
+}
+
+.guia ol {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 2rem;
+  margin: 0;
+  padding-left: 1.2rem;
+  font-weight: 600;
+}
+
+.guia p {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+}
+
+/* Navegação entre as partes da página, só em telas estreitas */
+.navegacao-movel,
+.somente-celular {
+  display: none;
+}
+
+.navegacao-movel .botao[aria-pressed="true"] {
+  background: var(--destaque);
+  color: var(--superficie);
+}
+
+/* Grupo de parâmetros recolhido */
+.grupo-recolhido {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--linha);
+}
+
+.grupo-recolhido summary {
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.grupo-recolhido summary:focus-visible {
+  outline: 2px solid var(--destaque);
+  outline-offset: 2px;
+}
+
+.grupo-recolhido fieldset {
+  margin-top: 0.75rem;
+}
+
 /* Estrutura */
 .layout {
   display: grid;
@@ -358,9 +413,93 @@ legend {
 }
 
 .cena-legenda {
-  margin-top: 0.4rem;
+  margin: 0.6rem 0 0;
+  padding-left: 1.1rem;
   color: var(--texto-suave);
   font-size: 0.8rem;
+}
+
+/* Reprodução */
+.reproducao {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+.reproducao-relogio {
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+}
+
+.reproducao-tempo {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.reproducao-tempo input {
+  display: block;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  accent-color: var(--destaque);
+}
+
+.reproducao-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.reproducao-velocidade {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.reproducao-velocidade[hidden] {
+  display: none;
+}
+
+.reproducao-velocidade select {
+  padding: 0.35rem 0.4rem;
+  border: 1px solid var(--texto-suave);
+  border-radius: 7px;
+  background: var(--fundo);
+  color: inherit;
+  font: inherit;
+}
+
+.reproducao-tempo input:focus-visible,
+.reproducao-velocidade select:focus-visible {
+  outline: 2px solid var(--destaque);
+  outline-offset: 2px;
+}
+
+.botao-principal {
+  background: var(--destaque);
+  color: var(--superficie);
+}
+
+.somente-leitor {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.cena-rotulo-turno {
+  margin: 0.6rem 0 0.4rem;
+  color: var(--texto-suave);
+  font-size: 0.85rem;
+  font-weight: 600;
 }
 
 .cena-botoes {
@@ -569,11 +708,36 @@ legend {
     max-height: none;
     overflow: visible;
   }
+
+  .navegacao-movel {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0.5rem 1.5rem 0;
+  }
+
+  .somente-celular {
+    display: block;
+    margin-top: 1rem;
+  }
+
+  body[data-vista="ajustar"] .coluna-resultados,
+  body[data-vista="resultados"] .painel {
+    display: none;
+  }
 }
 
 @media (max-width: 560px) {
   .cabecalho {
     padding: 1rem 1rem 0.25rem;
+  }
+
+  .guia,
+  .navegacao-movel {
+    padding-right: 1rem;
+    padding-left: 1rem;
   }
 
   .layout {

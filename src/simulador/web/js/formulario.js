@@ -2,6 +2,7 @@
 // A validação aqui dá resposta imediata; a decisão final é sempre do servidor.
 
 const numeroBr = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 2 });
+const GRUPOS_RECOLHIDOS = new Set(["Equipe e tempos"]);
 
 function criarElemento(tag, propriedades = {}, ...filhos) {
   const elemento = Object.assign(document.createElement(tag), propriedades);
@@ -131,13 +132,24 @@ export function criarFormulario(elemento, campos, aoAlterar) {
     grupos.get(item.campo.grupo).push(item.controle);
   }
   for (const [nome, elementos] of grupos) {
+    const grupo = criarElemento(
+      "fieldset",
+      {},
+      criarElemento("legend", { textContent: nome }),
+      ...elementos,
+    );
+    // Só o que tem um valor inicial razoável fica recolhido; os custos seguem sempre visíveis.
     elemento.append(
-      criarElemento(
-        "fieldset",
-        {},
-        criarElemento("legend", { textContent: nome }),
-        ...elementos,
-      ),
+      GRUPOS_RECOLHIDOS.has(nome)
+        ? criarElemento(
+            "details",
+            { className: "grupo-recolhido" },
+            criarElemento("summary", {
+              textContent: `${nome}: já preenchido, abra para ajustar`,
+            }),
+            grupo,
+          )
+        : grupo,
     );
   }
 
@@ -167,6 +179,9 @@ export function criarFormulario(elemento, campos, aoAlterar) {
       erro.textContent = mensagem;
       controle.dataset.invalido = String(Boolean(mensagem));
       numero.setAttribute("aria-invalid", String(Boolean(mensagem)));
+      if (mensagem) {
+        controle.closest("details")?.setAttribute("open", ""); // um erro nunca fica escondido
+      }
     }
   }
 

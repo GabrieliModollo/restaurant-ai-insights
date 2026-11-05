@@ -5,6 +5,7 @@ import { criarCena } from "./cena/pagina.js";
 import { criarExecutor } from "./execucao.js";
 import { criarFormulario } from "./formulario.js";
 import { renderizarResultado } from "./indicadores.js";
+import { criarNavegacao } from "./navegacao.js";
 
 const ESPERA_ANTES_DE_CALCULAR_MS = 200;
 const AVISO_ULTIMO_CENARIO = "Os indicadores mostrados são do último cenário válido.";
@@ -82,6 +83,8 @@ async function iniciar() {
     mostrarFalha(erro, iniciar);
   }
 }
+
+criarNavegacao();
 
 botaoRepetir.addEventListener("click", () => {
   status.focus(); // o botão some ao repetir, e quem usa o teclado não pode perder a posição

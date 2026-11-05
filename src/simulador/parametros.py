@@ -27,6 +27,11 @@ class Campo:
     dica: str | None = None
 
 
+GRUPO_PEDIDOS = "Preço e pedidos"
+GRUPO_CUSTOS = "Custos por pedido"
+GRUPO_EQUIPE = "Equipe e tempos"
+
+
 def _dinheiro(nome, rotulo, grupo, padrao, maximo_slider, minimo="0", **extras):
     return Campo(
         nome=nome,
@@ -63,7 +68,7 @@ def _tempo(nome, rotulo, padrao):
         nome=nome,
         rotulo=rotulo,
         unidade="min",
-        grupo="Operação",
+        grupo=GRUPO_EQUIPE,
         minimo=Decimal("0.1"),
         maximo=Decimal("240"),
         padrao=Decimal(padrao),
@@ -73,11 +78,11 @@ def _tempo(nome, rotulo, padrao):
 
 
 CAMPOS = (
-    _dinheiro("preco_venda", "Preço de venda", "Comercial", "35", "100", minimo="0.01"),
+    _dinheiro("preco_venda", "Preço de venda", GRUPO_PEDIDOS, "35", "100", minimo="0.01"),
     _dinheiro(
         "desconto",
         "Desconto por pedido",
-        "Comercial",
+        GRUPO_PEDIDOS,
         "0",
         "50",
         maximo_campo="preco_venda",
@@ -87,31 +92,31 @@ CAMPOS = (
         "pedidos",
         "Pedidos recebidos no turno",
         "pedidos",
-        "Comercial",
+        GRUPO_PEDIDOS,
         0,
         1000,
         20,
         200,
         dica="É a sua hipótese de demanda; o simulador não a estima.",
     ),
-    _dinheiro("custo_ingredientes", "Ingredientes por pedido", "Custos", "12", "50"),
-    _dinheiro("custo_embalagem", "Embalagem por pedido", "Custos", "2", "20"),
+    _dinheiro("custo_ingredientes", "Ingredientes por pedido", GRUPO_CUSTOS, "12", "50"),
+    _dinheiro("custo_embalagem", "Embalagem por pedido", GRUPO_CUSTOS, "2", "20"),
     Campo(
         nome="taxa_canal_pct",
         rotulo="Taxa do canal",
         unidade="%",
-        grupo="Custos",
+        grupo=GRUPO_CUSTOS,
         minimo=Decimal(0),
         maximo=Decimal(100),
         padrao=Decimal(15),
         maximo_slider=Decimal(40),
         passo_slider=Decimal("0.5"),
     ),
-    _inteiro("pessoas_preparo", "Pessoas no preparo", "pessoas", "Operação", 1, 50, 2, 10),
-    _inteiro("pessoas_embalagem", "Pessoas na embalagem", "pessoas", "Operação", 1, 50, 1, 10),
+    _inteiro("pessoas_preparo", "Pessoas no preparo", "pessoas", GRUPO_EQUIPE, 1, 50, 2, 10),
+    _inteiro("pessoas_embalagem", "Pessoas na embalagem", "pessoas", GRUPO_EQUIPE, 1, 50, 1, 10),
     _tempo("tempo_preparo_min", "Tempo de preparo por pedido", "5"),
     _tempo("tempo_embalagem_min", "Tempo de embalagem por pedido", "2"),
-    _inteiro("duracao_turno_min", "Duração do turno", "min", "Operação", 1, 720, 60, 240),
+    _inteiro("duracao_turno_min", "Duração do turno", "min", GRUPO_EQUIPE, 1, 720, 60, 240),
 )
 
 _CAMPOS_POR_NOME = {campo.nome: campo for campo in CAMPOS}
