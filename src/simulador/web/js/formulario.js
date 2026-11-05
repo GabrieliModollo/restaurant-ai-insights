@@ -199,5 +199,13 @@ export function criarFormulario(elemento, campos, aoAlterar) {
     return Object.keys(erros).length === 0;
   }
 
-  return { valores, validar, mostrarErros };
+  function aplicarValores(novosValores) {
+    for (const { campo, numero, slider } of controles) {
+      numero.value = String(novosValores[campo.nome]);
+      slider.value = numero.value;
+    }
+    aoAlterar();
+  }
+
+  return { valores, validar, mostrarErros, aplicarValores };
 }

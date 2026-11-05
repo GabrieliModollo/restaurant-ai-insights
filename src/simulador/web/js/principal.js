@@ -1,8 +1,10 @@
 // Liga as partes: mudança no formulário → validação → API → indicadores.
 
-import { buscarCampos, descreverErro, ErroDeValidacao, simular } from "./api.js";
+import { buscarCampos, buscarExemplos, descreverErro, ErroDeValidacao, simular } from "./api.js";
 import { criarCena } from "./cena/pagina.js";
+import { criarComparacao } from "./comparacao-pagina.js";
 import { criarExecutor } from "./execucao.js";
+import { criarExemplos } from "./exemplos.js";
 import { criarFormulario } from "./formulario.js";
 import { renderizarResultado } from "./indicadores.js";
 import { criarNavegacao } from "./navegacao.js";
@@ -14,6 +16,7 @@ const status = document.getElementById("status");
 const resultados = document.getElementById("resultados");
 const botaoRepetir = document.getElementById("tentar-novamente");
 const cena = criarCena();
+const comparacao = criarComparacao();
 
 let formulario;
 let temporizador;
@@ -26,6 +29,7 @@ function definirStatus(estado, texto) {
   resultados.setAttribute("aria-busy", String(estado === "calculando"));
   botaoRepetir.hidden = estado !== "erro";
   cena.definirEstado(estado);
+  comparacao.definirSituacao(estado);
 }
 
 function mostrarFalha(erro, acaoDeRepetir) {
@@ -35,11 +39,16 @@ function mostrarFalha(erro, acaoDeRepetir) {
 }
 
 const executor = criarExecutor({
-  buscar: simular,
-  aoResultado(resultado) {
+  // Parâmetros e resultado viajam juntos: o cenário A nunca mistura dados de pedidos diferentes.
+  buscar: async (parametros, signal) => ({
+    parametros,
+    resultado: await simular(parametros, signal),
+  }),
+  aoResultado({ parametros, resultado }) {
     renderizarResultado(resultado);
     resultados.hidden = false;
     cena.atualizar(resultado.operacao);
+    comparacao.registrar(parametros, resultado);
     definirStatus("atualizado", "Indicadores calculados pelo servidor para os parâmetros atuais.");
   },
   aoErro(erro) {
@@ -78,9 +87,18 @@ async function iniciar() {
       campos,
       agendarSimulacao,
     );
+    comparacao.definirCampos(campos);
     agendarSimulacao();
   } catch (erro) {
     mostrarFalha(erro, iniciar);
+    return;
+  }
+
+  // Os exemplos são um complemento: se não carregarem, o simulador continua funcionando.
+  try {
+    criarExemplos(await buscarExemplos(), formulario);
+  } catch {
+    document.getElementById("exemplos").hidden = true;
   }
 }
 

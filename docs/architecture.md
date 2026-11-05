@@ -34,13 +34,15 @@ Núcleo, sem dependência de HTTP
 | `src/simulador/web/js/cena/geometria.js` | Projeção isométrica, posições, escala e rótulos | Pronto |
 | `src/simulador/web/js/cena/deteccao.js` | Estação sob um ponto da tela | Pronto |
 | `src/simulador/web/js/cena/desenho.js` | Desenho no Canvas | Pronto |
-| `src/simulador/web/js/cena/modelo.js` | Momento do relógio → itens e textos da cena | Em revisão |
-| `src/simulador/web/js/cena/pagina.js` | Tamanho, clique, reprodução, detalhe e avisos | Em revisão |
-| `src/simulador/web/js/cena/linha-do-tempo.js` | Estado em cada instante, a partir dos eventos | Em revisão |
-| `src/simulador/web/js/cena/reproducao.js` | Relógio e ciclo de quadros | Em revisão |
-| `src/simulador/web/js/navegacao.js` | Alterna formulário e resultados no celular | Em revisão |
-| Cenários | Guarda o cenário A e compara com o atual | Planejado |
-| Explicações | Textos gerados por regras | Planejado |
+| `src/simulador/web/js/cena/modelo.js` | Momento do relógio → itens e textos da cena | Pronto |
+| `src/simulador/web/js/cena/pagina.js` | Tamanho, clique, reprodução, detalhe e avisos | Pronto |
+| `src/simulador/web/js/cena/linha-do-tempo.js` | Estado em cada instante, a partir dos eventos | Pronto |
+| `src/simulador/web/js/cena/reproducao.js` | Relógio e ciclo de quadros | Pronto |
+| `src/simulador/web/js/navegacao.js` | Alterna formulário e resultados no celular | Pronto |
+| `src/simulador/resumo.py` | Resumo do turno completo, gerado por regras | Em revisão |
+| `src/simulador/web/js/comparacao.js` | Cenário A e diferenças em relação ao atual | Em revisão |
+| `src/simulador/web/js/comparacao-pagina.js` | Mostra a comparação na página | Em revisão |
+| `src/simulador/web/js/exemplos.js` | Aplica os exemplos fictícios ao formulário | Em revisão |
 
 ## Decisões em vigor
 
@@ -68,19 +70,14 @@ Núcleo, sem dependência de HTTP
 | Cena desenhada só quando algo muda | Mesmo tocando, o desenho só se repete quando o estado ou o minuto inteiro muda, para poupar processamento. |
 | Estados da reprodução derivados só dos eventos | Evita uma segunda versão das regras em JavaScript. |
 | Itens mudam de lugar no instante do evento, sem deslizar | O que aparece é sempre um estado real da simulação, e isso já respeita quem pede menos movimento. |
-| Relógio com avanço máximo de 1 s por quadro | Não salta depois de uma pausa longa nem atrasa em computadores lentos. |
+| Relógio com avanço máximo de 1 s por quadro | Não salta depois de uma pausa longa. Com quadros mais espaçados que isso, atrasa: o relógio não promete tempo real. |
 | Testes de JavaScript usam resultados reais do núcleo, em `tests/fixtures/` | Um teste em Python falha se a fixture ficar diferente do núcleo. |
 | Pilhas no lugar de muitos itens, com o total exato escrito | O custo do desenho não cresce com o número de pedidos, e nada é cortado em silêncio. |
 | Estações na diagonal x + y = 12 do piso | Essa diagonal aparece reta na tela, o que evita rótulos sobre outros blocos em telas estreitas. |
 | Clique testado contra o contorno do bloco, com alcance mínimo de 22 px | Inclui o topo desenhado e mantém o toque possível quando a cena encolhe. |
 | Cancelar o pedido anterior e também conferir se a resposta é do pedido atual | O cancelamento pode chegar tarde, com a resposta já a caminho. |
 | Lógica de JavaScript em funções testadas com `node --test` | Testa regras sem navegador e sem pacotes npm; o Node não é necessário para executar. |
-
-## Decisões propostas
-
-Serão confirmadas na entrega correspondente.
-
-| Proposta | Justificativa |
-| --- | --- |
-| Cenário A como cópia imutável, em memória no navegador | Não exige banco de dados; recarregar a página o descarta. |
-| Explicações geradas no servidor, em módulo Python | Ficam junto das regras e são testadas com `pytest`. |
+| Cenário A como cópia independente, em memória no navegador, sem os eventos | Não exige banco de dados e pesa pouco; recarregar a página o descarta, com aviso na tela. |
+| Resumo gerado no servidor, em módulo Python | Fica junto das regras e é testado com `pytest`. |
+| Comparação só com diferenças absolutas, sem apontar um cenário melhor | O melhor depende do que a pessoa valoriza, e percentuais não existem quando a base é zero. |
+| Exemplos guardam só parâmetros | O resultado passa pelo fluxo normal, sem cálculos paralelos que possam divergir. |

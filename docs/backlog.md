@@ -9,8 +9,8 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 1 | Núcleo financeiro e simulação | `feat/nucleo-simulacao` | 0 | Concluída (PR #2) |
 | 2 | API, parâmetros e indicadores | `feat/api-interface` | 1 | Concluída (PR #3) |
 | 3 | Canvas isométrico e estações | `feat/canvas-isometrico` | 2 | Concluída (PR #4) |
-| 4 | Reprodução dos eventos e primeiro uso | `feat/reproducao-eventos` | 3 | Em revisão |
-| 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Pendente |
+| 4 | Reprodução dos eventos e primeiro uso | `feat/reproducao-eventos` | 3 | Concluída (PR #5) |
+| 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Em revisão |
 | 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Pendente |
 
 ## Mudança em relação ao plano original
@@ -100,24 +100,30 @@ Primeiro uso (orientação para quem tem pouca familiaridade com software):
 - [x] Navegação explícita no celular entre "Ajustar cenário" e "Ver resultados", sem perder valores.
 - [x] Verificado no navegador em desktop, 390 e 320 px de largura, e por teclado.
 - [x] Testes passam em um clone limpo da branch.
-- [ ] PR revisado e integrado.
+- [x] PR revisado e integrado.
 
 ### 5. Comparação e explicações
 
-- [ ] Fixar o cenário A e comparar seus parâmetros e indicadores com o cenário atual.
-- [ ] Teste: mudar o cenário atual não altera o cenário A.
-- [ ] Explicações por regras, com teste, baseadas nos valores simulados.
-- [ ] As explicações por regras são identificadas como sem IA conectada.
-- [ ] Nenhum texto atribui ao desconto um aumento de demanda.
-- [ ] Resumo em linguagem simples, com números e o significado deles.
-- [ ] Ajuda contextual para os termos, sem renomear contribuição como lucro.
-- [ ] Três exemplos fictícios, identificados como tais.
+- [x] Guardar o cenário A e comparar parâmetros e indicadores com o cenário atual.
+- [x] Teste: mudar o cenário atual não altera o cenário A.
+- [x] Teste: não é possível guardar durante espera, erro ou entrada inválida.
+- [x] Diferenças absolutas, em centavos; médias ausentes como não comparáveis; sem cenário vencedor.
+- [x] Turnos de durações diferentes são destacados; substituir e limpar A são ações explícitas.
+- [x] Resumo em linguagem simples, gerado por regras no servidor, com teste dos casos-limite.
+- [x] As explicações por regras são identificadas como sem IA conectada.
+- [x] Nenhum texto atribui ao desconto um aumento de demanda.
+- [x] Ajuda contextual para os termos, sem renomear contribuição como lucro.
+- [x] Três exemplos fictícios, pelo fluxo normal, com teste do que cada um anuncia.
+- [x] Fluxo verificado no navegador, em desktop, 390 e 320 px, e por teclado.
+- [x] Testes passam em um clone limpo da branch.
+- [ ] PR revisado e integrado.
 
 ### 6. Revisão final e demonstração
 
 - [ ] Roteiro de demonstração reproduzível a partir de um clone limpo.
 - [ ] README revisado, sem repetir `docs/` e sem declarar como pronto o que não está.
 - [ ] Revisão completa de escopo, restrições e critérios desta lista.
+- [ ] Verificar fluidez em uso normal, troca real de aba e preferência real por menos movimento.
 - [ ] Teste de uso real com as tarefas abaixo, corrigindo os problemas prioritários.
 - [ ] Se o teste não ocorrer, declarar explicitamente a ausência de validação com usuários.
 

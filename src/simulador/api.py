@@ -13,7 +13,7 @@ from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 
-from .parametros import ParametrosSimulacao, campos_para_interface
+from .parametros import ParametrosSimulacao, campos_para_interface, exemplos_para_interface
 from .simulacao import executar_simulacao
 
 PASTA_WEB = Path(__file__).parent / "web"
@@ -57,6 +57,11 @@ async def _corpo_ilegivel(requisicao: Request, erro: HTTPException) -> Response:
 @app.get("/api/campos")
 def listar_campos() -> list[dict]:
     return campos_para_interface()
+
+
+@app.get("/api/exemplos")
+def listar_exemplos() -> list[dict]:
+    return exemplos_para_interface()
 
 
 @app.post("/api/simulacoes")

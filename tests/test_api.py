@@ -37,6 +37,22 @@ def test_campos_fornecem_limites_e_valores_iniciais():
         assert item["padrao"] == float(campo.padrao)
 
 
+def test_exemplos_ficticios_passam_pela_validacao_normal_da_api():
+    resposta = cliente.get("/api/exemplos")
+
+    assert resposta.status_code == 200
+    assert len(resposta.json()) == 3
+    for exemplo in resposta.json():
+        assert cliente.post("/api/simulacoes", json=exemplo["parametros"]).status_code == 200
+
+
+def test_resposta_inclui_o_resumo_por_regras():
+    resumo = _simular().json()["resumo"]
+
+    assert "sem IA conectada" in resumo["identificacao"]
+    assert resumo["conclusao"]
+
+
 def test_rota_delega_o_calculo_a_executar_simulacao(monkeypatch):
     recebidos = []
 
@@ -191,6 +207,19 @@ def test_pagina_orienta_o_primeiro_uso_e_separa_o_momento_do_turno_completo():
     assert 'id="reproducao-velocidade"' in texto
 
 
+def test_pagina_usa_termos_familiares_ajuda_e_avisos_da_comparacao():
+    texto = " ".join(cliente.get("/").text.split())
+
+    assert "Valor que sobra após os custos por pedido" in texto
+    assert "margem de contribuição" in texto
+    assert "Capacidade estimada neste modelo" in texto
+    assert "Recarregar a página descarta o cenário A" in texto
+    assert "os valores atuais do formulário serão substituídos" in texto
+    assert 'id="exemplos"' in texto
+    assert 'id="resumo"' in texto
+    assert 'id="a-salvar"' in texto
+
+
 @pytest.mark.parametrize(
     ("caminho", "tipo"),
     [
@@ -208,6 +237,9 @@ def test_pagina_orienta_o_primeiro_uso_e_separa_o_momento_do_turno_completo():
         ("/js/cena/linha-do-tempo.js", "javascript"),
         ("/js/cena/reproducao.js", "javascript"),
         ("/js/navegacao.js", "javascript"),
+        ("/js/comparacao.js", "javascript"),
+        ("/js/comparacao-pagina.js", "javascript"),
+        ("/js/exemplos.js", "javascript"),
     ],
 )
 def test_arquivos_da_interface_sao_servidos_na_mesma_origem(caminho, tipo):

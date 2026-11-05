@@ -214,7 +214,9 @@ h2 {
 }
 
 /* Os avisos e os botões da cena continuam legíveis; só os dados antigos ficam apagados. */
-.resultados[data-desatualizado="true"] > section > :not(h2, .cena-estado, .cena-botoes) {
+.resultados[data-desatualizado="true"]
+  > section
+  > :not(h2, .cena-estado, .cena-botoes, .comparacao-acoes, .comparacao-conteudo) {
   opacity: 0.45;
 }
 
@@ -385,6 +387,162 @@ legend {
 .status[data-estado="erro"] {
   border-color: var(--negativo);
   background: var(--fundo-negativo);
+}
+
+/* Resumo */
+.resumo {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--superficie);
+}
+
+.resumo p + p {
+  margin-top: 0.35rem;
+}
+
+.resumo-conclusao {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.resumo-atencao {
+  padding: 0.4rem 0.6rem;
+  border-left: 4px solid var(--alerta);
+  border-radius: 4px;
+  background: var(--fundo-alerta);
+}
+
+.resumo-atencao[hidden] {
+  display: none;
+}
+
+/* Comparação */
+.comparacao-conteudo h3 {
+  margin-top: 0.6rem;
+  font-size: 0.95rem;
+}
+
+.comparacao-periodos {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.comparacao-alerta {
+  margin-top: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 7px;
+  background: var(--fundo-alerta);
+  font-size: 0.875rem;
+}
+
+.lista-alterados {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.9rem;
+}
+
+.tabela-comparacao {
+  width: 100%;
+  margin-top: 0.6rem;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabela-comparacao caption {
+  padding-bottom: 0.3rem;
+  color: var(--texto-suave);
+  font-size: 0.8rem;
+  text-align: left;
+}
+
+.tabela-comparacao th,
+.tabela-comparacao td {
+  padding: 0.35rem 0.5rem;
+  border-bottom: 1px solid var(--linha);
+  text-align: right;
+}
+
+.tabela-comparacao th:first-child {
+  font-weight: 600;
+  text-align: left;
+}
+
+/* Em colunas estreitas, cada indicador vira um bloco com os valores rotulados. */
+@container (max-width: 520px) {
+  .tabela-comparacao thead {
+    display: none;
+  }
+
+  .tabela-comparacao tr {
+    display: block;
+    padding: 0.4rem 0;
+    border-bottom: 1px solid var(--linha);
+  }
+
+  .tabela-comparacao th,
+  .tabela-comparacao td {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.1rem 0;
+    border: 0;
+    text-align: right;
+  }
+
+  .tabela-comparacao td::before {
+    content: attr(data-rotulo);
+    color: var(--texto-suave);
+  }
+}
+
+/* Ajuda contextual e exemplos */
+.ajuda {
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.ajuda summary,
+.exemplos summary {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.ajuda summary:focus-visible,
+.exemplos summary:focus-visible {
+  outline: 2px solid var(--destaque);
+  outline-offset: 2px;
+}
+
+.ajuda ul {
+  margin: 0.25rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.exemplos {
+  margin-bottom: 0.9rem;
+  font-size: 0.9rem;
+}
+
+.exemplos[hidden] {
+  display: none;
+}
+
+.exemplo {
+  margin-top: 0.5rem;
+}
+
+.exemplo .botao {
+  width: 100%;
+  text-align: left;
+}
+
+.botao:disabled {
+  border-color: var(--linha);
+  color: var(--texto-suave);
+  cursor: not-allowed;
 }
 
 /* Cena isométrica */

@@ -7,6 +7,7 @@ Os cálculos confiam nos parâmetros: a validação fica apenas em ParametrosSim
 from .financeiro import calcular_financeiro
 from .operacao import simular_operacao
 from .parametros import ParametrosSimulacao
+from .resumo import criar_resumo
 
 
 def executar_simulacao(parametros: ParametrosSimulacao) -> dict:
@@ -26,4 +27,8 @@ def executar_simulacao(parametros: ParametrosSimulacao) -> dict:
         custo_embalagem=parametros.custo_embalagem,
         pedidos_concluidos=operacao["pedidos_concluidos"],
     )
-    return {"financeiro": financeiro, "operacao": operacao}
+    return {
+        "financeiro": financeiro,
+        "operacao": operacao,
+        "resumo": criar_resumo(financeiro, operacao),
+    }

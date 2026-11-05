@@ -50,6 +50,14 @@ export async function buscarCampos() {
   return lerJson(resposta);
 }
 
+export async function buscarExemplos() {
+  const resposta = await pedir("/api/exemplos");
+  if (!resposta.ok) {
+    throw new ErroDoServidor(resposta.status);
+  }
+  return lerJson(resposta);
+}
+
 export async function simular(valores, signal) {
   const resposta = await pedir(
     "/api/simulacoes",
