@@ -207,6 +207,16 @@ def test_pagina_orienta_o_primeiro_uso_e_separa_o_momento_do_turno_completo():
     assert 'id="reproducao-velocidade"' in texto
 
 
+def test_atalhos_dos_resultados_apontam_para_partes_que_existem():
+    pagina = cliente.get("/").text
+    atalhos = re.search(r'<nav class="atalhos".*?</nav>', pagina, re.DOTALL).group()
+    destinos = re.findall(r'href="#([^"]+)"', atalhos)
+
+    assert len(destinos) == 5
+    for destino in destinos:
+        assert f'id="{destino}"' in pagina
+
+
 def test_pagina_usa_termos_familiares_ajuda_e_avisos_da_comparacao():
     texto = " ".join(cliente.get("/").text.split())
 
