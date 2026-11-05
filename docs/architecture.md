@@ -25,13 +25,17 @@ Núcleo, sem dependência de HTTP
 | `src/simulador/financeiro.py` | Cálculos em centavos | Pronto |
 | `src/simulador/operacao.py` | Filas, capacidade, diagnóstico e eventos | Pronto |
 | `src/simulador/simulacao.py` | Executa operação e finanças em sequência | Pronto |
-| `src/simulador/api.py` | Rotas e entrega da interface | Em revisão |
-| `src/simulador/web/js/api.js` | Comunicação HTTP e descrição das falhas | Em revisão |
-| `src/simulador/web/js/execucao.js` | Só o pedido mais recente chega à tela | Em revisão |
-| `src/simulador/web/js/formulario.js` | Controles, limites e validação imediata | Em revisão |
-| `src/simulador/web/js/indicadores.js` | Exibição dos resultados | Em revisão |
-| `src/simulador/web/js/principal.js` | Liga formulário, API e indicadores | Em revisão |
-| Cena isométrica | Desenho e clique nas estações | Planejado |
+| `src/simulador/api.py` | Rotas e entrega da interface | Pronto |
+| `src/simulador/web/js/api.js` | Comunicação HTTP e descrição das falhas | Pronto |
+| `src/simulador/web/js/execucao.js` | Só o pedido mais recente chega à tela | Pronto |
+| `src/simulador/web/js/formulario.js` | Controles, limites e validação imediata | Pronto |
+| `src/simulador/web/js/indicadores.js` | Exibição dos resultados | Pronto |
+| `src/simulador/web/js/principal.js` | Liga formulário, API, indicadores e cena | Pronto |
+| `src/simulador/web/js/cena/geometria.js` | Projeção isométrica, posições, escala e rótulos | Em revisão |
+| `src/simulador/web/js/cena/modelo.js` | Resultado do servidor → itens e textos da cena | Em revisão |
+| `src/simulador/web/js/cena/deteccao.js` | Estação sob um ponto da tela | Em revisão |
+| `src/simulador/web/js/cena/desenho.js` | Desenho no Canvas | Em revisão |
+| `src/simulador/web/js/cena/pagina.js` | Tamanho, clique, botões, detalhe e avisos | Em revisão |
 | Reprodução | Relógio e estado derivado dos eventos | Planejado |
 | Cenários | Guarda o cenário A e compara com o atual | Planejado |
 | Explicações | Textos gerados por regras | Planejado |
@@ -56,7 +60,13 @@ Núcleo, sem dependência de HTTP
 | Eventos no mesmo instante: fim, depois chegada, depois início | A pessoa termina um pedido antes de começar o próximo. Isso sustentará a reprodução. |
 | Uvicorn sem extras | Requisito do projeto; instalação leve. |
 | `httpx2` só para testes | `starlette.testclient` o exige e considera o `httpx` obsoleto; conferido no código do pacote. |
-| `/docs`, `/redoc` e `/openapi.json` desligados | Essas páginas do FastAPI carregam arquivos de um CDN, e o simulador não depende de recursos externos. |
+| `/docs` e `/redoc` desligados | Essas páginas do FastAPI carregam arquivos de um CDN, e o simulador não depende de recursos externos. |
+| `/openapi.json` desligado | Ficou sem uso sem as páginas acima. Ele não depende de CDN e pode voltar quando for útil. |
+| Canvas API nativa, sem biblioteca | Requisito do projeto; leve para 8 GB de RAM. |
+| Cena desenhada só quando algo muda | Não há animação nesta entrega, e repetir o desenho gastaria processamento à toa. |
+| Pilhas no lugar de muitos itens, com o total exato escrito | O custo do desenho não cresce com o número de pedidos, e nada é cortado em silêncio. |
+| Estações na diagonal x + y = 12 do piso | Essa diagonal aparece reta na tela, o que evita rótulos sobre outros blocos em telas estreitas. |
+| Clique testado contra o contorno do bloco, com alcance mínimo de 22 px | Inclui o topo desenhado e mantém o toque possível quando a cena encolhe. |
 | Cancelar o pedido anterior e também conferir se a resposta é do pedido atual | O cancelamento pode chegar tarde, com a resposta já a caminho. |
 | Lógica de JavaScript em funções testadas com `node --test` | Testa regras sem navegador e sem pacotes npm; o Node não é necessário para executar. |
 
@@ -66,6 +76,5 @@ Serão confirmadas na entrega correspondente.
 
 | Proposta | Justificativa |
 | --- | --- |
-| Canvas API nativa, sem biblioteca | Requisito do projeto; leve para 8 GB de RAM. |
 | Cenário A como cópia imutável, em memória no navegador | Não exige banco de dados; recarregar a página o descarta. |
 | Explicações geradas no servidor, em módulo Python | Ficam junto das regras e são testadas com `pytest`. |
