@@ -1,9 +1,46 @@
 """Une validação, filas e finanças: a receita depende do que a operação concluiu."""
 
+import json
+from pathlib import Path
+
 from src.simulador.parametros import CAMPOS, ParametrosSimulacao
 from src.simulador.simulacao import executar_simulacao
 
 PADRAO = {campo.nome: campo.padrao for campo in CAMPOS}
+
+# Resultados reais do núcleo, usados pelos testes de JavaScript em tests/js/.
+ARQUIVO_DA_FIXTURE = Path(__file__).parent / "fixtures" / "simulacoes.json"
+CENARIOS_DA_FIXTURE = {
+    "padrao": {},
+    "gargalo_na_embalagem": {
+        "pedidos": 30,
+        "pessoas_preparo": 2,
+        "tempo_preparo_min": 1,
+        "tempo_embalagem_min": 3,
+    },
+    "eventos_simultaneos": {
+        "pedidos": 4,
+        "duracao_turno_min": 4,
+        "pessoas_preparo": 1,
+        "tempo_preparo_min": 2,
+        "tempo_embalagem_min": 1,
+    },
+    "fim_exato": {"pedidos": 1, "tempo_preparo_min": 30, "tempo_embalagem_min": 30},
+    "sem_pedidos": {"pedidos": 0},
+}
+
+
+def resultado_da_fixture(alteracoes):
+    resultado = executar_simulacao(ParametrosSimulacao(**{**PADRAO, **alteracoes}))
+    return json.loads(json.dumps(resultado))
+
+
+def test_fixture_dos_testes_de_javascript_continua_igual_ao_nucleo():
+    fixture = json.loads(ARQUIVO_DA_FIXTURE.read_text(encoding="utf-8"))
+
+    assert fixture == {
+        nome: resultado_da_fixture(alteracoes) for nome, alteracoes in CENARIOS_DA_FIXTURE.items()
+    }
 
 
 def _executar(**alteracoes):

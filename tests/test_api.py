@@ -179,6 +179,18 @@ def test_pagina_identifica_a_simulacao_e_explica_os_resultados():
     assert 'data-estacao="embalagem"' in texto
 
 
+def test_pagina_orienta_o_primeiro_uso_e_separa_o_momento_do_turno_completo():
+    texto = " ".join(cliente.get("/").text.split())
+
+    assert "Ajuste seu cenário." in texto
+    assert "Veja o resultado do turno." in texto
+    assert "Acompanhe os pedidos no restaurante." in texto
+    assert "Ver resultados" in texto
+    assert "Resultado financeiro do turno completo" in texto
+    assert 'id="reproducao-alternar"' in texto
+    assert 'id="reproducao-velocidade"' in texto
+
+
 @pytest.mark.parametrize(
     ("caminho", "tipo"),
     [
@@ -193,6 +205,9 @@ def test_pagina_identifica_a_simulacao_e_explica_os_resultados():
         ("/js/cena/deteccao.js", "javascript"),
         ("/js/cena/desenho.js", "javascript"),
         ("/js/cena/pagina.js", "javascript"),
+        ("/js/cena/linha-do-tempo.js", "javascript"),
+        ("/js/cena/reproducao.js", "javascript"),
+        ("/js/navegacao.js", "javascript"),
     ],
 )
 def test_arquivos_da_interface_sao_servidos_na_mesma_origem(caminho, tipo):

@@ -11,8 +11,9 @@ um turno de restaurante.
 - Formulário com parâmetros, unidades e limites visíveis.
 - Simulação de filas de preparo e embalagem, calculada no servidor.
 - Indicadores de conclusão, filas, espera, receita e contribuição.
-- Restaurante isométrico em Canvas, mostrando o fim do turno, com estações selecionáveis por clique
-  ou por teclado.
+- Restaurante isométrico em Canvas, com estações selecionáveis por clique ou por teclado.
+- Reprodução do turno a partir dos eventos, com iniciar, pausar, velocidade, relógio e etapas.
+- Orientação inicial e, no celular, navegação entre ajustar o cenário e ver os resultados.
 - Explicação das fórmulas, dos custos excluídos e das hipóteses do modelo.
 
 ## Como executar
@@ -59,8 +60,9 @@ Invoke-RestMethod http://127.0.0.1:8010/api/campos
 - **Finanças:** contribuição não é lucro líquido. Impostos, salários, aluguel e desperdício ficam de
   fora, assim como os custos de pedidos ainda em processo no fim do turno.
 - **Resultados:** descrevem este modelo e não são previsão de resultado real.
-- **Ainda não implementado:** reprodução animada dos eventos, comparação de cenários e explicações
-  por regras. A cena é estática.
+- **Facilidade de uso:** ainda não foi validada com pessoas que gerenciam restaurantes.
+- **Ainda não implementado:** comparação de cenários, explicações por regras, resumo em linguagem
+  simples e exemplos prontos.
 
 ## Organização
 

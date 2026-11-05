@@ -167,13 +167,20 @@ function desenharRotulos(ctx, rotulos, cores) {
   }
 }
 
-function desenharLegenda(ctx, duracao, desatualizada, largura, cores) {
+function desenharLegenda(ctx, modelo, desatualizada, largura, cores) {
   const fonte = largura < 480 ? 10 : 12;
+  const numero = new Intl.NumberFormat("pt-BR");
   ctx.textBaseline = "top";
   ctx.textAlign = "left";
   ctx.font = `700 ${fonte}px ${cores.fonte}`;
   ctx.fillStyle = cores.texto;
-  ctx.fillText(`Fim do turno · minuto ${new Intl.NumberFormat("pt-BR").format(duracao)}`, 6, 6);
+  ctx.fillText(
+    modelo.ehFim
+      ? `Fim do turno · minuto ${numero.format(modelo.duracao)}`
+      : `Minuto ${numero.format(Math.floor(modelo.minuto))} de ${numero.format(modelo.duracao)}`,
+    6,
+    6,
+  );
   if (desatualizada) {
     ctx.fillStyle = cores.alerta;
     ctx.fillText("Último cenário válido", 6, 6 + fonte + 3);
@@ -209,5 +216,5 @@ export function desenharCena(
     posicionarRotulos(textosDaCena(modelo, selecionada), t, largura, altura),
     cores,
   );
-  desenharLegenda(ctx, modelo.duracao, desatualizada, largura, cores);
+  desenharLegenda(ctx, modelo, desatualizada, largura, cores);
 }

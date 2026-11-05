@@ -87,7 +87,7 @@ test("a escala não diminui quando o quadro cresce", () => {
 });
 
 test("a altura do quadro respeita mínimo e máximo", () => {
-  assert.equal(alturaDaCena(100), 210);
+  assert.equal(alturaDaCena(100), 250);
   assert.equal(alturaDaCena(5000), 430);
   assert.equal(alturaDaCena(500), 290);
 });
@@ -117,11 +117,11 @@ function sobrepoe(a, b) {
 
 test("os rótulos cabem no quadro e não se sobrepõem, mesmo com números grandes", () => {
   const textos = [
-    { ancora: "preparo", linhas: ["▶ Preparo", "Atend. 50/50", "Gargalo"] },
-    { ancora: "embalagem", linhas: ["Embalagem", "Atend. 50/50", "Gargalo"] },
+    { ancora: "preparo", linhas: ["▶ Preparo", "50 de 50", "pessoas", "preparando", "Gargalo"] },
+    { ancora: "embalagem", linhas: ["Embalagem", "50 de 50", "pessoas", "embalando", "Gargalo"] },
     { ancora: "fila_preparo", linhas: ["Fila 1.000"] },
     { ancora: "fila_embalagem", linhas: ["Fila 1.000"] },
-    { ancora: "retirada", linhas: ["Retirada", "1.000 prontos"] },
+    { ancora: "retirada", linhas: ["1.000 pedidos", "prontos para", "retirada"] },
   ];
 
   for (const largura of LARGURAS) {

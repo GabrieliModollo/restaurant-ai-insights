@@ -1,10 +1,11 @@
-// Traduz o resultado do servidor no que a cena mostra. Não recalcula regras operacionais:
+// Traduz o momento do relógio no que a cena mostra. Não recalcula regras operacionais:
 // só decide quantos itens desenhar um a um e quantos agrupar, sem perder os totais.
 
 export const LIMITE_ITENS = 9;
 export const LIMITE_PESSOAS = 6;
 
-const NOMES = { preparo: "Preparo", embalagem: "Embalagem" };
+const TITULOS = { preparo: "Preparo", embalagem: "Embalagem" };
+const VERBOS = { preparo: "preparando", embalagem: "embalando" };
 const numero = new Intl.NumberFormat("pt-BR");
 
 export function agrupar(total, limite) {
@@ -32,32 +33,50 @@ function criarEquipe(pessoas, emAtendimento) {
   };
 }
 
-function criarEstacao(nome, dados) {
+function criarEstacao(nome, dados, momento) {
   return {
     nome,
-    titulo: NOMES[nome],
+    titulo: TITULOS[nome],
+    verbo: VERBOS[nome],
     diagnostico: dados.diagnostico,
-    fila: agrupar(dados.fila_final, LIMITE_ITENS),
-    equipe: criarEquipe(dados.pessoas, dados.em_atendimento_final),
+    fila: agrupar(momento.fila[nome], LIMITE_ITENS),
+    equipe: criarEquipe(dados.pessoas, momento.atendendo[nome]),
+    finalizados: momento.finalizados[nome],
   };
 }
 
-export function criarModeloCena(operacao) {
+export function criarModeloCena(operacao, momento, minuto) {
+  const duracao = operacao.duracao_turno_min;
   return {
-    duracao: operacao.duracao_turno_min,
+    minuto,
+    duracao,
+    ehFim: minuto >= duracao,
     estacoes: {
-      preparo: criarEstacao("preparo", operacao.estacoes.preparo),
-      embalagem: criarEstacao("embalagem", operacao.estacoes.embalagem),
+      preparo: criarEstacao("preparo", operacao.estacoes.preparo, momento),
+      embalagem: criarEstacao("embalagem", operacao.estacoes.embalagem, momento),
     },
-    retirada: agrupar(operacao.pedidos_concluidos, LIMITE_ITENS),
+    retirada: agrupar(momento.finalizados.embalagem, LIMITE_ITENS),
   };
 }
 
-function textosDaEstacao(estacao, selecionada) {
+// Mostra uma casa decimal sem arredondar para cima: o minuto exibido nunca adianta o relógio.
+export function textoDoMinuto(minuto) {
+  return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 1 }).format(
+    Math.floor(minuto * 10) / 10,
+  );
+}
+
+function textosDaEstacao(estacao, selecionada, ehFim) {
   const titulo = estacao.nome === selecionada ? `▶ ${estacao.titulo}` : estacao.titulo;
   const { ocupadas, total } = estacao.equipe;
-  const linhas = [titulo, `Atend. ${numero.format(ocupadas)}/${numero.format(total)}`];
-  if (estacao.diagnostico === "gargalo_observado") {
+  const linhas = [
+    titulo,
+    `${numero.format(ocupadas)} de ${numero.format(total)}`,
+    total === 1 ? "pessoa" : "pessoas",
+    estacao.verbo,
+  ];
+  // O gargalo descreve o turno completo, então não aparece no meio da reprodução.
+  if (ehFim && estacao.diagnostico === "gargalo_observado") {
     linhas.push("Gargalo");
   }
   return { ancora: estacao.nome, linhas };
@@ -67,25 +86,31 @@ function textosDaEstacao(estacao, selecionada) {
 export function textosDaCena(modelo, selecionada) {
   const { preparo, embalagem } = modelo.estacoes;
   return [
-    textosDaEstacao(preparo, selecionada),
-    textosDaEstacao(embalagem, selecionada),
+    textosDaEstacao(preparo, selecionada, modelo.ehFim),
+    textosDaEstacao(embalagem, selecionada, modelo.ehFim),
     { ancora: "fila_preparo", linhas: [`Fila ${numero.format(preparo.fila.total)}`] },
     { ancora: "fila_embalagem", linhas: [`Fila ${numero.format(embalagem.fila.total)}`] },
-    { ancora: "retirada", linhas: ["Retirada", `${numero.format(modelo.retirada.total)} prontos`] },
+    {
+      ancora: "retirada",
+      linhas: [`${numero.format(modelo.retirada.total)} pedidos`, "prontos para", "retirada"],
+    },
   ];
 }
 
-function descreverEstacao({ titulo, equipe, fila }) {
+function descreverEstacao({ titulo, verbo, equipe, fila }) {
   const pessoas = `${numero.format(equipe.total)} ${equipe.total === 1 ? "pessoa" : "pessoas"}`;
-  return `${titulo}: ${pessoas}, ${numero.format(equipe.ocupadas)} em atendimento, ${numero.format(fila.total)} na fila.`;
+  return `${titulo}: ${pessoas}, ${numero.format(equipe.ocupadas)} ${verbo}, ${numero.format(fila.total)} na fila.`;
 }
 
 export function descreverCena(modelo) {
   const { preparo, embalagem } = modelo.estacoes;
+  const momento = modelo.ehFim
+    ? `Restaurante ao fim do turno, minuto ${numero.format(modelo.duracao)}.`
+    : `Restaurante no minuto ${textoDoMinuto(modelo.minuto)} de ${numero.format(modelo.duracao)}.`;
   return [
-    `Restaurante ao fim do turno, minuto ${numero.format(modelo.duracao)}.`,
+    momento,
     descreverEstacao(preparo),
     descreverEstacao(embalagem),
-    `Retirada: ${numero.format(modelo.retirada.total)} pedidos prontos.`,
+    `Retirada: ${numero.format(modelo.retirada.total)} pedidos prontos para retirada.`,
   ].join(" ");
 }

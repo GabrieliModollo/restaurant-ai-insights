@@ -31,12 +31,14 @@ Núcleo, sem dependência de HTTP
 | `src/simulador/web/js/formulario.js` | Controles, limites e validação imediata | Pronto |
 | `src/simulador/web/js/indicadores.js` | Exibição dos resultados | Pronto |
 | `src/simulador/web/js/principal.js` | Liga formulário, API, indicadores e cena | Pronto |
-| `src/simulador/web/js/cena/geometria.js` | Projeção isométrica, posições, escala e rótulos | Em revisão |
-| `src/simulador/web/js/cena/modelo.js` | Resultado do servidor → itens e textos da cena | Em revisão |
-| `src/simulador/web/js/cena/deteccao.js` | Estação sob um ponto da tela | Em revisão |
-| `src/simulador/web/js/cena/desenho.js` | Desenho no Canvas | Em revisão |
-| `src/simulador/web/js/cena/pagina.js` | Tamanho, clique, botões, detalhe e avisos | Em revisão |
-| Reprodução | Relógio e estado derivado dos eventos | Planejado |
+| `src/simulador/web/js/cena/geometria.js` | Projeção isométrica, posições, escala e rótulos | Pronto |
+| `src/simulador/web/js/cena/deteccao.js` | Estação sob um ponto da tela | Pronto |
+| `src/simulador/web/js/cena/desenho.js` | Desenho no Canvas | Pronto |
+| `src/simulador/web/js/cena/modelo.js` | Momento do relógio → itens e textos da cena | Em revisão |
+| `src/simulador/web/js/cena/pagina.js` | Tamanho, clique, reprodução, detalhe e avisos | Em revisão |
+| `src/simulador/web/js/cena/linha-do-tempo.js` | Estado em cada instante, a partir dos eventos | Em revisão |
+| `src/simulador/web/js/cena/reproducao.js` | Relógio e ciclo de quadros | Em revisão |
+| `src/simulador/web/js/navegacao.js` | Alterna formulário e resultados no celular | Em revisão |
 | Cenários | Guarda o cenário A e compara com o atual | Planejado |
 | Explicações | Textos gerados por regras | Planejado |
 
@@ -63,7 +65,11 @@ Núcleo, sem dependência de HTTP
 | `/docs` e `/redoc` desligados | Essas páginas do FastAPI carregam arquivos de um CDN, e o simulador não depende de recursos externos. |
 | `/openapi.json` desligado | Ficou sem uso sem as páginas acima. Ele não depende de CDN e pode voltar quando for útil. |
 | Canvas API nativa, sem biblioteca | Requisito do projeto; leve para 8 GB de RAM. |
-| Cena desenhada só quando algo muda | Não há animação nesta entrega, e repetir o desenho gastaria processamento à toa. |
+| Cena desenhada só quando algo muda | Mesmo tocando, o desenho só se repete quando o estado ou o minuto inteiro muda, para poupar processamento. |
+| Estados da reprodução derivados só dos eventos | Evita uma segunda versão das regras em JavaScript. |
+| Itens mudam de lugar no instante do evento, sem deslizar | O que aparece é sempre um estado real da simulação, e isso já respeita quem pede menos movimento. |
+| Relógio com avanço máximo de 1 s por quadro | Não salta depois de uma pausa longa nem atrasa em computadores lentos. |
+| Testes de JavaScript usam resultados reais do núcleo, em `tests/fixtures/` | Um teste em Python falha se a fixture ficar diferente do núcleo. |
 | Pilhas no lugar de muitos itens, com o total exato escrito | O custo do desenho não cresce com o número de pedidos, e nada é cortado em silêncio. |
 | Estações na diagonal x + y = 12 do piso | Essa diagonal aparece reta na tela, o que evita rótulos sobre outros blocos em telas estreitas. |
 | Clique testado contra o contorno do bloco, com alcance mínimo de 22 px | Inclui o topo desenhado e mantém o toque possível quando a cena encolhe. |

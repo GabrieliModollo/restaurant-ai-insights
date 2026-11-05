@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="estilos.css" />
     <script type="module" src="js/principal.js"></script>
   </head>
-  <body>
+  <body data-vista="ajustar">
     <header class="cabecalho">
       <div>
         <h1>Restaurant AI Insights</h1>
@@ -18,10 +18,27 @@
       <p class="aviso-ficticio">Simulação ilustrativa com dados fictícios — sem IA conectada</p>
     </header>
 
+    <section class="guia" aria-label="Como usar">
+      <ol>
+        <li>Ajuste seu cenário.</li>
+        <li>Veja o resultado do turno.</li>
+        <li>Acompanhe os pedidos no restaurante.</li>
+      </ol>
+      <p>O cenário já vem preenchido: altere só o que quiser.</p>
+    </section>
+
+    <nav class="navegacao-movel" aria-label="Partes da página">
+      <button class="botao" type="button" data-ir-para="ajustar">Ajustar cenário</button>
+      <button class="botao" type="button" data-ir-para="resultados">Ver resultados</button>
+    </nav>
+
     <main class="layout">
       <section class="painel" aria-labelledby="titulo-parametros">
-        <h2 id="titulo-parametros">Parâmetros do cenário</h2>
+        <h2 id="titulo-parametros">Seu cenário</h2>
         <form id="formulario" novalidate></form>
+        <button class="botao botao-principal somente-celular" type="button" data-ir-para="resultados">
+          Ver resultados
+        </button>
       </section>
 
       <div class="coluna-resultados">
@@ -33,32 +50,8 @@
         </div>
 
         <div id="resultados" class="resultados" hidden>
-          <section aria-labelledby="titulo-cena">
-            <h2 id="titulo-cena">Restaurante ao fim do turno</h2>
-            <p id="cena-estado" class="cena-estado" data-atual="false"></p>
-            <div id="cena-quadro" class="cena-quadro">
-              <canvas id="cena" role="img">
-                Cena do restaurante. Os mesmos dados aparecem nos botões e nas seções abaixo.
-              </canvas>
-            </div>
-            <p class="cena-legenda">
-              Foto do último instante do turno, sem animação. Os números escritos são exatos; em
-              quantidades grandes, uma pilha representa vários pedidos, e um par de figuras, várias
-              pessoas. Quem está atendendo aparece com um pedido ao lado.
-            </p>
-            <div class="cena-botoes" role="group" aria-label="Selecionar estação">
-              <button class="botao" type="button" data-estacao="preparo" aria-pressed="false">
-                Preparo
-              </button>
-              <button class="botao" type="button" data-estacao="embalagem" aria-pressed="false">
-                Embalagem
-              </button>
-            </div>
-            <div id="cena-detalhe" class="cena-detalhe" aria-live="polite"></div>
-          </section>
-
           <section aria-labelledby="titulo-financeiro">
-            <h2 id="titulo-financeiro">Resultado financeiro</h2>
+            <h2 id="titulo-financeiro">Resultado financeiro do turno completo</h2>
             <dl class="grade-indicadores grade-financeira">
               <div class="indicador indicador-destaque">
                 <dt>Contribuição total</dt>
@@ -99,7 +92,7 @@
           </section>
 
           <section aria-labelledby="titulo-operacao">
-            <h2 id="titulo-operacao">Operação no turno</h2>
+            <h2 id="titulo-operacao">Operação no turno completo</h2>
             <dl class="grade-indicadores">
               <div class="indicador">
                 <dt>Pedidos recebidos</dt>
@@ -129,8 +122,66 @@
             </dl>
           </section>
 
+          <section aria-labelledby="titulo-cena">
+            <h2 id="titulo-cena">Acompanhe os pedidos no restaurante</h2>
+            <p id="cena-estado" class="cena-estado" data-atual="false"></p>
+            <div id="cena-quadro" class="cena-quadro">
+              <canvas id="cena" role="img">
+                Cena do restaurante. Os mesmos dados aparecem nos botões e nas seções abaixo.
+              </canvas>
+            </div>
+
+            <div class="reproducao" role="group" aria-label="Reprodução do turno">
+              <p id="reproducao-relogio" class="reproducao-relogio">Minuto 0</p>
+              <label class="reproducao-tempo" for="reproducao-tempo">
+                <span>Momento do turno</span>
+                <input id="reproducao-tempo" type="range" min="0" max="60" step="1" value="0" />
+              </label>
+              <div class="reproducao-botoes">
+                <button id="reproducao-alternar" class="botao botao-principal" type="button">
+                  Iniciar
+                </button>
+                <button id="reproducao-reiniciar" class="botao" type="button">Reiniciar</button>
+                <button id="reproducao-anterior" class="botao" type="button">Etapa anterior</button>
+                <button id="reproducao-proxima" class="botao" type="button">Próxima etapa</button>
+                <button id="reproducao-fim" class="botao" type="button">Ir para o fim</button>
+                <label id="reproducao-bloco-velocidade" class="reproducao-velocidade">
+                  <span>Velocidade</span>
+                  <select id="reproducao-velocidade">
+                    <option value="0.5">0,5×</option>
+                    <option value="1" selected>1×</option>
+                    <option value="2">2×</option>
+                    <option value="4">4×</option>
+                  </select>
+                </label>
+              </div>
+              <p id="reproducao-dica-movimento" class="cena-dica" hidden>
+                Seu aparelho pede menos movimento. Use "Próxima etapa" para avançar pedido a pedido.
+              </p>
+              <p id="reproducao-anuncio" class="somente-leitor" aria-live="polite"></p>
+            </div>
+
+            <ul class="cena-legenda">
+              <li>Caixa: um pedido.</li>
+              <li>Três caixas empilhadas: vários pedidos. O número escrito é o total.</li>
+              <li>Figura: uma pessoa da equipe.</li>
+              <li>Figura com uma caixa ao lado: pessoa preparando ou embalando.</li>
+              <li>Duas figuras juntas: várias pessoas.</li>
+            </ul>
+
+            <div class="cena-botoes" role="group" aria-label="Selecionar estação">
+              <button class="botao" type="button" data-estacao="preparo" aria-pressed="false">
+                Preparo
+              </button>
+              <button class="botao" type="button" data-estacao="embalagem" aria-pressed="false">
+                Embalagem
+              </button>
+            </div>
+            <div id="cena-detalhe" class="cena-detalhe" aria-live="polite"></div>
+          </section>
+
           <section aria-labelledby="titulo-estacoes">
-            <h2 id="titulo-estacoes">Estações</h2>
+            <h2 id="titulo-estacoes">Estações no turno completo</h2>
             <div id="estacoes" class="grade-estacoes"></div>
           </section>
         </div>
@@ -188,6 +239,10 @@
             </ul>
           </details>
         </section>
+
+        <button class="botao somente-celular" type="button" data-ir-para="ajustar">
+          Ajustar cenário
+        </button>
       </div>
     </main>
   </body>

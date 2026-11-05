@@ -17,7 +17,6 @@ function criarContexto() {
       fill: () => {
         preenchimentos += 1;
       },
-      measureText: (texto) => ({ width: texto.length * 6 }),
     },
     {
       get: (alvo, nome) => alvo[nome] ?? (() => {}),
@@ -30,12 +29,31 @@ function criarContexto() {
   return { contexto, textos, preenchimentos: () => preenchimentos };
 }
 
-function desenhar(operacao, opcoes = {}) {
+function operacao(pessoasP = 2, pessoasE = 1) {
+  return {
+    duracao_turno_min: 60,
+    estacoes: {
+      preparo: { pessoas: pessoasP, diagnostico: "sem_fila" },
+      embalagem: { pessoas: pessoasE, diagnostico: "sem_fila" },
+    },
+  };
+}
+
+function momento({ filaP = 0, filaE = 0, atendeP = 0, atendeE = 0, prontos = 0 } = {}) {
+  return {
+    chegados: filaP + filaE + atendeP + atendeE + prontos,
+    fila: { preparo: filaP, embalagem: filaE },
+    atendendo: { preparo: atendeP, embalagem: atendeE },
+    finalizados: { preparo: prontos + filaE + atendeE, embalagem: prontos },
+  };
+}
+
+function desenhar(dados, estado, minuto, opcoes = {}) {
   const largura = opcoes.largura ?? 600;
   const altura = alturaDaCena(largura);
   const registro = criarContexto();
   desenharCena(registro.contexto, {
-    modelo: criarModeloCena(operacao),
+    modelo: criarModeloCena(dados, estado, minuto),
     transformacao: criarTransformacao(largura, altura),
     largura,
     altura,
@@ -46,94 +64,57 @@ function desenhar(operacao, opcoes = {}) {
   return registro;
 }
 
-function estacao(alteracoes = {}) {
-  return {
-    pessoas: 2,
-    fila_final: 0,
-    em_atendimento_final: 1,
-    diagnostico: "sem_fila",
-    ...alteracoes,
-  };
-}
+test("a cena informa o minuto mostrado", () => {
+  assert.ok(desenhar(operacao(), momento(), 12.7).textos.includes("Minuto 12 de 60"));
+});
 
-function operacao(alteracoes = {}) {
-  return {
-    duracao_turno_min: 60,
-    pedidos_concluidos: 18,
-    estacoes: { preparo: estacao(), embalagem: estacao({ pessoas: 1 }) },
-    ...alteracoes,
-  };
-}
-
-test("a cena avisa que representa o fim do turno", () => {
-  const { textos } = desenhar(operacao());
-
-  assert.ok(textos.includes("Fim do turno · minuto 60"));
+test("no fim, a cena avisa que representa o fim do turno", () => {
+  assert.ok(desenhar(operacao(), momento(), 60).textos.includes("Fim do turno · minuto 60"));
 });
 
 test("uma cena antiga é identificada no próprio desenho", () => {
-  const { textos } = desenhar(operacao(), { desatualizada: true });
+  const { textos } = desenhar(operacao(), momento(), 60, { desatualizada: true });
 
   assert.ok(textos.includes("Último cenário válido"));
 });
 
-test("os totais do servidor aparecem escritos", () => {
+test("os totais do momento aparecem escritos", () => {
   const { textos } = desenhar(
-    operacao({
-      pedidos_concluidos: 321,
-      estacoes: {
-        preparo: estacao({ pessoas: 50, em_atendimento_final: 50, fila_final: 640 }),
-        embalagem: estacao({ pessoas: 1, fila_final: 39 }),
-      },
-    }),
+    operacao(50),
+    momento({ filaP: 640, atendeP: 50, filaE: 39, prontos: 321 }),
+    60,
   );
 
   assert.ok(textos.includes("Fila 640"));
   assert.ok(textos.includes("Fila 39"));
-  assert.ok(textos.includes("Atend. 50/50"));
-  assert.ok(textos.includes("321 prontos"));
+  assert.ok(textos.includes("50 de 50"));
+  assert.ok(textos.includes("321 pedidos"));
 });
 
 test("muitos pedidos não fazem o número de desenhos crescer sem limite", () => {
   const poucos = desenhar(
-    operacao({
-      pedidos_concluidos: 12,
-      estacoes: {
-        preparo: estacao({ pessoas: 50, em_atendimento_final: 50, fila_final: 12 }),
-        embalagem: estacao({ pessoas: 50, em_atendimento_final: 50, fila_final: 12 }),
-      },
-    }),
+    operacao(50, 50),
+    momento({ filaP: 12, filaE: 12, atendeP: 50, atendeE: 50, prontos: 12 }),
+    60,
   );
   const muitos = desenhar(
-    operacao({
-      pedidos_concluidos: 1000,
-      estacoes: {
-        preparo: estacao({ pessoas: 50, em_atendimento_final: 50, fila_final: 1000 }),
-        embalagem: estacao({ pessoas: 50, em_atendimento_final: 50, fila_final: 1000 }),
-      },
-    }),
+    operacao(50, 50),
+    momento({ filaP: 1000, filaE: 1000, atendeP: 50, atendeE: 50, prontos: 1000 }),
+    60,
   );
 
   assert.equal(muitos.preenchimentos(), poucos.preenchimentos());
 });
 
 test("zero pedidos também é desenhado", () => {
-  const { textos } = desenhar(
-    operacao({
-      pedidos_concluidos: 0,
-      estacoes: {
-        preparo: estacao({ em_atendimento_final: 0 }),
-        embalagem: estacao({ pessoas: 1, em_atendimento_final: 0 }),
-      },
-    }),
-  );
+  const { textos } = desenhar(operacao(), momento(), 60);
 
-  assert.ok(textos.includes("0 prontos"));
-  assert.ok(textos.includes("Atend. 0/2"));
+  assert.ok(textos.includes("0 pedidos"));
+  assert.ok(textos.includes("0 de 2"));
 });
 
 test("desenha em quadro pequeno e com estação selecionada", () => {
-  const { textos } = desenhar(operacao(), { largura: 224, selecionada: "preparo" });
+  const { textos } = desenhar(operacao(), momento(), 60, { largura: 224, selecionada: "preparo" });
 
   assert.ok(textos.includes("▶ Preparo"));
 });

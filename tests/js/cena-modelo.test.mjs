@@ -10,30 +10,22 @@ import {
   textosDaCena,
 } from "../../src/simulador/web/js/cena/modelo.js";
 
-function estacao(alteracoes = {}) {
+function operacao(preparo = {}, embalagem = {}) {
   return {
-    pessoas: 2,
-    tempo_por_pedido_min: 5,
-    capacidade_teorica_turno: 24,
-    capacidade_teorica_hora: 24,
-    finalizados: 18,
-    fila_final: 0,
-    em_atendimento_final: 1,
-    fila_maxima: 0,
-    chegada_acima_do_ritmo: false,
-    diagnostico: "sem_fila",
-    ...alteracoes,
+    duracao_turno_min: 60,
+    estacoes: {
+      preparo: { pessoas: 2, diagnostico: "sem_fila", ...preparo },
+      embalagem: { pessoas: 1, diagnostico: "sem_fila", ...embalagem },
+    },
   };
 }
 
-function operacao(alteracoes = {}) {
+function momento({ filaP = 0, filaE = 0, atendeP = 0, atendeE = 0, prontos = 0 } = {}) {
   return {
-    duracao_turno_min: 60,
-    pedidos_recebidos: 20,
-    pedidos_concluidos: 18,
-    pedidos_pendentes: 2,
-    estacoes: { preparo: estacao(), embalagem: estacao({ pessoas: 1 }) },
-    ...alteracoes,
+    chegados: filaP + filaE + atendeP + atendeE + prontos,
+    fila: { preparo: filaP, embalagem: filaE },
+    atendendo: { preparo: atendeP, embalagem: atendeE },
+    finalizados: { preparo: prontos + filaE + atendeE, embalagem: prontos },
   };
 }
 
@@ -54,18 +46,16 @@ test("muitos itens viram uma pilha, sem perder o total", () => {
   }
 });
 
-test("o modelo usa os valores do servidor, sem recalcular", () => {
+test("o modelo mostra o momento do relógio, e a equipe vem do cenário", () => {
   const modelo = criarModeloCena(
-    operacao({
-      pedidos_concluidos: 7,
-      estacoes: {
-        preparo: estacao({ pessoas: 3, em_atendimento_final: 2, fila_final: 5 }),
-        embalagem: estacao({ pessoas: 1, em_atendimento_final: 1, fila_final: 4 }),
-      },
-    }),
+    operacao({ pessoas: 3 }),
+    momento({ filaP: 5, atendeP: 2, filaE: 4, atendeE: 1, prontos: 7 }),
+    12,
   );
 
+  assert.equal(modelo.minuto, 12);
   assert.equal(modelo.duracao, 60);
+  assert.equal(modelo.ehFim, false);
   assert.equal(modelo.estacoes.preparo.fila.total, 5);
   assert.equal(modelo.estacoes.preparo.equipe.ocupadas, 2);
   assert.equal(modelo.estacoes.preparo.equipe.livres, 1);
@@ -74,34 +64,21 @@ test("o modelo usa os valores do servidor, sem recalcular", () => {
 });
 
 test("zero pedidos gera cena vazia, com a equipe ainda presente", () => {
-  const modelo = criarModeloCena(
-    operacao({
-      pedidos_recebidos: 0,
-      pedidos_concluidos: 0,
-      pedidos_pendentes: 0,
-      estacoes: {
-        preparo: estacao({ em_atendimento_final: 0, finalizados: 0 }),
-        embalagem: estacao({ pessoas: 1, em_atendimento_final: 0, finalizados: 0 }),
-      },
-    }),
-  );
+  const modelo = criarModeloCena(operacao(), momento(), 60);
   const textos = textosDaCena(modelo, null).flatMap((rotulo) => rotulo.linhas);
 
   assert.equal(modelo.estacoes.preparo.fila.total, 0);
   assert.equal(modelo.retirada.total, 0);
   assert.equal(modelo.estacoes.preparo.equipe.livres, 2);
   assert.ok(textos.includes("Fila 0"));
-  assert.ok(textos.includes("0 prontos"));
+  assert.ok(textos.includes("0 pedidos"));
 });
 
 test("equipe grande é agrupada e soma exatamente o total", () => {
   const { equipe } = criarModeloCena(
-    operacao({
-      estacoes: {
-        preparo: estacao({ pessoas: 50, em_atendimento_final: 48 }),
-        embalagem: estacao({ pessoas: 1 }),
-      },
-    }),
+    operacao({ pessoas: 50 }),
+    momento({ atendeP: 48 }),
+    60,
   ).estacoes.preparo;
 
   assert.equal(equipe.total, 50);
@@ -112,57 +89,76 @@ test("equipe grande é agrupada e soma exatamente o total", () => {
   assert.ok(equipe.agrupadas > 0);
 });
 
-test("os rótulos mostram os totais exatos mesmo quando há agrupamento", () => {
+test("os rótulos usam linguagem clara e mostram os totais exatos", () => {
   const modelo = criarModeloCena(
-    operacao({
-      pedidos_concluidos: 1000,
-      estacoes: {
-        preparo: estacao({ pessoas: 50, em_atendimento_final: 48, fila_final: 730 }),
-        embalagem: estacao({ pessoas: 3, em_atendimento_final: 3, fila_final: 212 }),
-      },
-    }),
+    operacao({ pessoas: 50 }, { pessoas: 3 }),
+    momento({ filaP: 730, atendeP: 48, filaE: 212, atendeE: 3, prontos: 1000 }),
+    60,
   );
-  const textos = textosDaCena(modelo, null).flatMap((rotulo) => rotulo.linhas);
+  const textos = textosDaCena(modelo, null);
+  const linhas = textos.flatMap((rotulo) => rotulo.linhas);
 
-  assert.ok(textos.includes("Fila 730"));
-  assert.ok(textos.includes("Fila 212"));
-  assert.ok(textos.includes("Atend. 48/50"));
-  assert.ok(textos.includes("Atend. 3/3"));
-  assert.ok(textos.includes("1.000 prontos"));
+  assert.ok(linhas.includes("Fila 730"));
+  assert.ok(linhas.includes("Fila 212"));
+  assert.deepEqual(textos.find((r) => r.ancora === "preparo").linhas.slice(0, 4), [
+    "Preparo",
+    "48 de 50",
+    "pessoas",
+    "preparando",
+  ]);
+  assert.deepEqual(textos.find((r) => r.ancora === "embalagem").linhas.slice(0, 4), [
+    "Embalagem",
+    "3 de 3",
+    "pessoas",
+    "embalando",
+  ]);
+  assert.deepEqual(textos.find((r) => r.ancora === "retirada").linhas, [
+    "1.000 pedidos",
+    "prontos para",
+    "retirada",
+  ]);
+  assert.ok(!linhas.some((linha) => linha.includes("Atend.")));
 });
 
-test("a seleção e o gargalo aparecem em texto, não só em cor", () => {
-  const modelo = criarModeloCena(
-    operacao({
-      estacoes: {
-        preparo: estacao({ diagnostico: "gargalo_observado", fila_final: 9 }),
-        embalagem: estacao({ pessoas: 1 }),
-      },
-    }),
-  );
-  const rotulos = textosDaCena(modelo, "embalagem");
-  const preparo = rotulos.find((rotulo) => rotulo.ancora === "preparo");
-  const embalagem = rotulos.find((rotulo) => rotulo.ancora === "embalagem");
+test("uma só pessoa na estação aparece no singular", () => {
+  const textos = textosDaCena(criarModeloCena(operacao(), momento({ atendeE: 1 }), 30), null);
 
-  assert.ok(preparo.linhas.includes("Gargalo"));
-  assert.equal(embalagem.linhas[0], "▶ Embalagem");
-  assert.equal(preparo.linhas[0], "Preparo");
+  assert.deepEqual(textos.find((r) => r.ancora === "embalagem").linhas, [
+    "Embalagem",
+    "1 de 1",
+    "pessoa",
+    "embalando",
+  ]);
 });
 
-test("a descrição textual traz o momento e os totais", () => {
-  const descricao = descreverCena(
-    criarModeloCena(
-      operacao({
-        estacoes: {
-          preparo: estacao({ pessoas: 3, em_atendimento_final: 2, fila_final: 5 }),
-          embalagem: estacao({ pessoas: 1, em_atendimento_final: 1, fila_final: 4 }),
-        },
-      }),
-    ),
-  );
+test("a seleção aparece em texto, não só em cor", () => {
+  const textos = textosDaCena(criarModeloCena(operacao(), momento(), 60), "embalagem");
 
-  assert.match(descricao, /fim do turno, minuto 60/);
-  assert.match(descricao, /Preparo: 3 pessoas, 2 em atendimento, 5 na fila/);
-  assert.match(descricao, /Embalagem: 1 pessoa, 1 em atendimento, 4 na fila/);
-  assert.match(descricao, /Retirada: 18 pedidos prontos/);
+  assert.equal(textos.find((r) => r.ancora === "embalagem").linhas[0], "▶ Embalagem");
+  assert.equal(textos.find((r) => r.ancora === "preparo").linhas[0], "Preparo");
+});
+
+test("o gargalo, que é um diagnóstico do turno completo, só aparece no fim", () => {
+  const dados = operacao({ diagnostico: "gargalo_observado" });
+  const linhasNo = (minuto) =>
+    textosDaCena(criarModeloCena(dados, momento({ filaP: 9 }), minuto), null).find(
+      (r) => r.ancora === "preparo",
+    ).linhas;
+
+  assert.ok(!linhasNo(30).includes("Gargalo"));
+  assert.ok(linhasNo(60).includes("Gargalo"));
+});
+
+test("a descrição textual informa o momento e os totais dele", () => {
+  const dados = operacao({ pessoas: 3 });
+  const estado = momento({ filaP: 5, atendeP: 2, filaE: 4, atendeE: 1, prontos: 18 });
+
+  const noMeio = descreverCena(criarModeloCena(dados, estado, 12.34));
+  assert.match(noMeio, /Restaurante no minuto 12,3 de 60/);
+  assert.match(noMeio, /Preparo: 3 pessoas, 2 preparando, 5 na fila/);
+  assert.match(noMeio, /Embalagem: 1 pessoa, 1 embalando, 4 na fila/);
+  assert.match(noMeio, /Retirada: 18 pedidos prontos para retirada/);
+
+  const noFim = descreverCena(criarModeloCena(dados, estado, 60));
+  assert.match(noFim, /Restaurante ao fim do turno, minuto 60/);
 });
