@@ -79,6 +79,9 @@ async function iniciar() {
   }
 }
 
-botaoRepetir.addEventListener("click", () => repetir?.());
+botaoRepetir.addEventListener("click", () => {
+  status.focus(); // o botão some ao repetir, e quem usa o teclado não pode perder a posição
+  repetir?.();
+});
 
 iniciar();
