@@ -14,6 +14,9 @@ um turno de restaurante.
 - Restaurante isométrico em Canvas, com estações selecionáveis por clique ou por teclado.
 - Reprodução do turno a partir dos eventos, com iniciar, pausar, velocidade, relógio e etapas.
 - Orientação inicial e, no celular, navegação entre ajustar o cenário e ver os resultados.
+- Resumo do turno em linguagem simples, gerado por regras, sem IA conectada.
+- Comparação entre um cenário A guardado e o atual, com diferenças absolutas.
+- Ajuda contextual e três exemplos fictícios.
 - Explicação das fórmulas, dos custos excluídos e das hipóteses do modelo.
 
 ## Como executar
@@ -43,8 +46,9 @@ necessário para executar o simulador.
 Com o servidor em execução:
 
 - `GET /api/campos`: parâmetros, unidades, limites e valores iniciais.
-- `POST /api/simulacoes`: recebe os parâmetros e devolve `financeiro` e `operacao`, com os eventos
-  do turno. Valores monetários vêm em centavos inteiros.
+- `GET /api/exemplos`: exemplos fictícios, com todos os parâmetros.
+- `POST /api/simulacoes`: recebe os parâmetros e devolve `financeiro`, `operacao`, com os eventos do
+  turno, e `resumo`. Valores monetários vêm em centavos inteiros.
 - Entrada inválida recebe o código 422 e `{"erros": {"campo": "mensagem"}}`. Um corpo que não pode
   ser lido usa `corpo` como nome do campo.
 
@@ -61,8 +65,8 @@ Invoke-RestMethod http://127.0.0.1:8010/api/campos
   fora, assim como os custos de pedidos ainda em processo no fim do turno.
 - **Resultados:** descrevem este modelo e não são previsão de resultado real.
 - **Facilidade de uso:** ainda não foi validada com pessoas que gerenciam restaurantes.
-- **Ainda não implementado:** comparação de cenários, explicações por regras, resumo em linguagem
-  simples e exemplos prontos.
+- **Cenário A:** fica só na memória da página, e recarregar o descarta.
+- **Sem IA:** o resumo e as explicações seguem regras fixas e não dão recomendações.
 
 ## Organização
 
