@@ -77,6 +77,10 @@ existente depois de verificar o destino e abrir PRs com ferramenta autenticada d
 **Não autorizado:** merge automático, force push, apagar repositórios ou histórico, publicar
 aplicações, alterar permissões e adicionar serviços pagos.
 
+**Divisão de papéis:** o Claude Code implementa, revisa, testa e envia as alterações. A integração
+é feita pelo coordenador no ChatGPT ou pela pessoa responsável. O Claude Code não faz merge sem
+autorização dada no próprio chat.
+
 - Uma branch por entrega, com nome descritivo, a partir de `main`.
 - Commits coesos, sem atividade artificial, commits vazios ou datas falsas.
 - Revise o diff e adicione arquivos pelo nome. Evite `git add .`: a pasta pode ter trabalho de

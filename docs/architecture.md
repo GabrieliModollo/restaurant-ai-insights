@@ -53,7 +53,7 @@ Núcleo, sem dependência de HTTP
 | "Gargalo observado" exige fluxo de entrada acima do ritmo **e** fila no fim do turno | Fila passageira ou pedido em andamento não provam sobrecarga. |
 | "Menor capacidade" é um indicador separado de gargalo | Uma estação pode ser a mais lenta sem nunca formar fila. |
 | Versões fixas em `requirements.txt`, só com o necessário a cada entrega | Instalação leve e reproduzível; o clone limpo prova que o núcleo não depende de HTTP. |
-| Validação concentrada em `ParametrosSimulacao`; os cálculos confiam nela | Evita repetir regras. `executar_simulacao` exige esse tipo para deixar o contrato explícito. |
+| Validação concentrada em `ParametrosSimulacao`; os cálculos confiam nela | Evita repetir regras. O modelo é imutável, então um valor não muda depois de validado. |
 | Casas decimais conferidas com `quantize` e comparação exata | `normalize()` arredonda aos 28 dígitos do contexto padrão e deixaria passar valores inválidos. |
 | Eventos no mesmo instante: fim, depois chegada, depois início | A pessoa termina um pedido antes de começar o próximo. Isso sustentará a reprodução. |
 

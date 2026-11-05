@@ -38,8 +38,10 @@ commit. `src/analise_avaliacoes.py` aparece vazio fora de `feature/analise-avali
 
 ## Verificações executadas
 
-**Clone limpo do commit `1373ad4`**, em pasta nova, no Windows, com Python 3.15.0. Só arquivos
-commitados, sem copiar nada da pasta de trabalho:
+**Clone limpo do commit `ed90155`, o último com código**, em pasta nova, no Windows, com Python
+3.15.0. Só arquivos commitados, sem copiar nada da pasta de trabalho. Commits posteriores alteram
+apenas documentação. Um arquivo não pode citar o próprio commit, então o SHA final e o resultado do
+clone dele ficam na descrição do PR.
 
 | Verificação | Resultado |
 | --- | --- |
@@ -47,14 +49,20 @@ commitados, sem copiar nada da pasta de trabalho:
 | `pip check` | Sem dependências quebradas |
 | `api.py`, `web/` e `test_api.py` no clone | Ausentes |
 | `fastapi`, `starlette`, `uvicorn`, `httpx` e `httpx2` no ambiente | Não instalados |
-| `pytest` | 101 aprovados |
-| Cenário padrão via `executar_simulacao`, sem HTTP (no commit `0c203c4`; só testes mudaram depois) | 18 concluídos, contribuição de R$ 283,50, 96 eventos |
+| `pytest` | 102 aprovados |
 
 **Defeitos injetados de propósito**, em cópia descartável do mesmo commit: 16 de 16 detectados pelos
 testes. A primeira rodada detectou 14 e revelou duas lacunas, cobertas com novos testes. A lista é
 uma amostra das regras principais, não uma medida exaustiva.
 
-**Só na pasta de trabalho**, sem valer para a branch: `pytest` com `test_api.py` local teve 131
+**Comparação independente**, no mesmo commit, com script pontual que não está versionado:
+
+| Comparação | Resultado |
+| --- | --- |
+| Concluídos, filas e atendimentos contra outro laço de eventos, em 4.000 cenários aleatórios | 0 divergências |
+| Taxa do canal contra aritmética de frações, em 50.000 casos aleatórios | 0 divergências |
+
+**Só na pasta de trabalho**, sem valer para a branch: `pytest` com `test_api.py` local teve 132
 aprovados.
 
 ## Limitações
@@ -64,7 +72,7 @@ aprovados.
 - **Navegador:** a interface local não foi aberta. JavaScript não tem teste automatizado.
 - **Ambiente:** clone limpo verificado apenas no Windows e no Python 3.15.0.
 - **Chamadas diretas:** `simular_operacao` e `calcular_financeiro` não validam entradas. A validação
-  fica em `ParametrosSimulacao`, e `executar_simulacao` exige esse tipo.
+  fica em `ParametrosSimulacao`, o tipo que `executar_simulacao` recebe.
 - **Ainda não implementado:** Canvas, reprodução, comparação de cenários e explicações por regras.
 - **GitHub CLI:** o comando `gh` não está instalado.
 
