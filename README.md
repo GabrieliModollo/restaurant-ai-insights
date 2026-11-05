@@ -1,23 +1,28 @@
 # Restaurant AI Insights
 
 Simulador local para explorar como preço, desconto, custos, quantidade de pedidos e equipe afetam
-um turno de restaurante.
+um turno de restaurante. Foi pensado para quem gerencia um pequeno restaurante e tem pouca
+familiaridade com software.
 
-> Simulação ilustrativa com dados fictícios. **Não há modelo de IA conectado.** O simulador não usa
-> serviços pagos, chaves de API nem recursos externos para executar.
+> Simulação ilustrativa com dados fictícios. **Não há modelo de IA integrado:** o projeto foi
+> desenvolvido com assistência de IA, mas funciona só com regras e cálculos. Não usa serviços pagos,
+> chaves de API nem recursos externos para executar.
 
-## O que funciona hoje
+![Resumo do turno e comparação com o cenário A](docs/capturas/resumo-e-comparacao.jpg)
 
-- Formulário com parâmetros, unidades e limites visíveis.
-- Simulação de filas de preparo e embalagem, calculada no servidor.
-- Indicadores de conclusão, filas, espera, receita e contribuição.
-- Restaurante isométrico em Canvas, com estações selecionáveis por clique ou por teclado.
-- Reprodução do turno a partir dos eventos, com iniciar, pausar, velocidade, relógio e etapas.
-- Orientação inicial e, no celular, navegação entre ajustar o cenário e ver os resultados.
-- Resumo do turno em linguagem simples, gerado por regras, sem IA conectada.
-- Comparação entre um cenário A guardado e o atual, com diferenças absolutas.
-- Ajuda contextual e três exemplos fictícios.
-- Explicação das fórmulas, dos custos excluídos e das hipóteses do modelo.
+## Como funciona
+
+1. **Ajuste o cenário.** O formulário já vem preenchido, e há três exemplos fictícios. A quantidade de
+   pedidos é uma hipótese sua: o simulador não a estima, e o desconto não a altera.
+2. **Veja o resultado do turno.** O servidor simula as filas de preparo e embalagem e calcula os
+   resultados. Um resumo em linguagem simples, gerado por regras, mostra quantos pedidos ficaram
+   prontos e o valor que sobra após os custos por pedido.
+3. **Compare.** Guarde um cenário A, mude os valores e veja as diferenças, sem que o simulador aponte
+   um cenário melhor.
+4. **Acompanhe os pedidos.** Um restaurante isométrico em Canvas reproduz os eventos do turno, com
+   relógio, velocidade e etapas. As estações podem ser selecionadas por clique ou por teclado.
+
+![Reprodução do turno no minuto 30](docs/capturas/reproducao-minuto-30.jpg)
 
 ## Como executar
 
@@ -26,10 +31,12 @@ Requer Python 3.15. No PowerShell, a partir da raiz do projeto:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m uvicorn src.simulador.api:app --reload --port 8010
+.\.venv\Scripts\python.exe -m uvicorn src.simulador.api:app --port 8010
 ```
 
-Abra <http://127.0.0.1:8010>. Se a porta estiver ocupada, escolha outro número.
+Abra <http://127.0.0.1:8010>. Se a porta estiver ocupada, escolha outro número. Para recarregar o
+servidor ao editar o código, acrescente `--reload`. O roteiro em
+[`docs/demonstracao.md`](docs/demonstracao.md) mostra a aplicação em cerca de 5 minutos.
 
 ## Como testar
 
@@ -58,28 +65,32 @@ Invoke-RestMethod http://127.0.0.1:8010/api/campos
 
 ## Limitações
 
+- **Facilidade de uso:** ainda não validada com usuários. O roteiro do teste está em
+  [`docs/teste-de-uso.md`](docs/teste-de-uso.md).
 - **Modelo:** um único produto, chegadas em intervalos iguais e tempos constantes, sem pausas,
   cancelamentos ou desistências.
-- **Demanda:** a quantidade de pedidos é uma hipótese informada por você, e o desconto não a altera.
-- **Finanças:** contribuição não é lucro líquido. Impostos, salários, aluguel e desperdício ficam de
-  fora, assim como os custos de pedidos ainda em processo no fim do turno.
-- **Resultados:** descrevem este modelo e não são previsão de resultado real.
-- **Facilidade de uso:** ainda não foi validada com pessoas que gerenciam restaurantes.
+- **Finanças:** o valor que sobra (margem de contribuição) não é lucro líquido. Impostos, salários,
+  aluguel e desperdício ficam de fora, assim como os custos de pedidos ainda em processo no fim do
+  turno.
+- **Resultados:** descrevem este modelo. Não são previsão, recomendação nem benefício medido.
 - **Cenário A:** fica só na memória da página, e recarregar o descarta.
-- **Sem IA:** o resumo e as explicações seguem regras fixas e não dão recomendações.
+- **Reprodução:** os itens mudam de lugar no instante de cada evento, sem deslizar.
+- **Verificação:** feita no Windows, com Python 3.15 e Chrome. Os detalhes estão em
+  [`docs/progress.md`](docs/progress.md).
 
 ## Organização
 
 | Caminho | Função |
 | --- | --- |
-| `src/simulador/parametros.py` | Limites, valores iniciais e validação |
+| `src/simulador/parametros.py` | Limites, valores iniciais, validação e exemplos |
 | `src/simulador/operacao.py` | Filas, capacidade, diagnóstico e eventos |
 | `src/simulador/financeiro.py` | Cálculos em centavos |
-| `src/simulador/simulacao.py` | Executa operação e finanças em sequência |
+| `src/simulador/resumo.py` | Resumo do turno, gerado por regras |
+| `src/simulador/simulacao.py` | Executa operação, finanças e resumo em sequência |
 | `src/simulador/api.py` | Rotas e entrega da interface |
 | `src/simulador/web/` | Interface em HTML, CSS e JavaScript puro |
 | `tests/` | Testes em Python e, em `tests/js/`, em JavaScript |
-| `docs/` | Produto, backlog, arquitetura e progresso |
+| `docs/` | Produto, backlog, arquitetura, progresso, demonstração e teste de uso |
 
 O módulo de análise de avaliações fica na branch `feature/analise-avaliacoes` e não faz parte do
 simulador.
