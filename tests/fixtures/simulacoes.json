@@ -1,0 +1,1974 @@
+{
+ "padrao": {
+  "financeiro": {
+   "preco_liquido_centavos": 3500,
+   "taxa_canal_centavos": 525,
+   "contribuicao_por_pedido_centavos": 1575,
+   "receita_atendida_centavos": 63000,
+   "contribuicao_total_centavos": 28350
+  },
+  "operacao": {
+   "duracao_turno_min": 60.0,
+   "pedidos_recebidos": 20,
+   "pedidos_concluidos": 18,
+   "pedidos_pendentes": 2,
+   "pendentes": {
+    "fila_preparo": 0,
+    "em_preparo": 1,
+    "fila_embalagem": 0,
+    "em_embalagem": 1
+   },
+   "espera_media_fila_min": 0.0,
+   "tempo_total_medio_min": 7.0,
+   "estacoes": {
+    "preparo": {
+     "pessoas": 2,
+     "tempo_por_pedido_min": 5.0,
+     "capacidade_teorica_turno": 24,
+     "capacidade_teorica_hora": 24.0,
+     "finalizados": 19,
+     "fila_final": 0,
+     "em_atendimento_final": 1,
+     "fila_maxima": 0,
+     "chegada_acima_do_ritmo": false,
+     "diagnostico": "sem_fila"
+    },
+    "embalagem": {
+     "pessoas": 1,
+     "tempo_por_pedido_min": 2.0,
+     "capacidade_teorica_turno": 30,
+     "capacidade_teorica_hora": 30.0,
+     "finalizados": 18,
+     "fila_final": 0,
+     "em_atendimento_final": 1,
+     "fila_maxima": 0,
+     "chegada_acima_do_ritmo": false,
+     "diagnostico": "sem_fila"
+    }
+   },
+   "estacoes_menor_capacidade": [
+    "preparo"
+   ],
+   "gargalos_observados": [],
+   "eventos": [
+    {
+     "minuto": 0.0,
+     "tipo": "chegada",
+     "pedido": 1,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 0.0,
+     "tipo": "inicio_preparo",
+     "pedido": 1,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 3.0,
+     "tipo": "chegada",
+     "pedido": 2,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 3.0,
+     "tipo": "inicio_preparo",
+     "pedido": 2,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 5.0,
+     "tipo": "fim_preparo",
+     "pedido": 1,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 5.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 1,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 6.0,
+     "tipo": "chegada",
+     "pedido": 3,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 6.0,
+     "tipo": "inicio_preparo",
+     "pedido": 3,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 7.0,
+     "tipo": "fim_embalagem",
+     "pedido": 1,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 8.0,
+     "tipo": "fim_preparo",
+     "pedido": 2,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 8.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 2,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 9.0,
+     "tipo": "chegada",
+     "pedido": 4,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 9.0,
+     "tipo": "inicio_preparo",
+     "pedido": 4,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 10.0,
+     "tipo": "fim_embalagem",
+     "pedido": 2,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 11.0,
+     "tipo": "fim_preparo",
+     "pedido": 3,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 11.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 3,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 12.0,
+     "tipo": "chegada",
+     "pedido": 5,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 12.0,
+     "tipo": "inicio_preparo",
+     "pedido": 5,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 13.0,
+     "tipo": "fim_embalagem",
+     "pedido": 3,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 14.0,
+     "tipo": "fim_preparo",
+     "pedido": 4,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 14.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 4,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 15.0,
+     "tipo": "chegada",
+     "pedido": 6,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 15.0,
+     "tipo": "inicio_preparo",
+     "pedido": 6,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 16.0,
+     "tipo": "fim_embalagem",
+     "pedido": 4,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 17.0,
+     "tipo": "fim_preparo",
+     "pedido": 5,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 17.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 5,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 18.0,
+     "tipo": "chegada",
+     "pedido": 7,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 18.0,
+     "tipo": "inicio_preparo",
+     "pedido": 7,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 19.0,
+     "tipo": "fim_embalagem",
+     "pedido": 5,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 20.0,
+     "tipo": "fim_preparo",
+     "pedido": 6,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 20.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 6,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 21.0,
+     "tipo": "chegada",
+     "pedido": 8,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 21.0,
+     "tipo": "inicio_preparo",
+     "pedido": 8,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 22.0,
+     "tipo": "fim_embalagem",
+     "pedido": 6,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 23.0,
+     "tipo": "fim_preparo",
+     "pedido": 7,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 23.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 7,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 24.0,
+     "tipo": "chegada",
+     "pedido": 9,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 24.0,
+     "tipo": "inicio_preparo",
+     "pedido": 9,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 25.0,
+     "tipo": "fim_embalagem",
+     "pedido": 7,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 26.0,
+     "tipo": "fim_preparo",
+     "pedido": 8,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 26.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 8,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 27.0,
+     "tipo": "chegada",
+     "pedido": 10,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 27.0,
+     "tipo": "inicio_preparo",
+     "pedido": 10,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 28.0,
+     "tipo": "fim_embalagem",
+     "pedido": 8,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 29.0,
+     "tipo": "fim_preparo",
+     "pedido": 9,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 29.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 9,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 30.0,
+     "tipo": "chegada",
+     "pedido": 11,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 30.0,
+     "tipo": "inicio_preparo",
+     "pedido": 11,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 31.0,
+     "tipo": "fim_embalagem",
+     "pedido": 9,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 32.0,
+     "tipo": "fim_preparo",
+     "pedido": 10,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 32.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 10,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 33.0,
+     "tipo": "chegada",
+     "pedido": 12,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 33.0,
+     "tipo": "inicio_preparo",
+     "pedido": 12,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 34.0,
+     "tipo": "fim_embalagem",
+     "pedido": 10,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 35.0,
+     "tipo": "fim_preparo",
+     "pedido": 11,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 35.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 11,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 36.0,
+     "tipo": "chegada",
+     "pedido": 13,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 36.0,
+     "tipo": "inicio_preparo",
+     "pedido": 13,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 37.0,
+     "tipo": "fim_embalagem",
+     "pedido": 11,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 38.0,
+     "tipo": "fim_preparo",
+     "pedido": 12,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 38.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 12,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 39.0,
+     "tipo": "chegada",
+     "pedido": 14,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 39.0,
+     "tipo": "inicio_preparo",
+     "pedido": 14,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 40.0,
+     "tipo": "fim_embalagem",
+     "pedido": 12,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 41.0,
+     "tipo": "fim_preparo",
+     "pedido": 13,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 41.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 13,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 42.0,
+     "tipo": "chegada",
+     "pedido": 15,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 42.0,
+     "tipo": "inicio_preparo",
+     "pedido": 15,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 43.0,
+     "tipo": "fim_embalagem",
+     "pedido": 13,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 44.0,
+     "tipo": "fim_preparo",
+     "pedido": 14,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 44.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 14,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 45.0,
+     "tipo": "chegada",
+     "pedido": 16,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 45.0,
+     "tipo": "inicio_preparo",
+     "pedido": 16,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 46.0,
+     "tipo": "fim_embalagem",
+     "pedido": 14,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 47.0,
+     "tipo": "fim_preparo",
+     "pedido": 15,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 47.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 15,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 48.0,
+     "tipo": "chegada",
+     "pedido": 17,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 48.0,
+     "tipo": "inicio_preparo",
+     "pedido": 17,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 49.0,
+     "tipo": "fim_embalagem",
+     "pedido": 15,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 50.0,
+     "tipo": "fim_preparo",
+     "pedido": 16,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 50.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 16,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 51.0,
+     "tipo": "chegada",
+     "pedido": 18,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 51.0,
+     "tipo": "inicio_preparo",
+     "pedido": 18,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 52.0,
+     "tipo": "fim_embalagem",
+     "pedido": 16,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 53.0,
+     "tipo": "fim_preparo",
+     "pedido": 17,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 53.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 17,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 54.0,
+     "tipo": "chegada",
+     "pedido": 19,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 54.0,
+     "tipo": "inicio_preparo",
+     "pedido": 19,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 55.0,
+     "tipo": "fim_embalagem",
+     "pedido": 17,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 56.0,
+     "tipo": "fim_preparo",
+     "pedido": 18,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 56.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 18,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 57.0,
+     "tipo": "chegada",
+     "pedido": 20,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 57.0,
+     "tipo": "inicio_preparo",
+     "pedido": 20,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 58.0,
+     "tipo": "fim_embalagem",
+     "pedido": 18,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 59.0,
+     "tipo": "fim_preparo",
+     "pedido": 19,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 59.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 19,
+     "estacao": "embalagem",
+     "posto": 1
+    }
+   ]
+  }
+ },
+ "gargalo_na_embalagem": {
+  "financeiro": {
+   "preco_liquido_centavos": 3500,
+   "taxa_canal_centavos": 525,
+   "contribuicao_por_pedido_centavos": 1575,
+   "receita_atendida_centavos": 66500,
+   "contribuicao_total_centavos": 29925
+  },
+  "operacao": {
+   "duracao_turno_min": 60.0,
+   "pedidos_recebidos": 30,
+   "pedidos_concluidos": 19,
+   "pedidos_pendentes": 11,
+   "pendentes": {
+    "fila_preparo": 0,
+    "em_preparo": 0,
+    "fila_embalagem": 10,
+    "em_embalagem": 1
+   },
+   "espera_media_fila_min": 9.0,
+   "tempo_total_medio_min": 13.0,
+   "estacoes": {
+    "preparo": {
+     "pessoas": 2,
+     "tempo_por_pedido_min": 1.0,
+     "capacidade_teorica_turno": 120,
+     "capacidade_teorica_hora": 120.0,
+     "finalizados": 30,
+     "fila_final": 0,
+     "em_atendimento_final": 0,
+     "fila_maxima": 0,
+     "chegada_acima_do_ritmo": false,
+     "diagnostico": "sem_fila"
+    },
+    "embalagem": {
+     "pessoas": 1,
+     "tempo_por_pedido_min": 3.0,
+     "capacidade_teorica_turno": 20,
+     "capacidade_teorica_hora": 20.0,
+     "finalizados": 19,
+     "fila_final": 10,
+     "em_atendimento_final": 1,
+     "fila_maxima": 10,
+     "chegada_acima_do_ritmo": true,
+     "diagnostico": "gargalo_observado"
+    }
+   },
+   "estacoes_menor_capacidade": [
+    "embalagem"
+   ],
+   "gargalos_observados": [
+    "embalagem"
+   ],
+   "eventos": [
+    {
+     "minuto": 0.0,
+     "tipo": "chegada",
+     "pedido": 1,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 0.0,
+     "tipo": "inicio_preparo",
+     "pedido": 1,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 1.0,
+     "tipo": "fim_preparo",
+     "pedido": 1,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 1.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 1,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 2.0,
+     "tipo": "chegada",
+     "pedido": 2,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 2.0,
+     "tipo": "inicio_preparo",
+     "pedido": 2,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 3.0,
+     "tipo": "fim_preparo",
+     "pedido": 2,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 4.0,
+     "tipo": "fim_embalagem",
+     "pedido": 1,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 4.0,
+     "tipo": "chegada",
+     "pedido": 3,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 4.0,
+     "tipo": "inicio_preparo",
+     "pedido": 3,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 4.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 2,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 5.0,
+     "tipo": "fim_preparo",
+     "pedido": 3,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 6.0,
+     "tipo": "chegada",
+     "pedido": 4,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 6.0,
+     "tipo": "inicio_preparo",
+     "pedido": 4,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 7.0,
+     "tipo": "fim_embalagem",
+     "pedido": 2,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 7.0,
+     "tipo": "fim_preparo",
+     "pedido": 4,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 7.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 3,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 8.0,
+     "tipo": "chegada",
+     "pedido": 5,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 8.0,
+     "tipo": "inicio_preparo",
+     "pedido": 5,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 9.0,
+     "tipo": "fim_preparo",
+     "pedido": 5,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 10.0,
+     "tipo": "fim_embalagem",
+     "pedido": 3,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 10.0,
+     "tipo": "chegada",
+     "pedido": 6,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 10.0,
+     "tipo": "inicio_preparo",
+     "pedido": 6,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 10.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 4,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 11.0,
+     "tipo": "fim_preparo",
+     "pedido": 6,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 12.0,
+     "tipo": "chegada",
+     "pedido": 7,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 12.0,
+     "tipo": "inicio_preparo",
+     "pedido": 7,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 13.0,
+     "tipo": "fim_embalagem",
+     "pedido": 4,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 13.0,
+     "tipo": "fim_preparo",
+     "pedido": 7,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 13.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 5,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 14.0,
+     "tipo": "chegada",
+     "pedido": 8,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 14.0,
+     "tipo": "inicio_preparo",
+     "pedido": 8,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 15.0,
+     "tipo": "fim_preparo",
+     "pedido": 8,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 16.0,
+     "tipo": "fim_embalagem",
+     "pedido": 5,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 16.0,
+     "tipo": "chegada",
+     "pedido": 9,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 16.0,
+     "tipo": "inicio_preparo",
+     "pedido": 9,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 16.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 6,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 17.0,
+     "tipo": "fim_preparo",
+     "pedido": 9,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 18.0,
+     "tipo": "chegada",
+     "pedido": 10,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 18.0,
+     "tipo": "inicio_preparo",
+     "pedido": 10,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 19.0,
+     "tipo": "fim_embalagem",
+     "pedido": 6,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 19.0,
+     "tipo": "fim_preparo",
+     "pedido": 10,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 19.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 7,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 20.0,
+     "tipo": "chegada",
+     "pedido": 11,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 20.0,
+     "tipo": "inicio_preparo",
+     "pedido": 11,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 21.0,
+     "tipo": "fim_preparo",
+     "pedido": 11,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 22.0,
+     "tipo": "fim_embalagem",
+     "pedido": 7,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 22.0,
+     "tipo": "chegada",
+     "pedido": 12,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 22.0,
+     "tipo": "inicio_preparo",
+     "pedido": 12,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 22.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 8,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 23.0,
+     "tipo": "fim_preparo",
+     "pedido": 12,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 24.0,
+     "tipo": "chegada",
+     "pedido": 13,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 24.0,
+     "tipo": "inicio_preparo",
+     "pedido": 13,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 25.0,
+     "tipo": "fim_embalagem",
+     "pedido": 8,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 25.0,
+     "tipo": "fim_preparo",
+     "pedido": 13,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 25.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 9,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 26.0,
+     "tipo": "chegada",
+     "pedido": 14,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 26.0,
+     "tipo": "inicio_preparo",
+     "pedido": 14,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 27.0,
+     "tipo": "fim_preparo",
+     "pedido": 14,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 28.0,
+     "tipo": "fim_embalagem",
+     "pedido": 9,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 28.0,
+     "tipo": "chegada",
+     "pedido": 15,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 28.0,
+     "tipo": "inicio_preparo",
+     "pedido": 15,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 28.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 10,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 29.0,
+     "tipo": "fim_preparo",
+     "pedido": 15,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 30.0,
+     "tipo": "chegada",
+     "pedido": 16,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 30.0,
+     "tipo": "inicio_preparo",
+     "pedido": 16,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 31.0,
+     "tipo": "fim_embalagem",
+     "pedido": 10,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 31.0,
+     "tipo": "fim_preparo",
+     "pedido": 16,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 31.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 11,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 32.0,
+     "tipo": "chegada",
+     "pedido": 17,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 32.0,
+     "tipo": "inicio_preparo",
+     "pedido": 17,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 33.0,
+     "tipo": "fim_preparo",
+     "pedido": 17,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 34.0,
+     "tipo": "fim_embalagem",
+     "pedido": 11,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 34.0,
+     "tipo": "chegada",
+     "pedido": 18,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 34.0,
+     "tipo": "inicio_preparo",
+     "pedido": 18,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 34.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 12,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 35.0,
+     "tipo": "fim_preparo",
+     "pedido": 18,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 36.0,
+     "tipo": "chegada",
+     "pedido": 19,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 36.0,
+     "tipo": "inicio_preparo",
+     "pedido": 19,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 37.0,
+     "tipo": "fim_embalagem",
+     "pedido": 12,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 37.0,
+     "tipo": "fim_preparo",
+     "pedido": 19,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 37.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 13,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 38.0,
+     "tipo": "chegada",
+     "pedido": 20,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 38.0,
+     "tipo": "inicio_preparo",
+     "pedido": 20,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 39.0,
+     "tipo": "fim_preparo",
+     "pedido": 20,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 40.0,
+     "tipo": "fim_embalagem",
+     "pedido": 13,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 40.0,
+     "tipo": "chegada",
+     "pedido": 21,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 40.0,
+     "tipo": "inicio_preparo",
+     "pedido": 21,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 40.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 14,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 41.0,
+     "tipo": "fim_preparo",
+     "pedido": 21,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 42.0,
+     "tipo": "chegada",
+     "pedido": 22,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 42.0,
+     "tipo": "inicio_preparo",
+     "pedido": 22,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 43.0,
+     "tipo": "fim_embalagem",
+     "pedido": 14,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 43.0,
+     "tipo": "fim_preparo",
+     "pedido": 22,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 43.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 15,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 44.0,
+     "tipo": "chegada",
+     "pedido": 23,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 44.0,
+     "tipo": "inicio_preparo",
+     "pedido": 23,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 45.0,
+     "tipo": "fim_preparo",
+     "pedido": 23,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 46.0,
+     "tipo": "fim_embalagem",
+     "pedido": 15,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 46.0,
+     "tipo": "chegada",
+     "pedido": 24,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 46.0,
+     "tipo": "inicio_preparo",
+     "pedido": 24,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 46.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 16,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 47.0,
+     "tipo": "fim_preparo",
+     "pedido": 24,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 48.0,
+     "tipo": "chegada",
+     "pedido": 25,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 48.0,
+     "tipo": "inicio_preparo",
+     "pedido": 25,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 49.0,
+     "tipo": "fim_embalagem",
+     "pedido": 16,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 49.0,
+     "tipo": "fim_preparo",
+     "pedido": 25,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 49.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 17,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 50.0,
+     "tipo": "chegada",
+     "pedido": 26,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 50.0,
+     "tipo": "inicio_preparo",
+     "pedido": 26,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 51.0,
+     "tipo": "fim_preparo",
+     "pedido": 26,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 52.0,
+     "tipo": "fim_embalagem",
+     "pedido": 17,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 52.0,
+     "tipo": "chegada",
+     "pedido": 27,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 52.0,
+     "tipo": "inicio_preparo",
+     "pedido": 27,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 52.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 18,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 53.0,
+     "tipo": "fim_preparo",
+     "pedido": 27,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 54.0,
+     "tipo": "chegada",
+     "pedido": 28,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 54.0,
+     "tipo": "inicio_preparo",
+     "pedido": 28,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 55.0,
+     "tipo": "fim_embalagem",
+     "pedido": 18,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 55.0,
+     "tipo": "fim_preparo",
+     "pedido": 28,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 55.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 19,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 56.0,
+     "tipo": "chegada",
+     "pedido": 29,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 56.0,
+     "tipo": "inicio_preparo",
+     "pedido": 29,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 57.0,
+     "tipo": "fim_preparo",
+     "pedido": 29,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 58.0,
+     "tipo": "fim_embalagem",
+     "pedido": 19,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 58.0,
+     "tipo": "chegada",
+     "pedido": 30,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 58.0,
+     "tipo": "inicio_preparo",
+     "pedido": 30,
+     "estacao": "preparo",
+     "posto": 2
+    },
+    {
+     "minuto": 58.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 20,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 59.0,
+     "tipo": "fim_preparo",
+     "pedido": 30,
+     "estacao": "preparo",
+     "posto": 2
+    }
+   ]
+  }
+ },
+ "eventos_simultaneos": {
+  "financeiro": {
+   "preco_liquido_centavos": 3500,
+   "taxa_canal_centavos": 525,
+   "contribuicao_por_pedido_centavos": 1575,
+   "receita_atendida_centavos": 3500,
+   "contribuicao_total_centavos": 1575
+  },
+  "operacao": {
+   "duracao_turno_min": 4.0,
+   "pedidos_recebidos": 4,
+   "pedidos_concluidos": 1,
+   "pedidos_pendentes": 3,
+   "pendentes": {
+    "fila_preparo": 1,
+    "em_preparo": 1,
+    "fila_embalagem": 0,
+    "em_embalagem": 1
+   },
+   "espera_media_fila_min": 0.0,
+   "tempo_total_medio_min": 3.0,
+   "estacoes": {
+    "preparo": {
+     "pessoas": 1,
+     "tempo_por_pedido_min": 2.0,
+     "capacidade_teorica_turno": 2,
+     "capacidade_teorica_hora": 30.0,
+     "finalizados": 2,
+     "fila_final": 1,
+     "em_atendimento_final": 1,
+     "fila_maxima": 2,
+     "chegada_acima_do_ritmo": true,
+     "diagnostico": "gargalo_observado"
+    },
+    "embalagem": {
+     "pessoas": 1,
+     "tempo_por_pedido_min": 1.0,
+     "capacidade_teorica_turno": 4,
+     "capacidade_teorica_hora": 60.0,
+     "finalizados": 1,
+     "fila_final": 0,
+     "em_atendimento_final": 1,
+     "fila_maxima": 0,
+     "chegada_acima_do_ritmo": false,
+     "diagnostico": "sem_fila"
+    }
+   },
+   "estacoes_menor_capacidade": [
+    "preparo"
+   ],
+   "gargalos_observados": [
+    "preparo"
+   ],
+   "eventos": [
+    {
+     "minuto": 0.0,
+     "tipo": "chegada",
+     "pedido": 1,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 0.0,
+     "tipo": "inicio_preparo",
+     "pedido": 1,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 1.0,
+     "tipo": "chegada",
+     "pedido": 2,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 2.0,
+     "tipo": "fim_preparo",
+     "pedido": 1,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 2.0,
+     "tipo": "chegada",
+     "pedido": 3,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 2.0,
+     "tipo": "inicio_preparo",
+     "pedido": 2,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 2.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 1,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 3.0,
+     "tipo": "fim_embalagem",
+     "pedido": 1,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 3.0,
+     "tipo": "chegada",
+     "pedido": 4,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 4.0,
+     "tipo": "fim_preparo",
+     "pedido": 2,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 4.0,
+     "tipo": "inicio_preparo",
+     "pedido": 3,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 4.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 2,
+     "estacao": "embalagem",
+     "posto": 1
+    }
+   ]
+  }
+ },
+ "fim_exato": {
+  "financeiro": {
+   "preco_liquido_centavos": 3500,
+   "taxa_canal_centavos": 525,
+   "contribuicao_por_pedido_centavos": 1575,
+   "receita_atendida_centavos": 3500,
+   "contribuicao_total_centavos": 1575
+  },
+  "operacao": {
+   "duracao_turno_min": 60.0,
+   "pedidos_recebidos": 1,
+   "pedidos_concluidos": 1,
+   "pedidos_pendentes": 0,
+   "pendentes": {
+    "fila_preparo": 0,
+    "em_preparo": 0,
+    "fila_embalagem": 0,
+    "em_embalagem": 0
+   },
+   "espera_media_fila_min": 0.0,
+   "tempo_total_medio_min": 60.0,
+   "estacoes": {
+    "preparo": {
+     "pessoas": 2,
+     "tempo_por_pedido_min": 30.0,
+     "capacidade_teorica_turno": 4,
+     "capacidade_teorica_hora": 4.0,
+     "finalizados": 1,
+     "fila_final": 0,
+     "em_atendimento_final": 0,
+     "fila_maxima": 0,
+     "chegada_acima_do_ritmo": false,
+     "diagnostico": "sem_fila"
+    },
+    "embalagem": {
+     "pessoas": 1,
+     "tempo_por_pedido_min": 30.0,
+     "capacidade_teorica_turno": 2,
+     "capacidade_teorica_hora": 2.0,
+     "finalizados": 1,
+     "fila_final": 0,
+     "em_atendimento_final": 0,
+     "fila_maxima": 0,
+     "chegada_acima_do_ritmo": false,
+     "diagnostico": "sem_fila"
+    }
+   },
+   "estacoes_menor_capacidade": [
+    "embalagem"
+   ],
+   "gargalos_observados": [],
+   "eventos": [
+    {
+     "minuto": 0.0,
+     "tipo": "chegada",
+     "pedido": 1,
+     "estacao": null,
+     "posto": null
+    },
+    {
+     "minuto": 0.0,
+     "tipo": "inicio_preparo",
+     "pedido": 1,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 30.0,
+     "tipo": "fim_preparo",
+     "pedido": 1,
+     "estacao": "preparo",
+     "posto": 1
+    },
+    {
+     "minuto": 30.0,
+     "tipo": "inicio_embalagem",
+     "pedido": 1,
+     "estacao": "embalagem",
+     "posto": 1
+    },
+    {
+     "minuto": 60.0,
+     "tipo": "fim_embalagem",
+     "pedido": 1,
+     "estacao": "embalagem",
+     "posto": 1
+    }
+   ]
+  }
+ },
+ "sem_pedidos": {
+  "financeiro": {
+   "preco_liquido_centavos": 3500,
+   "taxa_canal_centavos": 525,
+   "contribuicao_por_pedido_centavos": 1575,
+   "receita_atendida_centavos": 0,
+   "contribuicao_total_centavos": 0
+  },
+  "operacao": {
+   "duracao_turno_min": 60.0,
+   "pedidos_recebidos": 0,
+   "pedidos_concluidos": 0,
+   "pedidos_pendentes": 0,
+   "pendentes": {
+    "fila_preparo": 0,
+    "em_preparo": 0,
+    "fila_embalagem": 0,
+    "em_embalagem": 0
+   },
+   "espera_media_fila_min": null,
+   "tempo_total_medio_min": null,
+   "estacoes": {
+    "preparo": {
+     "pessoas": 2,
+     "tempo_por_pedido_min": 5.0,
+     "capacidade_teorica_turno": 24,
+     "capacidade_teorica_hora": 24.0,
+     "finalizados": 0,
+     "fila_final": 0,
+     "em_atendimento_final": 0,
+     "fila_maxima": 0,
+     "chegada_acima_do_ritmo": false,
+     "diagnostico": "sem_fila"
+    },
+    "embalagem": {
+     "pessoas": 1,
+     "tempo_por_pedido_min": 2.0,
+     "capacidade_teorica_turno": 30,
+     "capacidade_teorica_hora": 30.0,
+     "finalizados": 0,
+     "fila_final": 0,
+     "em_atendimento_final": 0,
+     "fila_maxima": 0,
+     "chegada_acima_do_ritmo": false,
+     "diagnostico": "sem_fila"
+    }
+   },
+   "estacoes_menor_capacidade": [
+    "preparo"
+   ],
+   "gargalos_observados": [],
+   "eventos": []
+  }
+ }
+}
