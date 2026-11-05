@@ -19,20 +19,18 @@ Núcleo, sem dependência de HTTP
 
 ## Componentes
 
-*Núcleo* está na entrega 1. *Local* significa que o código está na pasta de trabalho, ainda
-**sem commit**; veja `docs/progress.md`.
-
 | Componente | Responsabilidade | Situação |
 | --- | --- | --- |
-| `src/simulador/parametros.py` | Limites, valores iniciais e validação | Núcleo |
-| `src/simulador/financeiro.py` | Cálculos em centavos | Núcleo |
-| `src/simulador/operacao.py` | Filas, capacidade, diagnóstico e eventos | Núcleo |
-| `src/simulador/simulacao.py` | Executa operação e finanças em sequência | Núcleo |
-| `src/simulador/api.py` | Rotas e entrega da interface | Local |
-| `src/simulador/web/js/api.js` | Comunicação HTTP | Local |
-| `src/simulador/web/js/formulario.js` | Controles e validação imediata | Local |
-| `src/simulador/web/js/indicadores.js` | Exibição dos resultados | Local |
-| `src/simulador/web/js/principal.js` | Liga formulário, API e indicadores | Local |
+| `src/simulador/parametros.py` | Limites, valores iniciais e validação | Pronto |
+| `src/simulador/financeiro.py` | Cálculos em centavos | Pronto |
+| `src/simulador/operacao.py` | Filas, capacidade, diagnóstico e eventos | Pronto |
+| `src/simulador/simulacao.py` | Executa operação e finanças em sequência | Pronto |
+| `src/simulador/api.py` | Rotas e entrega da interface | Em revisão |
+| `src/simulador/web/js/api.js` | Comunicação HTTP e descrição das falhas | Em revisão |
+| `src/simulador/web/js/execucao.js` | Só o pedido mais recente chega à tela | Em revisão |
+| `src/simulador/web/js/formulario.js` | Controles, limites e validação imediata | Em revisão |
+| `src/simulador/web/js/indicadores.js` | Exibição dos resultados | Em revisão |
+| `src/simulador/web/js/principal.js` | Liga formulário, API e indicadores | Em revisão |
 | Cena isométrica | Desenho e clique nas estações | Planejado |
 | Reprodução | Relógio e estado derivado dos eventos | Planejado |
 | Cenários | Guarda o cenário A e compara com o atual | Planejado |
@@ -56,6 +54,11 @@ Núcleo, sem dependência de HTTP
 | Validação concentrada em `ParametrosSimulacao`; os cálculos confiam nela | Evita repetir regras. O modelo é imutável, então um valor não muda depois de validado. |
 | Casas decimais conferidas com `quantize` e comparação exata | `normalize()` arredonda aos 28 dígitos do contexto padrão e deixaria passar valores inválidos. |
 | Eventos no mesmo instante: fim, depois chegada, depois início | A pessoa termina um pedido antes de começar o próximo. Isso sustentará a reprodução. |
+| Uvicorn sem extras | Requisito do projeto; instalação leve. |
+| `httpx2` só para testes | `starlette.testclient` o exige e considera o `httpx` obsoleto; conferido no código do pacote. |
+| `/docs`, `/redoc` e `/openapi.json` desligados | Essas páginas do FastAPI carregam arquivos de um CDN, e o simulador não depende de recursos externos. |
+| Cancelar o pedido anterior e também conferir se a resposta é do pedido atual | O cancelamento pode chegar tarde, com a resposta já a caminho. |
+| Lógica de JavaScript em funções testadas com `node --test` | Testa regras sem navegador e sem pacotes npm; o Node não é necessário para executar. |
 
 ## Decisões propostas
 
@@ -63,9 +66,6 @@ Serão confirmadas na entrega correspondente.
 
 | Proposta | Justificativa |
 | --- | --- |
-| Uvicorn sem extras | Requisito do projeto; instalação leve. |
-| `httpx2` só para testes | O `TestClient` da versão local do Starlette o utiliza. |
 | Canvas API nativa, sem biblioteca | Requisito do projeto; leve para 8 GB de RAM. |
-| Lógica pura de JavaScript (geometria, reprodução, comparação) separada do desenho e testada com `node --test` | Testa regras sem navegador e sem instalar pacotes npm. Node v24 já está instalado. |
 | Cenário A como cópia imutável, em memória no navegador | Não exige banco de dados; recarregar a página o descarta. |
 | Explicações geradas no servidor, em módulo Python | Ficam junto das regras e são testadas com `pytest`. |

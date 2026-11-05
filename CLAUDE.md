@@ -27,27 +27,23 @@ curta para verificar o entendimento.
 
 ## Comandos verificados
 
-PowerShell, na raiz do projeto. Python 3.15.0.
-
-**Núcleo**, verificado em clone limpo de `feat/nucleo-simulacao`, sem API nem interface:
+PowerShell, na raiz do projeto. Python 3.15.0 e Node 24. Verificados em clone limpo da branch
+`feat/api-interface`:
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m pytest
-```
-
-Na pasta de trabalho, `pytest` também executa `tests/test_api.py`, ainda sem commit. Esse resultado
-não vale para a branch: para verificá-la, use um clone limpo, com um ambiente virtual próprio.
-
-**Servidor e interface**, apenas na pasta de trabalho até a entrega 2, com o `requirements.txt` local:
-
-```powershell
-.\.venv\Scripts\python.exe -m uvicorn src.simulador.api:app --reload --port 8010
+node --test "tests/js/*.test.mjs"
+.\.venv\Scripts\python.exe -m uvicorn src.simulador.api:app --port 8010
 ```
 
 A interface abre em <http://127.0.0.1:8010>. Confira antes se a porta está livre: um servidor
-aberto em outro terminal responde no lugar do novo e pode invalidar a verificação.
+aberto em outro terminal responde no lugar do novo e pode invalidar a verificação. A opção
+`--reload` recarrega o servidor ao editar o código e serve só para desenvolvimento.
+
+Para verificar uma branch, use um clone limpo com ambiente virtual próprio: arquivos sem commit na
+pasta de trabalho podem mudar o resultado.
 
 ## Convenções
 
