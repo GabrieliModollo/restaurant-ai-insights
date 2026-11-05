@@ -120,6 +120,17 @@ test("os rótulos usam linguagem clara e mostram os totais exatos", () => {
   assert.ok(!linhas.some((linha) => linha.includes("Atend.")));
 });
 
+test("uma só pessoa na estação aparece no singular", () => {
+  const textos = textosDaCena(criarModeloCena(operacao(), momento({ atendeE: 1 }), 30), null);
+
+  assert.deepEqual(textos.find((r) => r.ancora === "embalagem").linhas, [
+    "Embalagem",
+    "1 de 1",
+    "pessoa",
+    "embalando",
+  ]);
+});
+
 test("a seleção aparece em texto, não só em cor", () => {
   const textos = textosDaCena(criarModeloCena(operacao(), momento(), 60), "embalagem");
 

@@ -72,7 +72,7 @@ function textosDaEstacao(estacao, selecionada, ehFim) {
   const linhas = [
     titulo,
     `${numero.format(ocupadas)} de ${numero.format(total)}`,
-    "pessoas",
+    total === 1 ? "pessoa" : "pessoas",
     estacao.verbo,
   ];
   // O gargalo descreve o turno completo, então não aparece no meio da reprodução.
