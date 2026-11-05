@@ -1,6 +1,12 @@
+# Servidor
+fastapi==0.162.0
+uvicorn==0.54.0
+
 # Regras do simulador
 # Fornece pydantic-core, importado diretamente em parametros.py
 pydantic==2.14.2
 
 # Testes
 pytest==9.2.0
+# Exigido por starlette.testclient, que considera o httpx obsoleto
+httpx2==2.16.0

@@ -6,8 +6,8 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | # | Entrega | Branch sugerida | Depende de | Status |
 | --- | --- | --- | --- | --- |
 | 0 | Documentação e coordenação | `docs/project-coordination` | Nenhuma | Concluída (PR #1) |
-| 1 | Núcleo financeiro e simulação | `feat/nucleo-simulacao` | 0 | Em revisão |
-| 2 | API, parâmetros e indicadores | `feat/api-interface` | 1 | Código local sem commit |
+| 1 | Núcleo financeiro e simulação | `feat/nucleo-simulacao` | 0 | Concluída (PR #2) |
+| 2 | API, parâmetros e indicadores | `feat/api-interface` | 1 | Em revisão |
 | 3 | Canvas isométrico e estações | `feat/canvas-isometrico` | 2 | Pendente |
 | 4 | Reprodução dos eventos | `feat/reproducao-eventos` | 3 | Pendente |
 | 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Pendente |
@@ -41,22 +41,27 @@ desses módulos, `requirements.txt` e `.gitignore`.
 - [x] Teste de coerência: totais reconstruídos dos eventos coincidem com os da simulação.
 - [x] Receita e contribuição contam só pedidos concluídos, com teste sem HTTP.
 - [x] Testes passam em um clone limpo da branch, sem API, interface ou dependências HTTP.
-- [ ] PR revisado e integrado pela pessoa responsável.
+- [x] PR revisado e integrado.
 
 ### 2. API, parâmetros e indicadores
 
-Arquivos: `api.py`, `web/`, `tests/test_api.py`, `README.md` e as dependências `fastapi`, `uvicorn`
-e `httpx2` em `requirements.txt`.
+Arquivos: `api.py`, `web/`, `tests/test_api.py`, `tests/js/`, `README.md` e as dependências `fastapi`,
+`uvicorn` e `httpx2` em `requirements.txt`.
 
 - [x] API devolve finanças, operação e eventos, e rejeita parâmetros inválidos com erro por campo.
-- [ ] `api.py` usa `executar_simulacao`, em vez de repetir a sequência de cálculos.
-- [ ] Testes de validação de `test_api.py` revistos para cobrir o contrato HTTP, sem repetir
-  `test_parametros.py`.
+- [x] `api.py` usa `executar_simulacao`, em vez de repetir a sequência de cálculos.
+- [x] Corpo ilegível recebe erro compreensível, e erro inesperado não expõe detalhes internos.
+- [x] Testes de `test_api.py` cobrem o contrato HTTP, sem repetir `test_parametros.py`.
 - [x] Indicadores de conclusão, filas, espera, receita e contribuição são calculados no servidor.
-- [x] Aviso de simulação ilustrativa e explicação dos custos excluídos aparecem na interface.
-- [ ] **Lacuna:** cada controle mostra seus limites antes de ocorrer um erro.
-- [ ] Interface verificada em navegador, com o resultado registrado.
-- [ ] Testes passam em um clone limpo da branch.
+- [x] Média ausente aparece como "Sem pedidos concluídos", e não como zero.
+- [x] Aviso "sem IA conectada" e explicação de contribuição, custos excluídos e demanda informada.
+- [x] Cada controle mostra seus limites antes de ocorrer um erro.
+- [x] Resposta antiga não sobrescreve o cenário mais recente; espera, falha de conexão e erro do
+  servidor têm mensagens próprias.
+- [x] Interface utilizável por teclado e sem estouro em 1920, 390 e 320 px de largura.
+- [x] Interface verificada em navegador, com o resultado registrado.
+- [x] Testes passam em um clone limpo da branch.
+- [ ] PR revisado e integrado.
 
 ### 3. Canvas isométrico e estações
 
@@ -77,7 +82,7 @@ e `httpx2` em `requirements.txt`.
 - [ ] Fixar o cenário A e comparar seus parâmetros e indicadores com o cenário atual.
 - [ ] Teste: mudar o cenário atual não altera o cenário A.
 - [ ] Explicações por regras, com teste, baseadas nos valores simulados.
-- [ ] **Lacuna:** a interface identifica as explicações como sem IA conectada.
+- [ ] As explicações por regras são identificadas como sem IA conectada.
 - [ ] Nenhum texto atribui ao desconto um aumento de demanda.
 
 ### 6. Revisão final e demonstração

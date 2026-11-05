@@ -5,78 +5,76 @@
 ## Estado atual
 
 - **Entrega 0:** integrada à `main` pelo PR #1 (merge `f9e9d24`).
-- **Entrega 1:** em revisão, na branch `feat/nucleo-simulacao`.
-- **Demais entregas:** não iniciadas nesta etapa. API e interface existem apenas localmente.
+- **Entrega 1:** integrada à `main` pelo PR #2 (merge `14fa0be`).
+- **Entrega 2:** em revisão, na branch `feat/api-interface`.
+- **Demais entregas:** não iniciadas.
 
 | Onde | O que existe |
 | --- | --- |
-| `main` | Estrutura inicial, README antigo, `CLAUDE.md` e `docs/` |
-| `feat/nucleo-simulacao` | Tudo da `main`, mais o núcleo do simulador e seus testes |
+| `main` | Núcleo do simulador, testes, `CLAUDE.md`, `docs/` e README antigo |
+| `feat/api-interface` | Tudo da `main`, mais API, interface, testes HTTP e JavaScript, e README novo |
 | `feature/analise-avaliacoes` | Módulo de resumo de avaliações; mantido separado do simulador |
 
-### Versionado na entrega 1
+### Versionado na entrega 2
 
-- `src/simulador/`: `__init__.py`, `parametros.py`, `financeiro.py`, `operacao.py`, `simulacao.py`.
-- `tests/`: `test_parametros.py`, `test_financeiro.py`, `test_operacao.py`, `test_simulacao.py`.
-- `requirements.txt`, apenas com `pydantic` e `pytest`, e `.gitignore`.
+- `src/simulador/api.py` e `src/simulador/web/`.
+- `tests/test_api.py` e `tests/js/`.
+- `README.md` e `requirements.txt`, agora com `fastapi`, `uvicorn` e `httpx2`.
 
 ### Continua local e sem commit
 
-**Risco:** estes arquivos só existem neste computador, além da cópia de segurança em
-`restaurant-ai-insights-backups`, na Área de Trabalho, conferida por hash.
-
-- `src/simulador/api.py` e `src/simulador/web/` (HTML, CSS e quatro módulos JavaScript).
-- `tests/test_api.py`.
-- `README.md`, com a documentação do simulador completo.
-- `requirements.txt` local, diferente do commitado: inclui `fastapi`, `uvicorn` e `httpx2`.
-
-### Ao trocar de branch
-
-Antes do merge da entrega 1, em outra branch, os arquivos do núcleo somem da pasta de trabalho, e a
-API local deixa de iniciar até voltar a `feat/nucleo-simulacao`. Nada se perde: eles estão no
-commit. `src/analise_avaliacoes.py` aparece vazio fora de `feature/analise-avaliacoes`.
+Nada do simulador. A cópia de segurança anterior à entrega fica em `restaurant-ai-insights-backups`,
+na Área de Trabalho, conferida por hash.
 
 ## Verificações executadas
 
-**Clone limpo do commit `ed90155`, o último com código**, em pasta nova, no Windows, com Python
-3.15.0. Só arquivos commitados, sem copiar nada da pasta de trabalho. Commits posteriores alteram
-apenas documentação. Um arquivo não pode citar o próprio commit, então o SHA final e o resultado do
-clone dele ficam na descrição do PR.
+**Clone limpo do commit `adc3178`, o último com código**, em pasta nova, no Windows, com Python
+3.15.0 e Node 24. Só arquivos commitados, sem copiar nada da pasta de trabalho. Commits posteriores
+alteram apenas documentação. Um arquivo não pode citar o próprio commit, então o SHA final e o
+resultado do clone dele ficam na descrição do PR.
 
 | Verificação | Resultado |
 | --- | --- |
-| Ambiente virtual novo e `pip install -r requirements.txt` | Sem erros |
-| `pip check` | Sem dependências quebradas |
-| `api.py`, `web/` e `test_api.py` no clone | Ausentes |
-| `fastapi`, `starlette`, `uvicorn`, `httpx` e `httpx2` no ambiente | Não instalados |
-| `pytest` | 102 aprovados |
+| Ambiente virtual novo, `pip install -r requirements.txt` e `pip check` | Sem erros |
+| `pytest` | 137 aprovados |
+| `node --test "tests/js/*.test.mjs"` | 21 aprovados |
 
-**Defeitos injetados de propósito**, em cópia descartável do mesmo commit: 16 de 16 detectados pelos
-testes. A primeira rodada detectou 14 e revelou duas lacunas, cobertas com novos testes. A lista é
-uma amostra das regras principais, não uma medida exaustiva.
+**Servidor do clone limpo**, sem `--reload`, em porta própria e no commit `150b0b4` (depois dele só
+mudou o foco do botão de repetir):
 
-**Comparação independente**, no mesmo commit, com script pontual que não está versionado:
-
-| Comparação | Resultado |
+| Verificação | Resultado |
 | --- | --- |
-| Concluídos, filas e atendimentos contra outro laço de eventos, em 4.000 cenários aleatórios | 0 divergências |
-| Taxa do canal contra aritmética de frações, em 50.000 casos aleatórios | 0 divergências |
+| `GET /` e `GET /api/campos` | 200 |
+| `POST /api/simulacoes` com o cenário padrão | 18 concluídos, contribuição de R$ 283,50, 96 eventos |
+| `POST` com desconto acima do preço e com JSON quebrado | 422 |
+| `GET /docs` | 404 |
 
-**Só na pasta de trabalho**, sem valer para a branch: `pytest` com `test_api.py` local teve 132
-aprovados.
+**Navegador:** Chrome real, com o servidor do clone limpo, entre os commits `8804f23` e `adc3178`;
+nesse intervalo só mudaram o estilo do painel e o foco do botão de repetir, ambos reverificados. Sem
+erros no console e sem recursos externos carregados.
+
+| Situação | Como foi feita | Resultado |
+| --- | --- | --- |
+| Tela de desktop | Janela de 1920 px | Sem rolagem horizontal |
+| Largura de celular | `iframe` de 390 e 320 px, não um aparelho real | Sem estouro depois de corrigir o painel em 320 px |
+| Zero pedidos | Digitação | "Sem pedidos concluídos" nas duas médias |
+| Desconto acima do preço | Digitação | Mensagem no campo e indicadores marcados como antigos |
+| Slider e botão de repetir | Só teclado | Funcionam; o foco é mantido ao repetir |
+| Resposta antiga chegando depois da nova | `fetch` alterado na página | A tela manteve o cenário mais recente |
+| Erro 500 e demora | `fetch` alterado na página, com os 10 s reais | Mensagem própria e botão de repetir |
+| Servidor parado | Processo encerrado de verdade | Mensagem de conexão; recuperou pelo botão ao voltar |
 
 ## Limitações
 
-- **Clone desta branch não inicia servidor nem interface:** isso depende da entrega 2.
-- **README na branch:** ainda é o antigo e não descreve o simulador. A atualização é da entrega 2.
-- **Navegador:** a interface local não foi aberta. JavaScript não tem teste automatizado.
-- **Ambiente:** clone limpo verificado apenas no Windows e no Python 3.15.0.
-- **Chamadas diretas:** `simular_operacao` e `calcular_financeiro` não validam entradas. A validação
-  fica em `ParametrosSimulacao`, o tipo que `executar_simulacao` recebe.
+- **Não verificado:** aparelho celular real, outros navegadores, leitor de tela e falha na primeira
+  carga dos campos dentro do navegador.
+- **Testes de JavaScript:** cobrem a lógica sem desenhar a tela. A ligação com a página foi conferida
+  só manualmente, na lista acima.
+- **Ambiente:** clone limpo verificado apenas no Windows, com Python 3.15.0.
 - **Ainda não implementado:** Canvas, reprodução, comparação de cenários e explicações por regras.
 - **GitHub CLI:** o comando `gh` não está instalado.
 
 ## Próxima tarefa
 
-**Entrega 2**, depois da revisão e do merge da entrega 1: criar `feat/api-interface` a partir da
-`main` e versionar API e interface, cumprindo os critérios de `docs/backlog.md`.
+**Entrega 3**, depois da revisão e do merge da entrega 2: Canvas isométrico e estações clicáveis, em
+`feat/canvas-isometrico`, conforme `docs/backlog.md`.
