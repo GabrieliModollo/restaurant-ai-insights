@@ -13,6 +13,18 @@
   --fundo-negativo: #fae3e0;
   --fundo-alerta: #f8ecd2;
   --raio: 10px;
+  --cena-piso: #efe7da;
+  --cena-piso-linha: #e0d6c8;
+  --cena-bloco-topo: #dcc7ad;
+  --cena-bloco-a: #b89a78;
+  --cena-bloco-b: #9c7f5f;
+  --cena-item-topo: #efc27d;
+  --cena-item-a: #cf9549;
+  --cena-item-b: #b17b34;
+  --cena-pessoa-topo: #4d7ea8;
+  --cena-pessoa-a: #3a6488;
+  --cena-pessoa-b: #2d4f6c;
+  --cena-fundo-rotulo: rgba(255, 253, 249, 0.86);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -30,6 +42,18 @@
     --fundo-positivo: #1f3a2d;
     --fundo-negativo: #47231f;
     --fundo-alerta: #40311a;
+    --cena-piso: #2e2822;
+    --cena-piso-linha: #3a332b;
+    --cena-bloco-topo: #6d5a47;
+    --cena-bloco-a: #54442f;
+    --cena-bloco-b: #443725;
+    --cena-item-topo: #e6b871;
+    --cena-item-a: #bd8843;
+    --cena-item-b: #9c6f33;
+    --cena-pessoa-topo: #8fbbdc;
+    --cena-pessoa-a: #6c9abd;
+    --cena-pessoa-b: #54809f;
+    --cena-fundo-rotulo: rgba(38, 33, 29, 0.86);
   }
 }
 
@@ -134,7 +158,8 @@ h2 {
   display: none;
 }
 
-.resultados[data-desatualizado="true"] {
+/* Os avisos e os botões da cena continuam legíveis; só os dados antigos ficam apagados. */
+.resultados[data-desatualizado="true"] > section > :not(h2, .cena-estado, .cena-botoes) {
   opacity: 0.45;
 }
 
@@ -305,6 +330,63 @@ legend {
 .status[data-estado="erro"] {
   border-color: var(--negativo);
   background: var(--fundo-negativo);
+}
+
+/* Cena isométrica */
+.cena-estado {
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 7px;
+  background: var(--fundo-alerta);
+  font-size: 0.85rem;
+}
+
+.cena-estado[data-atual="true"] {
+  background: var(--superficie-suave);
+}
+
+.cena-quadro {
+  overflow: hidden;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+  background: var(--superficie);
+}
+
+.cena-quadro canvas {
+  display: block;
+  width: 100%;
+}
+
+.cena-legenda {
+  margin-top: 0.4rem;
+  color: var(--texto-suave);
+  font-size: 0.8rem;
+}
+
+.cena-botoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+
+/* O estado aparece também no sinal escrito, e não só na cor do botão. */
+.cena-botoes .botao[aria-pressed="true"] {
+  background: var(--destaque);
+  color: var(--superficie);
+}
+
+.cena-botoes .botao[aria-pressed="true"]::before {
+  content: "▶ ";
+}
+
+.cena-detalhe {
+  margin-top: 0.6rem;
+}
+
+.cena-dica {
+  color: var(--texto-suave);
+  font-size: 0.85rem;
 }
 
 /* Indicadores */

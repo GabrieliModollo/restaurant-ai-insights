@@ -20,6 +20,7 @@ PASTA_WEB = Path(__file__).parent / "web"
 MENSAGEM_CORPO_INVALIDO = "Envie um objeto JSON válido."
 
 # Sem /docs nem /redoc: essas páginas carregam arquivos de um CDN externo.
+# Sem elas, /openapi.json fica sem uso; ele não depende de CDN e pode voltar quando for útil.
 app = FastAPI(
     title="Restaurant AI Insights: simulador",
     docs_url=None,

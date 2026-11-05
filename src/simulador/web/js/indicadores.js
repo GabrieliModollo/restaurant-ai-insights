@@ -48,7 +48,7 @@ function plural(quantidade, singular, pluralTexto) {
   return `${numero.format(quantidade)} ${quantidade === 1 ? singular : pluralTexto}`;
 }
 
-function criarCartaoEstacao(nome, estacao, temMenorCapacidade) {
+export function criarCartaoEstacao(nome, estacao, temMenorCapacidade) {
   const diagnostico = DIAGNOSTICOS[estacao.diagnostico];
   const cartao = document.createElement("article");
   cartao.className = "estacao";

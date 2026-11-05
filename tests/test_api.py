@@ -160,7 +160,7 @@ def test_rota_inexistente_nao_e_afetada_pelo_tratamento_de_erros():
     assert cliente.get("/api/nada").status_code == 404
 
 
-@pytest.mark.parametrize("rota", ["/docs", "/redoc", "/openapi.json"])
+@pytest.mark.parametrize("rota", ["/docs", "/redoc"])
 def test_paginas_de_documentacao_que_dependem_de_cdn_estao_desligadas(rota):
     assert cliente.get(rota).status_code == 404
 
@@ -174,6 +174,9 @@ def test_pagina_identifica_a_simulacao_e_explica_os_resultados():
     assert "Contribuição não é lucro líquido" in texto
     assert "Impostos, salários, aluguel e desperdício" in texto
     assert "A demanda é informada por você" in texto
+    assert 'id="cena"' in texto
+    assert 'data-estacao="preparo"' in texto
+    assert 'data-estacao="embalagem"' in texto
 
 
 @pytest.mark.parametrize(
@@ -185,6 +188,11 @@ def test_pagina_identifica_a_simulacao_e_explica_os_resultados():
         ("/js/formulario.js", "javascript"),
         ("/js/indicadores.js", "javascript"),
         ("/js/principal.js", "javascript"),
+        ("/js/cena/geometria.js", "javascript"),
+        ("/js/cena/modelo.js", "javascript"),
+        ("/js/cena/deteccao.js", "javascript"),
+        ("/js/cena/desenho.js", "javascript"),
+        ("/js/cena/pagina.js", "javascript"),
     ],
 )
 def test_arquivos_da_interface_sao_servidos_na_mesma_origem(caminho, tipo):
