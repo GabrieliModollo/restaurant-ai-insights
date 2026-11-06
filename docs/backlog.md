@@ -11,10 +11,26 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 3 | Canvas isométrico e estações | `feat/canvas-isometrico` | 2 | Concluída (PR #4) |
 | 4 | Reprodução dos eventos e primeiro uso | `feat/reproducao-eventos` | 3 | Concluída (PR #5) |
 | 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Concluída (PR #6) |
-| 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Em revisão |
+| 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Concluída (PR #7) |
+| RAI-007 | Interface intuitiva | `feat/rai-007-interface-intuitiva` | 6 | Em revisão (PR #8) |
 | — | Validação com usuários | Sem branch | Pessoas reais | Pendente |
 
 ## Classificação final dos critérios
+
+### RAI-007 — refatoração completa
+
+- [x] Inspecionar a referência PNG e a arquitetura; preservar API, cálculos e funcionalidades existentes.
+- [x] Reorganizar a experiência em seis áreas, com dashboard, ação principal de simulação e navegação com estado preservado.
+- [x] Priorizar contribuição, pedidos concluídos, tempo médio e gargalos; detalhes secundários expansíveis.
+- [x] Formulário agrupado, estados de carregamento/erro/comparação vazia e animação integrada ao Restaurante.
+- [x] Executar testes Python (176) e JavaScript (97), todos aprovados também em clone limpo de `685dc6f`, com ambiente virtual próprio e `pip check` sem erros.
+- [x] Chrome sem janela: seis áreas, dois temas e seis larguras entre 320 e 1920 px; 72 combinações sem estouro ou violações detectadas pelo axe.
+- [x] Exercitar fluxos de simulação/comparação, valores extremos, reprodução, erros e recuperação, teclado, foco, histórico e links diretos.
+- [x] Inspecionar e versionar capturas do dashboard, celular e restaurante.
+- [x] Registrar roteiro reproduzível em `docs/revisao-rai-007.md`.
+- [ ] PR revisado e integrado pela pessoa responsável.
+
+Leitor de tela, aparelho físico e validação com usuários permanecem pendentes.
 
 Conferida contra o código na revisão final. Os detalhes de cada verificação estão em
 `docs/progress.md`.

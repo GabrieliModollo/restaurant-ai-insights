@@ -198,9 +198,9 @@ def test_pagina_identifica_a_simulacao_e_explica_os_resultados():
 def test_pagina_orienta_o_primeiro_uso_e_separa_o_momento_do_turno_completo():
     texto = " ".join(cliente.get("/").text.split())
 
-    assert "Ajuste seu cenário." in texto
-    assert "Veja o resultado do turno." in texto
-    assert "Acompanhe os pedidos no restaurante." in texto
+    assert "Escolha seus números" in texto
+    assert "Entenda o resultado" in texto
+    assert "Explore a operação" in texto
     assert "Ver resultados" in texto
     assert "Resultado financeiro do turno completo" in texto
     assert 'id="reproducao-alternar"' in texto

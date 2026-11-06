@@ -291,6 +291,9 @@ export function criarCena() {
       reproducao.pausar();
     }
   });
+  document.addEventListener("rai:navegacao", (evento) => {
+    if (evento.detail !== "operacao") reproducao.pausar();
+  });
 
   new ResizeObserver(ajustarTamanho).observe(quadro);
   window.addEventListener("resize", ajustarTamanho); // o zoom muda a densidade de pixels

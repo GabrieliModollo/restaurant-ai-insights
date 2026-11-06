@@ -1,40 +1,64 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="light dark" />
-    <title>Restaurant AI Insights</title>
-    <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="estilos.css" />
-    <script type="module" src="js/principal.js"></script>
-  </head>
-  <body data-vista="ajustar">
-    <header class="cabecalho">
-      <div>
-        <h1>Restaurant AI Insights</h1>
-        <p>Teste como preço, custos e equipe afetam um turno do restaurante.</p>
-      </div>
-      <p class="aviso-ficticio">Simulação ilustrativa com dados fictícios — sem IA conectada</p>
-    </header>
-
-    <section class="guia" aria-label="Como usar">
-      <ol>
-        <li>Ajuste seu cenário.</li>
-        <li>Veja o resultado do turno.</li>
-        <li>Acompanhe os pedidos no restaurante.</li>
-      </ol>
-      <p>O cenário já vem preenchido: altere só o que quiser.</p>
-    </section>
-
-    <nav class="navegacao-movel" aria-label="Partes da página">
-      <button class="botao" type="button" data-ir-para="ajustar">Ajustar cenário</button>
-      <button class="botao" type="button" data-ir-para="resultados">Ver resultados</button>
-    </nav>
-
-    <main class="layout">
-      <section class="painel" aria-labelledby="titulo-parametros">
-        <h2 id="titulo-parametros">Seu cenário</h2>
+<head>
+ <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+ <meta name="color-scheme" content="light dark"/><title>Restaurant AI Insights</title>
+ <link rel="icon" href="data:,"/><link rel="stylesheet" href="estilos.css"/><link rel="stylesheet" href="experiencia.css"/>
+ <script type="module" src="js/principal.js"></script>
+</head>
+<body>
+ <a class="pular-conteudo" href="#titulo-parametros">Ir para o simulador</a>
+ <div class="aplicacao">
+  <aside class="barra-lateral" aria-label="Navegação principal">
+   <a class="marca" href="#inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 14a5 5 0 0 1-2-9 5 5 0 0 1 8-2 5 5 0 0 1 8 2 5 5 0 0 1-2 9v7H6Zm0 3h12M10 10v7m4-7v7"/></svg><span>Restaurant<strong>AI Insights</strong></span></a>
+   <p class="menu-rotulo">SEU ESPAÇO PARA EXPERIMENTAR</p>
+   <nav class="menu-principal" aria-label="Seções do aplicativo"><a href="#inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10 12 3l9 7M5 9v12h5v-7h4v7h5V9"/></svg><span>Visão geral</span></a><a href="#titulo-parametros"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 4 12 8-12 8Z"/></svg><span>Simulador</span></a><a href="#titulo-comparacao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 7 9-4 9 4-9 4Zm0 5 9 4 9-4M3 17l9 4 9-4"/></svg><span>Cenários</span></a><a href="#titulo-financeiro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V13h4v8m3 0V8h4v13m3 0V3h4v18"/></svg><span>Financeiro</span></a><a href="#titulo-operacao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v11h16V10M3 10l2-7h14l2 7M9 21v-7h6v7M3 10c0 3 4 3 4 0 0 3 5 3 5 0 0 3 5 3 5 0 0 3 4 3 4 0"/></svg><span>Restaurante</span></a><a href="#titulo-explicacoes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9a3 3 0 1 1 5 2c-2 1-2 2-2 3m0 3v1M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0"/></svg><span>Ajuda</span></a></nav>
+   <div class="menu-rodape"><span class="etiqueta">AMBIENTE DEMONSTRATIVO</span><p>Um turno. Muitas possibilidades.</p><small>Dados fictícios · Sem IA conectada</small></div>
+  </aside>
+  <div class="conteudo-aplicacao">
+   <header class="barra-topo"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v11h16V10M3 10l2-7h14l2 7M9 21v-7h6v7M3 10c0 3 4 3 4 0 0 3 5 3 5 0 0 3 5 3 5 0 0 3 4 3 4 0"/></svg> Restaurante exemplo</span><span class="selo">Simulador de operação</span></header>
+   <main id="conteudo" class="conteudo">
+    <div class="barra-status"><p id="status" class="status" role="status" tabindex="-1" data-estado="calculando">Carregando…</p><button id="tentar-novamente" class="botao" type="button" hidden>Tentar novamente</button></div>
+    <div id="vazio" class="estado-vazio superficie"><h2>Preparando seu primeiro cenário</h2><p>Vamos carregar os parâmetros e calcular um turno de exemplo para você explorar.</p></div>
+    <div id="resultados" class="resultados" hidden>
+     <div data-pagina="inicio">
+      <header class="boas-vindas"><div><p class="sobretitulo">DECISÕES MELHORES COMEÇAM COM PERGUNTAS</p><h1 id="inicio">Olá! Vamos explorar seu restaurante?</h1><p>Teste possibilidades para seu próximo turno.<br/>Entenda os números antes de mudar a operação.</p></div><svg class="ilustracao" viewBox="0 0 360 180" fill="none" aria-hidden="true">
+<ellipse cx="188" cy="151" rx="158" ry="20" fill="var(--fundo-positivo)"/>
+<path d="M30 150Q70 15 195 40T338 151" fill="var(--fundo-negativo)"/>
+<rect x="103" y="48" width="113" height="106" rx="13" fill="#d4213d"/>
+<path d="M132 48V35q0-20 28-20t28 20v13" stroke="#7f2639" stroke-width="9"/>
+<path d="M119 69h81" stroke="#f98694" stroke-width="3"/>
+<path d="m169 103-22 14h39l-13-24h-12m-10 0h10" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="144" cy="127" r="9" stroke="white" stroke-width="4"/><circle cx="193" cy="127" r="9" stroke="white" stroke-width="4"/>
+<path d="m218 75 59-8 18 89h-83Z" fill="#f5b680"/><path d="m232 79 1-19q11-17 24-3l4 18" stroke="#ba704e" stroke-width="6"/>
+<circle cx="254" cy="116" r="18" fill="#dc654b"/><path d="M250 105v22m8-22v22" stroke="white" stroke-width="3"/>
+<path d="M77 54 64 42m19-5-4-17M296 47l13-10" stroke="#e95870" stroke-width="5" stroke-linecap="round"/>
+</svg></header>
+      <details class="guia-recolhivel" open><summary>Primeira vez? Comece por aqui</summary><section class="guia" aria-label="Como usar"><div><h2>Comece por aqui</h2><p>Seu primeiro cenário já está pronto.</p></div><ol>
+       <li><a href="#titulo-parametros"><span class="numero-passo">1</span><span><strong>Escolha seus números</strong><small>Ajuste preço, custos e equipe</small></span><span aria-hidden="true">→</span></a></li>
+       <li><a href="#titulo-resumo"><span class="numero-passo">2</span><span><strong>Entenda o resultado</strong><small>Veja o que sobra no turno</small></span><span aria-hidden="true">→</span></a></li>
+       <li><a href="#titulo-cena"><span class="numero-passo">3</span><span><strong>Explore a operação</strong><small>Acompanhe pedidos e filas</small></span><span aria-hidden="true">→</span></a></li>
+      </ol></section></details>
+      <div class="titulo-secao"><div><h2>Visão geral da operação</h2><p>Resultados do cenário atual · turno completo</p></div><span class="selo">Dados simulados</span></div>
+      <dl class="kpis"><div class="indicador kpi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V13h4v8m3 0V8h4v13m3 0V3h4v18"/></svg><dt>Margem de contribuição</dt><dd id="kpi-contribuicao" class="valor">—</dd><dd class="nota">Valor após os custos por pedido</dd></div><div class="indicador kpi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 7h14l2 14H3Zm4 2V6a3 3 0 0 1 6 0v3"/></svg><dt>Pedidos concluídos</dt><dd id="kpi-concluidos" class="valor">—</dd><dd class="nota">Finalizados dentro do turno</dd></div><div class="indicador kpi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6v6l4 2M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0"/></svg><dt>Tempo total médio</dt><dd id="kpi-tempo" class="valor">—</dd><dd class="nota">Da chegada à embalagem pronta</dd></div><div class="indicador kpi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 7 9-4 9 4-9 4Zm0 5 9 4 9-4M3 17l9 4 9-4"/></svg><dt>Gargalos observados</dt><dd id="kpi-gargalos" class="valor">—</dd><dd class="nota">Diagnóstico do turno completo</dd></div></dl>
+      <div class="destaques"><section class="convite"><div><p class="secao-kicker">E SE VOCÊ MUDASSE ALGUMA COISA?</p><h2>Uma ideia. Um novo cenário.</h2><p>Experimente preços, custos e equipe.<br/>Veja o impacto antes de decidir.</p><a class="botao" href="#titulo-parametros"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 4 12 8-12 8Z"/></svg> Simular cenário</a></div><div class="mini-simulador" aria-hidden="true"><i></i><i></i><i></i><span>▂ ▅ █</span></div></section><section id="resumo" class="resumo superficie" aria-labelledby="titulo-resumo">
+            <p class="secao-kicker">LEITURA DO CENÁRIO</p>
+            <h2 id="titulo-resumo">O que os números estão dizendo?</h2>
+            <p id="resumo-conclusao" class="resumo-conclusao"></p>
+            <p id="resumo-pendentes"></p>
+            <p id="resumo-valor"></p>
+            <p id="resumo-bloco-atencao" class="resumo-atencao" hidden>
+              <strong>Ponto de atenção:</strong> <span id="resumo-atencao"></span>
+            </p>
+            <p id="resumo-identificacao" class="cena-dica"></p>
+          </section></div>
+      <nav class="atalhos" aria-label="Ir para uma parte dos resultados"><a href="#titulo-comparacao">Comparar cenários →</a><a href="#titulo-financeiro">Detalhar finanças →</a><a href="#titulo-operacao">Ver operação →</a><a href="#titulo-cena">Acompanhar restaurante →</a><a href="#titulo-estacoes">Consultar estações →</a></nav>
+      <p class="aviso-ficticio">Simulação ilustrativa com dados fictícios — sem IA conectada</p><p class="nota-rodape">Contribuição não é lucro líquido. Salários, impostos, aluguel e desperdício não foram descontados.</p>
+     </div>
+     <div data-pagina="simulador" hidden><div class="titulo-secao"><div><p class="sobretitulo">SIMULADOR</p><h1>Transforme uma hipótese em números.</h1><p>Um produto, um turno e os parâmetros escolhidos por você.</p></div></div><div class="simulador-layout"><section class="painel superficie" aria-labelledby="titulo-parametros">
+        <p class="secao-kicker">PASSO 1 · EXPERIMENTE</p>
+        <h2 id="titulo-parametros">Monte seu cenário</h2>
+        <p class="introducao-painel">Os valores já estão preenchidos. Ajuste sua hipótese de turno. Os resultados são atualizados a cada alteração.</p>
         <details id="exemplos" class="exemplos">
           <summary>Ver exemplos fictícios</summary>
           <p class="dica">
@@ -44,42 +68,12 @@
           <div id="lista-exemplos"></div>
           <p id="exemplo-aplicado" class="dica" role="status"></p>
         </details>
-        <form id="formulario" novalidate></form>
-        <button class="botao botao-principal somente-celular" type="button" data-ir-para="resultados">
-          Ver resultados
-        </button>
-      </section>
+        <form id="formulario" novalidate></form><div class="acoes-simulacao"><button id="simular-cenario" class="botao botao-principal" type="submit" form="formulario">Simular cenário <span aria-hidden="true">→</span></button><a href="#inicio">Ver resultados atuais</a></div>
 
-      <div class="coluna-resultados">
-        <div class="barra-status">
-          <p id="status" class="status" role="status" tabindex="-1" data-estado="calculando">
-            Carregando…
-          </p>
-          <button id="tentar-novamente" class="botao" type="button" hidden>Tentar novamente</button>
-        </div>
-
-        <div id="resultados" class="resultados" hidden>
-          <nav class="atalhos" aria-label="Ir para uma parte dos resultados">
-            <a href="#titulo-comparacao">Comparar</a>
-            <a href="#titulo-financeiro">Financeiro</a>
-            <a href="#titulo-operacao">Operação</a>
-            <a href="#titulo-cena">Restaurante</a>
-            <a href="#titulo-estacoes">Estações</a>
-          </nav>
-
-          <section id="resumo" class="resumo" aria-labelledby="titulo-resumo">
-            <h2 id="titulo-resumo">Resumo do turno completo</h2>
-            <p id="resumo-conclusao" class="resumo-conclusao"></p>
-            <p id="resumo-pendentes"></p>
-            <p id="resumo-valor"></p>
-            <p id="resumo-bloco-atencao" class="resumo-atencao" hidden>
-              <strong>Ponto de atenção:</strong> <span id="resumo-atencao"></span>
-            </p>
-            <p id="resumo-identificacao" class="cena-dica"></p>
-          </section>
-
-          <section aria-labelledby="titulo-comparacao">
-            <h2 id="titulo-comparacao">Compare com outro cenário</h2>
+      </section><aside class="dicas-simulacao superficie"><span class="icone-grande"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V13h4v8m3 0V8h4v13m3 0V3h4v18"/></svg></span><h2>Pequenas mudanças, novas perspectivas.</h2><p>Comece com os valores preenchidos. Mude um grupo de cada vez para entender seu efeito.</p><ol><li>Informe preço e demanda.</li><li>Confira os custos por pedido.</li><li>Ajuste equipe e duração do turno.</li></ol><p>O cenário já vem preenchido: altere só o que quiser.</p><a href="#titulo-comparacao">Quer comparar duas alternativas? →</a></aside></div></div>
+     <div data-pagina="comparacao" hidden><div class="titulo-secao"><div><p class="sobretitulo">CENÁRIOS</p><h1>Compare possibilidades.</h1><p>Guarde uma referência e veja o que muda. Sem escolher um vencedor por você.</p></div><a class="botao botao-principal" href="#titulo-parametros">Simular cenário</a></div><section class="superficie" aria-labelledby="titulo-comparacao">
+            <p class="secao-kicker">EXPLORE ALTERNATIVAS</p>
+            <h2 id="titulo-comparacao">E se você mudasse alguma coisa?</h2>
             <div class="comparacao-acoes">
               <div class="cena-botoes">
                 <button id="a-salvar" class="botao" type="button">Guardar como cenário A</button>
@@ -90,9 +84,8 @@
               <p id="a-anuncio" class="somente-leitor" aria-live="polite"></p>
             </div>
             <div id="a-conteudo" class="comparacao-conteudo"></div>
-          </section>
-
-          <section aria-labelledby="titulo-financeiro">
+          </section></div>
+     <div data-pagina="financeiro" hidden><div class="titulo-secao"><div><p class="sobretitulo">FINANCEIRO</p><h1>Entenda o valor que sobra.</h1><p>Receita, custos por pedido e margem de contribuição.</p></div><a class="botao botao-principal" href="#titulo-parametros">Simular cenário</a></div><section class="superficie" aria-labelledby="titulo-financeiro">
             <h2 id="titulo-financeiro">Resultado financeiro do turno completo</h2>
             <dl class="grade-indicadores grade-financeira">
               <div class="indicador indicador-destaque">
@@ -140,41 +133,10 @@
               <strong>A demanda é informada por você.</strong> A quantidade de pedidos é uma
               hipótese: o simulador não a estima, e o desconto não a altera.
             </p>
-          </section>
-
-          <section aria-labelledby="titulo-operacao">
-            <h2 id="titulo-operacao">Operação no turno completo</h2>
-            <dl class="grade-indicadores">
-              <div class="indicador">
-                <dt>Pedidos recebidos</dt>
-                <dd id="pedidos-recebidos" class="valor"></dd>
-                <dd class="nota">Hipótese informada por você</dd>
-              </div>
-              <div class="indicador">
-                <dt>Pedidos concluídos</dt>
-                <dd id="pedidos-concluidos" class="valor"></dd>
-                <dd class="nota">Embalagem terminada até o fim do turno</dd>
-              </div>
-              <div class="indicador">
-                <dt>Pedidos pendentes</dt>
-                <dd id="pedidos-pendentes" class="valor"></dd>
-                <dd id="nota-pendentes" class="nota"></dd>
-              </div>
-              <div class="indicador indicador-metade">
-                <dt>Espera média em filas</dt>
-                <dd id="espera-media" class="valor"></dd>
-                <dd class="nota">Só pedidos concluídos</dd>
-              </div>
-              <div class="indicador indicador-metade">
-                <dt>Tempo total médio</dt>
-                <dd id="tempo-medio" class="valor"></dd>
-                <dd class="nota">Da chegada à embalagem pronta</dd>
-              </div>
-            </dl>
-          </section>
-
-          <section aria-labelledby="titulo-cena">
-            <h2 id="titulo-cena">Acompanhe os pedidos no restaurante</h2>
+          </section></div>
+     <div data-pagina="operacao" hidden><div class="titulo-secao"><div><p class="sobretitulo">RESTAURANTE</p><h1>Do pedido à retirada.</h1><p>Explore a cozinha e encontre onde os pedidos esperam.</p></div><a class="botao botao-principal" href="#titulo-parametros">Simular cenário</a></div><section class="superficie cena-painel" aria-labelledby="titulo-cena">
+            <p class="secao-kicker">PASSO 3 · VISUALIZE</p>
+            <h2 id="titulo-cena">Veja como os pedidos passam pela cozinha</h2>
             <p id="cena-estado" class="cena-estado" data-atual="false"></p>
             <div id="cena-quadro" class="cena-quadro">
               <canvas id="cena" role="img">
@@ -212,13 +174,13 @@
               <p id="reproducao-anuncio" class="somente-leitor" aria-live="polite"></p>
             </div>
 
-            <ul class="cena-legenda">
+            <details class="legenda-recolhida"><summary>Como ler a cena</summary><ul class="cena-legenda">
               <li>Caixa: um pedido.</li>
               <li>Três caixas empilhadas: vários pedidos. O número escrito é o total.</li>
               <li>Figura: uma pessoa da equipe.</li>
               <li>Figura com uma caixa ao lado: pessoa preparando ou embalando.</li>
               <li>Duas figuras juntas: várias pessoas.</li>
-            </ul>
+            </ul></details>
 
             <div class="cena-botoes" role="group" aria-label="Selecionar estação">
               <button class="botao" type="button" data-estacao="preparo" aria-pressed="false">
@@ -229,9 +191,36 @@
               </button>
             </div>
             <div id="cena-detalhe" class="cena-detalhe" aria-live="polite"></div>
-          </section>
-
-          <section aria-labelledby="titulo-estacoes">
+          </section><details class="dados-operacao superficie"><summary>Indicadores e estações do turno completo</summary><section class="superficie" aria-labelledby="titulo-operacao">
+            <h2 id="titulo-operacao">Operação no turno completo</h2>
+            <dl class="grade-indicadores">
+              <div class="indicador">
+                <dt>Pedidos recebidos</dt>
+                <dd id="pedidos-recebidos" class="valor"></dd>
+                <dd class="nota">Hipótese informada por você</dd>
+              </div>
+              <div class="indicador">
+                <dt>Pedidos concluídos</dt>
+                <dd id="pedidos-concluidos" class="valor"></dd>
+                <dd class="nota">Embalagem terminada até o fim do turno</dd>
+              </div>
+              <div class="indicador">
+                <dt>Pedidos pendentes</dt>
+                <dd id="pedidos-pendentes" class="valor"></dd>
+                <dd id="nota-pendentes" class="nota"></dd>
+              </div>
+              <div class="indicador indicador-metade">
+                <dt>Espera média em filas</dt>
+                <dd id="espera-media" class="valor"></dd>
+                <dd class="nota">Só pedidos concluídos</dd>
+              </div>
+              <div class="indicador indicador-metade">
+                <dt>Tempo total médio</dt>
+                <dd id="tempo-medio" class="valor"></dd>
+                <dd class="nota">Da chegada à embalagem pronta</dd>
+              </div>
+            </dl>
+          </section><section class="superficie" aria-labelledby="titulo-estacoes">
             <h2 id="titulo-estacoes">Estações no turno completo</h2>
             <details class="ajuda">
               <summary>O que é capacidade estimada?</summary>
@@ -253,10 +242,8 @@
               </ul>
             </details>
             <div id="estacoes" class="grade-estacoes"></div>
-          </section>
-        </div>
-
-        <section class="explicacoes" aria-labelledby="titulo-explicacoes">
+          </section></details></div>
+     <div data-pagina="ajuda" hidden><div class="titulo-secao"><div><p class="sobretitulo">AJUDA</p><h1>Números claros. Decisões conscientes.</h1><p>Conheça as regras e os limites desta simulação.</p></div></div><section class="explicacoes superficie" aria-labelledby="titulo-explicacoes">
           <h2 id="titulo-explicacoes">Como ler estes números</h2>
 
           <details>
@@ -310,12 +297,9 @@
               <li>O resultado descreve este modelo. Não é previsão nem garantia de resultado real.</li>
             </ul>
           </details>
-        </section>
-
-        <button class="botao somente-celular" type="button" data-ir-para="ajustar">
-          Ajustar cenário
-        </button>
-      </div>
-    </main>
-  </body>
-</html>
+        </section></div>
+    </div>
+   </main>
+  </div>
+ </div>
+</body></html>
