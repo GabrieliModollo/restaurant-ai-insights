@@ -4,7 +4,8 @@
 
 ## RAI-007 — interface intuitiva
 
-Em revisão no PR #8, branch `feat/rai-007-interface-intuitiva`, sem merge na `main`.
+Integrada à `main` pelo PR #8, merge `0cd6855`, autorizado pela pessoa responsável.
+README ampliado no commit `fdefd36`. Merge com autoria `GabrieliModollo`, sem coautoria.
 As entregas 0 a 6 estão integradas (PR #7: `3a9ff71`). O histórico abaixo registra a revisão anterior do MVP.
 
 Refatoração completa implementada no commit `685dc6f`, substituindo a primeira etapa visual anterior.
@@ -34,7 +35,7 @@ as ferramentas de navegador opcionais vieram da instalação local de revisão.
 
 Roteiro e limitações em `docs/revisao-rai-007.md`. Leitor de tela, aparelho físico, toque, zoom real,
 outros navegadores e pessoas reais permanecem pendentes. A verificação técnica não comprova
-usabilidade com usuários. Próximo passo: revisão do PR #8 pela pessoa responsável, sem merge automático.
+usabilidade com usuários. Próximo passo: conduzir as sessões de `docs/teste-de-uso.md` com pessoas reais.
 
 ## Histórico do MVP — estado em 2026-11-04
 

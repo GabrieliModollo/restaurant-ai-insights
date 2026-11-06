@@ -12,7 +12,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 4 | Reprodução dos eventos e primeiro uso | `feat/reproducao-eventos` | 3 | Concluída (PR #5) |
 | 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Concluída (PR #6) |
 | 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Concluída (PR #7) |
-| RAI-007 | Interface intuitiva | `feat/rai-007-interface-intuitiva` | 6 | Em revisão (PR #8) |
+| RAI-007 | Interface intuitiva | `feat/rai-007-interface-intuitiva` | 6 | Concluída (PR #8, merge `0cd6855`) |
 | — | Validação com usuários | Sem branch | Pessoas reais | Pendente |
 
 ## Classificação final dos critérios
@@ -28,7 +28,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 - [x] Exercitar fluxos de simulação/comparação, valores extremos, reprodução, erros e recuperação, teclado, foco, histórico e links diretos.
 - [x] Inspecionar e versionar capturas do dashboard, celular e restaurante.
 - [x] Registrar roteiro reproduzível em `docs/revisao-rai-007.md`.
-- [ ] PR revisado e integrado pela pessoa responsável.
+- [x] PR revisado e integrado com autorização da pessoa responsável (merge `0cd6855`).
 
 Leitor de tela, aparelho físico e validação com usuários permanecem pendentes.
 
