@@ -1,0 +1,80 @@
+/* RAI-007: camada visual sem alterar os contratos existentes. */
+:root {
+  --fundo:#f5f7fb;--superficie:#fff;--superficie-suave:#f1f5f9;
+  --texto:#18243a;--texto-suave:#65738a;--linha:#e2e8f0;
+  --destaque:#3559b7;--positivo:#187451;--negativo:#b52c45;
+  --alerta:#895b14;--fundo-positivo:#e5f5ee;--fundo-negativo:#fbe9ed;
+  --fundo-alerta:#fff4df;--raio:16px;
+}
+@media (prefers-color-scheme:dark) {
+  :root {
+    --fundo:#111827;--superficie:#1d293b;--superficie-suave:#26354b;
+    --texto:#f1f5fa;--texto-suave:#b3c1d5;--linha:#35445a;
+    --destaque:#9db8ff;--positivo:#86d7b1;--negativo:#ff9cac;
+    --alerta:#f5c779;--fundo-positivo:#173d31;--fundo-negativo:#4b2631;
+    --fundo-alerta:#483920;
+  }
+}
+html {scroll-behavior:smooth;scroll-padding-top:1.25rem}
+body {line-height:1.55}
+.aplicacao {display:grid;grid-template-columns:242px minmax(0,1fr);min-height:100vh}
+.barra-lateral {position:sticky;top:0;height:100vh;padding:1.65rem 1rem;display:flex;flex-direction:column;gap:2.25rem;background:var(--superficie);border-right:1px solid var(--linha)}
+.marca {display:flex;align-items:center;gap:.75rem;padding:.4rem .6rem;color:var(--texto);font-size:1.03rem;font-weight:650;text-decoration:none;line-height:1.3}
+.marca strong {display:block}
+.marca-simbolo {display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:#e5edff;color:#294baf;font-size:1.8rem}
+.menu-rotulo,.secao-kicker,.sobretitulo {color:var(--texto-suave);font-size:.73rem;letter-spacing:.09em;font-weight:800}
+.menu-rotulo {padding-left:.85rem;margin-bottom:-1.4rem}
+.menu-principal {display:grid;gap:.4rem}
+.menu-principal a {display:flex;align-items:center;gap:.65rem;padding:.75rem .85rem;border-radius:12px;text-decoration:none;color:var(--texto-suave);font-weight:600}
+.menu-principal a:hover,.menu-principal a:focus-visible,.menu-principal a[aria-current] {background:var(--superficie-suave);color:var(--destaque)}
+.menu-rodape {margin-top:auto;padding:1rem;background:var(--superficie-suave);border-radius:12px;font-size:.82rem}
+.menu-rodape p {margin-top:.2rem;color:var(--texto-suave)}
+.conteudo-aplicacao {min-width:0}
+.cabecalho,.guia,.layout,.navegacao-movel {max-width:1500px}
+.cabecalho {padding:2rem 2rem 1rem;align-items:flex-start}
+.cabecalho h1 {font-size:clamp(1.65rem,2.6vw,2.45rem);letter-spacing:-.04em;margin:.3rem 0 .45rem}
+.cabecalho h1 span {color:#d89d4c}
+.cabecalho p:not(.aviso-ficticio) {max-width:650px}
+.aviso-ficticio {border-color:var(--linha);background:var(--superficie);color:var(--texto-suave);border-radius:999px;font-size:.75rem}
+.guia {margin:0 auto;padding:0 2rem 1.2rem}
+.guia {background:transparent}
+.guia-titulo {display:flex;align-items:center;gap:.9rem;margin-bottom:1rem}
+.guia-titulo h2 {font-size:1.15rem;margin:0}
+.guia-titulo p {font-size:.85rem}
+.guia-icone {display:grid;place-items:center;width:43px;height:43px;background:#e9efff;color:#3559b7;border-radius:13px;font-size:1.4rem}
+.guia ol {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:0;gap:.75rem;list-style:none}
+.guia li a {display:flex;gap:.75rem;align-items:center;height:100%;padding:1rem;background:var(--superficie);border:1px solid var(--linha);border-radius:var(--raio);text-decoration:none;color:var(--texto);transition:border-color .2s,transform .2s}
+.guia li a:hover {border-color:var(--destaque);transform:translateY(-2px)}
+.guia li strong,.guia li small {display:block}
+.guia li small {color:var(--texto-suave);font-weight:400;margin-top:.2rem;font-size:.77rem}
+.numero-passo {display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:50%;background:#e5edff;color:#294baf;font-weight:800}
+.guia>p {margin-top:.65rem}
+.layout {padding:0 2rem 3rem;grid-template-columns:minmax(285px,340px) minmax(0,1fr);gap:1.25rem}
+.painel {top:1rem;border-radius:20px;padding:1.4rem;box-shadow:0 8px 30px rgba(17,36,65,.04)}
+.painel h2 {font-size:1.4rem;letter-spacing:-.025em}
+.introducao-painel {color:var(--texto-suave);font-size:.88rem;margin-bottom:1.1rem}
+.coluna-resultados>section,.resultados>section,.explicacoes {border:1px solid var(--linha);border-radius:20px;background:var(--superficie);padding:1.3rem;box-shadow:0 8px 30px rgba(17,36,65,.035)}
+.resultados>section h2,.explicacoes h2 {font-size:1.18rem;letter-spacing:-.02em}
+.resultados>section.resumo {background:linear-gradient(115deg,var(--superficie),var(--superficie-suave));border-color:var(--linha)}
+.resumo-conclusao {font-size:1.22rem}
+.indicador,.estacao {border-radius:14px;box-shadow:0 2px 10px rgba(17,36,65,.025)}
+.indicador-destaque {background:var(--superficie-suave)}
+.indicador .valor {letter-spacing:-.035em}
+.botao {border-radius:10px;padding:.55rem .85rem}
+.botao-principal {background:#3559b7;border-color:#3559b7;color:#fff}
+.botao-principal:hover {background:#294897}
+.barra-status {padding:.3rem 0}
+.rotulo-atualizacao {font-size:.76rem;font-weight:700;color:var(--texto-suave)}
+.status {background:transparent;border:0;padding:.2rem 0;color:var(--texto-suave);font-size:.82rem}
+.atalhos {display:flex;flex-wrap:wrap;gap:.45rem}
+.atalhos a {padding:.4rem .75rem;border-radius:999px;background:var(--superficie-suave);text-decoration:none;font-size:.78rem}
+.exemplos {background:var(--superficie-suave);border-radius:12px;padding:.75rem}
+.controle label {font-size:.87rem}
+.entrada-numero {background:var(--superficie)}
+.pular-conteudo {position:absolute;left:-10000px;top:0;background:var(--superficie);padding:.75rem;z-index:100}
+.pular-conteudo:focus {left:1rem;top:1rem}
+:focus-visible {outline:3px solid var(--destaque);outline-offset:3px}
+@media(max-width:1100px) {.aplicacao {grid-template-columns:1fr}.barra-lateral {position:static;height:auto;padding:1rem 1.5rem;gap:.6rem}.menu-principal {display:flex;overflow-x:auto}.menu-principal a {white-space:nowrap}.menu-rotulo,.menu-rodape {display:none}}
+@media(max-width:860px) {.layout {grid-template-columns:minmax(0,1fr)}.guia ol {grid-template-columns:1fr}.painel {position:static;max-height:none;overflow:visible}.navegacao-movel {display:flex}.somente-celular {display:block}.atalhos {display:flex}body[data-vista="ajustar"] .coluna-resultados,body[data-vista="resultados"] .painel {display:none}}
+@media(max-width:560px) {.cabecalho {padding:1.4rem 1rem .75rem}.guia {padding:0 1rem 1rem}.layout {padding:0 1rem 2rem}.barra-lateral {padding:.8rem 1rem}.marca {font-size:.9rem}.menu-principal a {padding:.45rem .65rem;font-size:.8rem}.menu-principal {gap:.1rem}.coluna-resultados>section,.resultados>section,.explicacoes {padding:1rem}.aviso-ficticio {font-size:.72rem}.guia-titulo {align-items:flex-start}}
+@media(prefers-reduced-motion:reduce) {html {scroll-behavior:auto}.guia li a {transition:none}.guia li a:hover {transform:none}}
