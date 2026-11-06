@@ -21,6 +21,8 @@ const comparacao = criarComparacao();
 let formulario;
 let temporizador;
 let repetir = null;
+let abrirResultado = false;
+const botaoSimular = document.getElementById("simular-cenario");
 
 function definirStatus(estado, texto) {
   status.dataset.estado = estado;
@@ -30,6 +32,12 @@ function definirStatus(estado, texto) {
   botaoRepetir.hidden = estado !== "erro";
   cena.definirEstado(estado);
   comparacao.definirSituacao(estado);
+  botaoSimular.disabled = estado === "calculando" || !formulario;
+  botaoSimular.textContent = estado === "calculando" ? "Calculando…" : "Simular cenário →";
+  const vazio = document.getElementById("vazio");
+  vazio.hidden = !resultados.hidden;
+  vazio.querySelector("h2").textContent = estado === "erro" ? "Não foi possível carregar o cenário" : "Preparando seu primeiro cenário";
+  vazio.querySelector("p").textContent = estado === "erro" ? "Verifique a conexão com o servidor e use Tentar novamente acima. Seus dados serão preservados." : "Vamos carregar os parâmetros e calcular um turno de exemplo para você explorar.";
 }
 
 function mostrarFalha(erro, acaoDeRepetir) {
@@ -50,8 +58,14 @@ const executor = criarExecutor({
     cena.atualizar(resultado.operacao);
     comparacao.registrar(parametros, resultado);
     definirStatus("atualizado", "Indicadores calculados pelo servidor para os parâmetros atuais.");
+    if (abrirResultado) {
+      abrirResultado = false;
+      location.hash = "inicio";
+    }
   },
   aoErro(erro) {
+    if (abrirResultado) status.focus();
+    abrirResultado = false;
     if (erro instanceof ErroDeValidacao) {
       formulario.mostrarErros(erro.erros);
       const motivo = erro.erros.corpo ?? "O servidor rejeitou os parâmetros.";
@@ -67,6 +81,7 @@ function agendarSimulacao() {
   executor.cancelar();
 
   if (!formulario.validar()) {
+    abrirResultado = false;
     definirStatus("desatualizado", `Corrija os campos destacados. ${AVISO_ULTIMO_CENARIO}`);
     return;
   }
@@ -103,6 +118,14 @@ async function iniciar() {
 }
 
 criarNavegacao();
+
+document.getElementById("formulario").addEventListener("submit", evento => {
+  evento.preventDefault();
+  if (!formulario) return;
+  abrirResultado = true;
+  agendarSimulacao();
+  document.querySelector('[aria-invalid="true"]')?.focus();
+});
 
 botaoRepetir.addEventListener("click", () => {
   status.focus(); // o botão some ao repetir, e quem usa o teclado não pode perder a posição

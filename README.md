@@ -8,21 +8,25 @@ familiaridade com software.
 > desenvolvido com assistência de IA, mas funciona só com regras e cálculos. Não usa serviços pagos,
 > chaves de API nem recursos externos para executar.
 
-![Resumo do turno e comparação com o cenário A](docs/capturas/resumo-e-comparacao.jpg)
+![Dashboard com indicadores e acesso ao simulador](docs/capturas/dashboard-rai-007.png)
+
+A interface está organizada em **Visão geral, Simulador, Cenários, Financeiro, Restaurante e Ajuda**.
+Os indicadores principais aparecem no dashboard. Os detalhes ficam nas áreas correspondentes,
+preservando os valores ao navegar. No celular, o guia inicial fica recolhido.
 
 ## Como funciona
 
-1. **Ajuste o cenário.** O formulário já vem preenchido, e há três exemplos fictícios. A quantidade de
+1. **Ajuste o cenário em Simulador.** O formulário já vem preenchido, e há três exemplos fictícios. A quantidade de
    pedidos é uma hipótese sua: o simulador não a estima, e o desconto não a altera.
-2. **Veja o resultado do turno.** O servidor simula as filas de preparo e embalagem e calcula os
+2. **Clique em Simular cenário para ver o dashboard.** O servidor simula as filas de preparo e embalagem e calcula os
    resultados. Um resumo em linguagem simples, gerado por regras, mostra quantos pedidos ficaram
    prontos e o valor que sobra após os custos por pedido.
-3. **Compare.** Guarde um cenário A, mude os valores e veja as diferenças, sem que o simulador aponte
+3. **Compare em Cenários.** Guarde um cenário A, mude os valores no Simulador e veja as diferenças, sem que o simulador aponte
    um cenário melhor.
-4. **Acompanhe os pedidos.** Um restaurante isométrico em Canvas reproduz os eventos do turno, com
+4. **Acompanhe os pedidos em Restaurante.** Um restaurante isométrico em Canvas reproduz os eventos do turno, com
    relógio, velocidade e etapas. As estações podem ser selecionadas por clique ou por teclado.
 
-![Reprodução do turno no minuto 30](docs/capturas/reproducao-minuto-30.jpg)
+![Restaurante com reprodução e seleção de estação](docs/capturas/restaurante-rai-007.png)
 
 ## Como executar
 
@@ -47,6 +51,9 @@ node --test "tests/js/*.test.mjs"
 
 O segundo comando testa a lógica do JavaScript. Ele usa só o Node.js, sem pacotes npm, e não é
 necessário para executar o simulador.
+
+O roteiro opcional de navegador verifica as seis áreas, responsividade, axe e fluxos completos.
+As instruções estão em [`docs/revisao-rai-007.md`](docs/revisao-rai-007.md).
 
 ## API
 

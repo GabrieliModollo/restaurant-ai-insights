@@ -88,7 +88,10 @@ export function criarComparacao() {
     }
 
     if (!temA || !controle.ultimo) {
-      conteudo.replaceChildren();
+      conteudo.replaceChildren(criar("div", { className: "comparacao-vazia" },
+        criar("h3", { textContent: "Sua próxima comparação começa aqui" }),
+        criar("p", { textContent: "Guarde o cenário atual como A. Depois, abra o simulador, ajuste os valores e volte para conferir as diferenças." }),
+      ));
       return;
     }
 

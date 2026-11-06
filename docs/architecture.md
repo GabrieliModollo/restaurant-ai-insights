@@ -81,3 +81,9 @@ Núcleo, sem dependência de HTTP
 | Resumo gerado no servidor, em módulo Python | Fica junto das regras e é testado com `pytest`. |
 | Comparação só com diferenças absolutas, sem apontar um cenário melhor | O melhor depende do que a pessoa valoriza, e percentuais não existem quando a base é zero. |
 | Exemplos guardam só parâmetros | O resultado passa pelo fluxo normal, sem cálculos paralelos que possam divergir. |
+| RAI-007: seis áreas locais, identificadas por âncoras, com `hidden` nas inativas | Encurta cada tela, permite links diretos e histórico, sem framework, build ou recarga que descarte o formulário e o cenário A. |
+| Navegação controla foco, título da página e `aria-current` | A área visível e a posição de teclado acompanham o destino, inclusive em detalhes recolhidos. |
+| Botão Simular cenário recalcula e abre a visão geral; edição continua com atualização automática | Torna a ação principal explícita sem remover o retorno imediato dos controles existentes. Só a ação explícita troca a área. |
+| Cena pausa ao sair de Restaurante | Não mantém reprodução invisível consumindo quadros; o Canvas continua montado e redimensiona ao voltar. |
+| Indicadores do dashboard apenas formatam valores e diagnósticos da API | Não acrescenta regras financeiras, estimativas de lucro ou IA fictícia. |
+| Playwright e axe opcionais em pasta ignorada | Verificação reproduzível em Chrome sem adicionar dependências de execução ao produto. |

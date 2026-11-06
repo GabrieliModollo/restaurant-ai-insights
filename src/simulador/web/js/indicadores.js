@@ -111,6 +111,14 @@ function renderizarResumo(resumo) {
 
 export function renderizarResultado({ financeiro, operacao, resumo }) {
   renderizarResumo(resumo);
+  definirMoeda("kpi-contribuicao", financeiro.contribuicao_total_centavos);
+  definirTexto("kpi-concluidos", numero.format(operacao.pedidos_concluidos));
+  definirMedia("kpi-tempo", operacao.tempo_total_medio_min);
+  const gargalos = Object.entries(operacao.estacoes)
+    .filter(([, estacao]) => estacao.diagnostico === "gargalo_observado")
+    .map(([nome]) => NOMES_ESTACOES[nome]);
+  definirTexto("kpi-gargalos", gargalos.join(" e ") || "Nenhum");
+  document.getElementById("kpi-gargalos").classList.add("valor-texto");
   definirMoeda("contribuicao-total", financeiro.contribuicao_total_centavos);
   definirMoeda("contribuicao-por-pedido", financeiro.contribuicao_por_pedido_centavos);
   definirMoeda("receita-atendida", financeiro.receita_atendida_centavos);
