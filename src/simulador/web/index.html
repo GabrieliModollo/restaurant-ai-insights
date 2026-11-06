@@ -7,22 +7,40 @@
     <title>Restaurant AI Insights</title>
     <link rel="icon" href="data:," />
     <link rel="stylesheet" href="estilos.css" />
+    <link rel="stylesheet" href="experiencia.css" />
     <script type="module" src="js/principal.js"></script>
   </head>
   <body data-vista="ajustar">
+    <a class="pular-conteudo" href="#titulo-parametros">Ir para o simulador</a>
+    <div class="aplicacao">
+    <aside class="barra-lateral" aria-label="Navegação principal">
+      <a class="marca" href="#inicio"><span class="marca-simbolo" aria-hidden="true">◈</span><span>Restaurant <strong>AI Insights</strong></span></a>
+      <p class="menu-rotulo">ESPAÇO DE TRABALHO</p>
+      <nav class="menu-principal" aria-label="Seções do aplicativo">
+        <a href="#inicio" aria-current="page">⌂ <span>Visão geral</span></a>
+        <a href="#titulo-parametros">◫ <span>Simular cenário</span></a>
+        <a href="#titulo-financeiro">▥ <span>Resultado financeiro</span></a>
+        <a href="#titulo-operacao">▤ <span>Operação</span></a>
+        <a href="#titulo-comparacao">⇄ <span>Comparar cenários</span></a>
+      </nav>
+      <div class="menu-rodape"><strong>Projeto demonstrativo</strong><p>Dados fictícios · Sem IA integrada</p></div>
+    </aside>
+    <div class="conteudo-aplicacao" id="inicio">
     <header class="cabecalho">
       <div>
-        <h1>Restaurant AI Insights</h1>
-        <p>Teste como preço, custos e equipe afetam um turno do restaurante.</p>
+        <p class="sobretitulo">PAINEL DO RESTAURANTE</p>
+        <h1>Entenda melhor seu restaurante <span aria-hidden="true">✦</span></h1>
+        <p>Experimente decisões de preço, custos e equipe e veja o impacto em um turno simulado.</p>
       </div>
       <p class="aviso-ficticio">Simulação ilustrativa com dados fictícios — sem IA conectada</p>
     </header>
 
     <section class="guia" aria-label="Como usar">
+      <div class="guia-titulo"><span class="guia-icone" aria-hidden="true">✦</span><div><h2>Comece por aqui</h2><p>Não precisa saber de finanças ou tecnologia. São só três passos.</p></div></div>
       <ol>
-        <li>Ajuste seu cenário.</li>
-        <li>Veja o resultado do turno.</li>
-        <li>Acompanhe os pedidos no restaurante.</li>
+        <li><a href="#titulo-parametros"><span class="numero-passo">1</span><span><strong>Escolha seus números</strong><small>Use os valores prontos ou ajuste o que quiser.</small></span></a></li>
+        <li><a href="#titulo-resumo"><span class="numero-passo">2</span><span><strong>Entenda o resultado</strong><small>Veja quantos pedidos foram concluídos e quanto sobrou.</small></span></a></li>
+        <li><a href="#titulo-cena"><span class="numero-passo">3</span><span><strong>Explore a operação</strong><small>Observe as filas e compare alternativas.</small></span></a></li>
       </ol>
       <p>O cenário já vem preenchido: altere só o que quiser.</p>
     </section>
@@ -34,7 +52,9 @@
 
     <main class="layout">
       <section class="painel" aria-labelledby="titulo-parametros">
-        <h2 id="titulo-parametros">Seu cenário</h2>
+        <p class="secao-kicker">PASSO 1 · EXPERIMENTE</p>
+        <h2 id="titulo-parametros">Monte seu cenário</h2>
+        <p class="introducao-painel">Os valores já estão preenchidos. Mude um item por vez e acompanhe os resultados ao lado.</p>
         <details id="exemplos" class="exemplos">
           <summary>Ver exemplos fictícios</summary>
           <p class="dica">
@@ -52,6 +72,7 @@
 
       <div class="coluna-resultados">
         <div class="barra-status">
+          <span class="rotulo-atualizacao">● Resultado da simulação</span>
           <p id="status" class="status" role="status" tabindex="-1" data-estado="calculando">
             Carregando…
           </p>
@@ -68,7 +89,8 @@
           </nav>
 
           <section id="resumo" class="resumo" aria-labelledby="titulo-resumo">
-            <h2 id="titulo-resumo">Resumo do turno completo</h2>
+            <p class="secao-kicker">PASSO 2 · ENTENDA</p>
+            <h2 id="titulo-resumo">O que aconteceu neste turno?</h2>
             <p id="resumo-conclusao" class="resumo-conclusao"></p>
             <p id="resumo-pendentes"></p>
             <p id="resumo-valor"></p>
@@ -79,7 +101,8 @@
           </section>
 
           <section aria-labelledby="titulo-comparacao">
-            <h2 id="titulo-comparacao">Compare com outro cenário</h2>
+            <p class="secao-kicker">EXPLORE ALTERNATIVAS</p>
+            <h2 id="titulo-comparacao">E se você mudasse alguma coisa?</h2>
             <div class="comparacao-acoes">
               <div class="cena-botoes">
                 <button id="a-salvar" class="botao" type="button">Guardar como cenário A</button>
@@ -174,7 +197,8 @@
           </section>
 
           <section aria-labelledby="titulo-cena">
-            <h2 id="titulo-cena">Acompanhe os pedidos no restaurante</h2>
+            <p class="secao-kicker">PASSO 3 · VISUALIZE</p>
+            <h2 id="titulo-cena">Veja como os pedidos passam pela cozinha</h2>
             <p id="cena-estado" class="cena-estado" data-atual="false"></p>
             <div id="cena-quadro" class="cena-quadro">
               <canvas id="cena" role="img">
@@ -317,5 +341,7 @@
         </button>
       </div>
     </main>
+    </div>
+    </div>
   </body>
 </html>
