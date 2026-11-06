@@ -53,7 +53,8 @@ Além de calcular a meta financeira, o servidor simula o maior volume de pedidos
 por `CAMPOS` (atualmente 1.000), com equipe, tempos e duração da hipótese promocional.
 
 Esse resultado é um teto de conclusões **dentro deste modelo**: aumentando N, a chegada do k-ésimo
-pedido uniforme, k × turno/N, não fica mais tarde. As duas filas FIFO, tempos constantes e pessoas
+pedido uniforme, (k − 1) × turno/N para k começando em 1, não fica mais tarde. O primeiro chega
+no minuto zero, como em `operacao.py`. As duas filas FIFO, tempos constantes e pessoas
 fixas preservam a ordem e não atrasam a conclusão do k-ésimo pedido. Assim, aumentar recebimentos
 não diminui o total concluído. Há teste dessa propriedade em diferentes configurações.
 
@@ -110,6 +111,11 @@ O roteiro anterior `tests/browser/interface.cjs` verifica os fluxos da RAI-007; 
 para o mesmo servidor para verificar compatibilidade. As capturas do teste ficam em `tmp/`.
 
 ## Limitações
+
+Revisão técnica de 2026-11-06: novas execuções de **225 testes Python e 104 JavaScript**,
+24 combinações de promoções e 72 das seis áreas anteriores no Chrome, sem falhas detectadas.
+Escopo, comandos, correção documental e restrição da reinstalação de dependências estão em
+[`revisao-rai-008.md`](revisao-rai-008.md). Os resultados históricos abaixo são de outra execução.
 
 Validação do código `d70c28c` em clone limpo: **225 testes Python, 104 JavaScript**, `pip check`
 sem erros. Chrome: 24 combinações de largura/tema/sinal da margem, sem estouro ou violações

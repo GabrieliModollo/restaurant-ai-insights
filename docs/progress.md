@@ -1,6 +1,23 @@
 # Progresso
 
-Última atualização: 2026-11-05.
+Última atualização: 2026-11-06.
+
+## Revisão técnica da RAI-008 — 2026-11-06
+
+Diff completo do PR #10 revisado contra `main` em `b492299`; código examinado em `0ad21bb`.
+Nenhum bloqueante ou problema importante de produto identificado. Corrigida apenas a fórmula
+documental da chegada do k-ésimo pedido, que começa no minuto zero; código financeiro preservado.
+Parecer técnico: apto para merge, que continua dependendo da autorização da pessoa responsável.
+
+Novas execuções nesta revisão: **225 testes Python e 104 JavaScript aprovados**, também com
+fonte em clone limpo e dependências do ambiente existente; `pip check` sem erros. Não houve
+reinstalação bem-sucedida em ambiente novo: acesso ao PyPI bloqueado pelo ambiente (WinError 10013).
+Chrome sem janela: 24 combinações de promoções e 72 das seis áreas da RAI-007, sem estouro ou
+violações detectadas pelo axe; fluxos novos e anteriores aprovados. Auditoria matemática adicional:
+840.582 comparações da desigualdade original, todas aprovadas.
+
+Relatório, arquivos analisados, comandos e limites em [`revisao-rai-008.md`](revisao-rai-008.md).
+PR permanece em revisão, sem merge. RAI-009 não iniciada; branch de pesquisa do PR #9 preservada.
 
 ## RAI-008 — análise de promoções e ponto de equilíbrio
 

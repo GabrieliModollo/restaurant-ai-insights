@@ -20,6 +20,10 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 
 ### RAI-008 — promoções
 
+Revisão técnica independente em 2026-11-06: apto para merge, sem bloqueantes identificados.
+Novas execuções e limitações em [`revisao-rai-008.md`](revisao-rai-008.md); os registros de clone
+com dependências reinstaladas abaixo pertencem à validação anterior. Status continua **Em revisão**.
+
 - [x] Reutilizar financeiro, operação, validação e cenário A; preservar contratos anteriores.
 - [x] Comparar preço, desconto, taxa, custos, contribuição unitária/total e diferenças.
 - [x] Resolver equilíbrio com centavos inteiros, inclusive margens zero/negativas e base negativa.
