@@ -39,6 +39,22 @@ do sistema. No celular, os seis destinos ficam visíveis no menu e o guia pode s
 
 </details>
 
+## Promoções e descontos — RAI-008
+
+Em **Cenários**, use o A como base e teste desconto e volume no painel **Analisar promoção**.
+A análise mostra preço, taxa, custos, contribuição unitária/total e diferenças absolutas e percentuais.
+Informa quantos pedidos **concluídos**, e quantos adicionais sobre a base, compensariam a mudança.
+As hipóteses locais não alteram o simulador nem o A.
+
+A meta financeira é confrontada com o limite operacional. Margem zero ou negativa, base negativa,
+zero pedidos e metas fora dos limites têm explicações específicas. O desconto não prevê aumento de vendas.
+
+Exemplo padrão: R$ 5 de desconto reduz a contribuição por pedido em R$ 4,25. Seriam necessárias
+25 conclusões para compensar a base, mas a operação conclui no máximo 22 no turno dentro do limite
+de volume. Mais pedidos recebidos, sozinhos, não resolvem essa limitação.
+
+Fórmulas, casos-limite, contrato e testes: [`docs/promocoes.md`](docs/promocoes.md).
+
 ## Como funciona
 
 1. **Comece pela Visão geral.** Um cenário inicial é calculado ao abrir a aplicação, sem precisar
@@ -92,24 +108,28 @@ node --test "tests/js/*.test.mjs"
 O segundo comando testa a lógica do JavaScript. Ele usa só o Node.js, sem pacotes npm, e não é
 necessário para executar o simulador.
 
-Na validação da RAI-007, o código do commit `685dc6f` passou em clone limpo, com ambiente virtual
+Na validação da RAI-008, o código do commit `d70c28c` passou em clone limpo, com ambiente virtual
 próprio e dependências reinstaladas:
 
 | Verificação | Resultado registrado |
 | --- | --- |
-| Python / pytest | 176 testes aprovados |
-| JavaScript / Node.js | 97 testes aprovados |
+| Python / pytest | 225 testes aprovados |
+| JavaScript / Node.js | 104 testes aprovados |
 | Dependências / `pip check` | Sem erros |
-| Chrome instalado, sem janela, com Playwright e axe | 72 combinações: seis áreas × seis larguras × dois temas, sem estouro horizontal ou violações detectadas pelo axe |
+| Chrome instalado, sem janela, com Playwright e axe | Promoções: 24 combinações de largura, tema e sinal da margem, sem estouro horizontal ou violações detectadas pelo axe, com detalhes abertos |
 
 As larguras verificadas foram 320, 390, 768, 1024, 1440 e 1920 px. Os fluxos cobrem simulação,
 preservação dos campos, comparação, validação, contribuição negativa, zero pedidos, exemplos,
 gargalos, reprodução, seleção, histórico, teclado e recuperação de falhas.
+Os fluxos anteriores da RAI-007 foram preservados. A revisão visual das seis áreas da RAI-007
+está registrada separadamente em `docs/revisao-rai-007.md`.
 
 O teste opcional de navegador exige Chrome e ferramentas de desenvolvimento instaladas separadamente.
 Os comandos, as versões e a opção de executar apenas os fluxos estão em
 [`docs/revisao-rai-007.md`](docs/revisao-rai-007.md). O script é
 [`tests/browser/interface.cjs`](tests/browser/interface.cjs); capturas temporárias ficam em `tmp/`.
+Para a análise de promoções, use [`tests/browser/promocoes.cjs`](tests/browser/promocoes.cjs)
+com as instruções de [`docs/promocoes.md`](docs/promocoes.md).
 Esses resultados são verificações técnicas, não validação com usuários nem garantia de acessibilidade completa.
 
 ## API
@@ -120,6 +140,8 @@ Com o servidor em execução:
 - `GET /api/exemplos`: exemplos fictícios, com todos os parâmetros.
 - `POST /api/simulacoes`: recebe os parâmetros e devolve `financeiro`, `operacao`, com os eventos do
   turno, e `resumo`. Valores monetários vêm em centavos inteiros.
+- `POST /api/promocoes`: recebe `base` e `promocional`, cada um com os parâmetros completos do
+  simulador; compara contribuição e calcula o equilíbrio com limites operacionais. Os endpoints anteriores são preservados.
 - Entrada inválida recebe o código 422 e `{"erros": {"campo": "mensagem"}}`. Um corpo que não pode
   ser lido usa `corpo` como nome do campo.
 
@@ -152,6 +174,7 @@ Invoke-RestMethod http://127.0.0.1:8010/api/campos
 | `src/simulador/operacao.py` | Filas, capacidade, diagnóstico e eventos |
 | `src/simulador/financeiro.py` | Cálculos em centavos |
 | `src/simulador/resumo.py` | Resumo do turno, gerado por regras |
+| `src/simulador/promocoes.py` | Análise de promoções, desigualdade de equilíbrio e limite operacional |
 | `src/simulador/simulacao.py` | Executa operação, finanças e resumo em sequência |
 | `src/simulador/api.py` | Rotas e entrega da interface |
 | `src/simulador/web/` | Interface em HTML, CSS e JavaScript puro |

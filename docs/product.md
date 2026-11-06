@@ -46,6 +46,15 @@ do modelo.
 - Contribuição não é lucro líquido. Ficam de fora impostos, salários, aluguel e desperdício.
 - **Simplificação:** custos de pedidos ainda em processamento no fim do turno não são reconhecidos.
 
+## RAI-008 — promoções
+
+Na área Cenários, A é a base e o cenário atual fornece preço, custos, equipe e turno promocionais.
+Desconto e hipótese de pedidos recebidos podem ser testados localmente, sem modificar os cenários.
+A análise compara a contribuição, resolve o volume mínimo de conclusões para compensar a base e
+avisa quando essa meta é impossível, excede os limites ou não cabe na operação informada.
+Margens não positivas e base negativa têm tratamento próprio, sem recomendar vender mais com prejuízo
+de contribuição. Regras e limites em `docs/promocoes.md`. Não há IA ou previsão de demanda.
+
 ## Exclusões
 
 - IA integrada, nesta primeira versão.

@@ -1,6 +1,7 @@
 // Mostra a comparação na página. Não toca na reprodução nem nos indicadores.
 
 import { compararCenarios, criarControleCenarioA } from "./comparacao.js";
+import { criarAnalisePromocoes } from "./promocoes-pagina.js";
 
 const DICA_INICIAL = "Guarde este resultado como cenário A, mude os valores e compare.";
 const DICA_AGUARDE = "Para guardar, aguarde o cálculo terminar ou corrija os campos destacados.";
@@ -73,9 +74,11 @@ export function criarComparacao() {
   const anuncio = document.getElementById("a-anuncio");
   const conteudo = document.getElementById("a-conteudo");
   const controle = criarControleCenarioA();
+  const promocoes = criarAnalisePromocoes();
   let campos = [];
 
   function mostrar() {
+    promocoes.atualizar(controle.a, controle.ultimo, controle.atualizado, campos);
     const temA = controle.a !== null;
     botaoSalvar.disabled = !controle.podeSalvar;
     botaoSalvar.textContent = temA ? "Substituir cenário A" : "Guardar como cenário A";

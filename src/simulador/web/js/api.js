@@ -58,9 +58,9 @@ export async function buscarExemplos() {
   return lerJson(resposta);
 }
 
-export async function simular(valores, signal) {
+async function enviarParametros(url, valores, signal) {
   const resposta = await pedir(
-    "/api/simulacoes",
+    url,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -81,6 +81,9 @@ export async function simular(valores, signal) {
   }
   return lerJson(resposta);
 }
+
+export const simular = (valores, signal) => enviarParametros("/api/simulacoes", valores, signal);
+export const analisarPromocao = (valores, signal) => enviarParametros("/api/promocoes", valores, signal);
 
 export function descreverErro(erro) {
   if (erro.name === "TimeoutError") {

@@ -14,6 +14,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 
 from .parametros import ParametrosSimulacao, campos_para_interface, exemplos_para_interface
+from .promocoes import ParametrosPromocao, analisar_promocao
 from .simulacao import executar_simulacao
 
 PASTA_WEB = Path(__file__).parent / "web"
@@ -35,11 +36,14 @@ async def _erros_em_portugues(_: Request, erro: RequestValidationError) -> JSONR
     mensagens_padrao = {
         "missing": "Campo obrigatório.",
         "extra_forbidden": "Campo não reconhecido.",
+        "model_type": "Envie um objeto JSON com os parâmetros do cenário.",
     }
     erros = {}
     for item in erro.errors():
         local = item["loc"]
-        if len(local) != 2 or not isinstance(local[1], str):
+        if len(local) == 3 and local[1] in {"base", "promocional"} and isinstance(local[2], str):
+            erros[f"{local[1]}.{local[2]}"] = mensagens_padrao.get(item["type"], item["msg"])
+        elif len(local) != 2 or not isinstance(local[1], str):
             erros["corpo"] = MENSAGEM_CORPO_INVALIDO
         else:
             erros[local[1]] = mensagens_padrao.get(item["type"], item["msg"])
@@ -67,6 +71,11 @@ def listar_exemplos() -> list[dict]:
 @app.post("/api/simulacoes")
 def simular(parametros: ParametrosSimulacao) -> dict:
     return executar_simulacao(parametros)
+
+
+@app.post("/api/promocoes")
+def analisar(parametros: ParametrosPromocao) -> dict:
+    return analisar_promocao(parametros)
 
 
 # Montado por último: as rotas /api acima têm prioridade sobre os arquivos.
