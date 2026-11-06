@@ -39,6 +39,22 @@ do sistema. No celular, os seis destinos ficam visíveis no menu e o guia pode s
 
 </details>
 
+## Promoções e descontos — RAI-008
+
+Em **Cenários**, use o A como base e teste desconto e volume no painel **Analisar promoção**.
+A análise mostra preço, taxa, custos, contribuição unitária/total e diferenças absolutas e percentuais.
+Informa quantos pedidos **concluídos**, e quantos adicionais sobre a base, compensariam a mudança.
+As hipóteses locais não alteram o simulador nem o A.
+
+A meta financeira é confrontada com o limite operacional. Margem zero ou negativa, base negativa,
+zero pedidos e metas fora dos limites têm explicações específicas. O desconto não prevê aumento de vendas.
+
+Exemplo padrão: R$ 5 de desconto reduz a contribuição por pedido em R$ 4,25. Seriam necessárias
+25 conclusões para compensar a base, mas a operação conclui no máximo 22 no turno dentro do limite
+de volume. Mais pedidos recebidos, sozinhos, não resolvem essa limitação.
+
+Fórmulas, casos-limite, contrato e testes: [`docs/promocoes.md`](docs/promocoes.md).
+
 ## Como funciona
 
 1. **Comece pela Visão geral.** Um cenário inicial é calculado ao abrir a aplicação, sem precisar
@@ -120,6 +136,8 @@ Com o servidor em execução:
 - `GET /api/exemplos`: exemplos fictícios, com todos os parâmetros.
 - `POST /api/simulacoes`: recebe os parâmetros e devolve `financeiro`, `operacao`, com os eventos do
   turno, e `resumo`. Valores monetários vêm em centavos inteiros.
+- `POST /api/promocoes`: recebe `base` e `promocional`, cada um com os parâmetros completos do
+  simulador; compara contribuição e calcula o equilíbrio com limites operacionais. Os endpoints anteriores são preservados.
 - Entrada inválida recebe o código 422 e `{"erros": {"campo": "mensagem"}}`. Um corpo que não pode
   ser lido usa `corpo` como nome do campo.
 
@@ -152,6 +170,7 @@ Invoke-RestMethod http://127.0.0.1:8010/api/campos
 | `src/simulador/operacao.py` | Filas, capacidade, diagnóstico e eventos |
 | `src/simulador/financeiro.py` | Cálculos em centavos |
 | `src/simulador/resumo.py` | Resumo do turno, gerado por regras |
+| `src/simulador/promocoes.py` | Análise de promoções, desigualdade de equilíbrio e limite operacional |
 | `src/simulador/simulacao.py` | Executa operação, finanças e resumo em sequência |
 | `src/simulador/api.py` | Rotas e entrega da interface |
 | `src/simulador/web/` | Interface em HTML, CSS e JavaScript puro |

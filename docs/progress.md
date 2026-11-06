@@ -2,6 +2,24 @@
 
 Última atualização: 2026-11-05.
 
+## RAI-008 — análise de promoções e ponto de equilíbrio
+
+Branch `feature/rai-008-analise-promocoes`, a partir da `main` atualizada em `b492299`.
+Implementação local: endpoint novo `POST /api/promocoes` e painel na área Cenários, reutilizando
+A e cenário atual. Desconto/volume são hipóteses locais; nenhum contrato anterior mudou.
+Regras e decisões: `docs/promocoes.md` e `docs/architecture.md`.
+
+Na pasta de trabalho: **225 testes Python e 104 JavaScript aprovados**. Chrome instalado, sem janela:
+seis larguras (320, 390, 768, 1024, 1440 e 1920), dois temas, margens promocionais positiva e negativa,
+24 combinações sem estouro horizontal ou violações detectadas pelo axe, com detalhamento aberto.
+Fluxos anteriores da RAI-007 e novos da promoção aprovados, incluindo base negativa, margem zero,
+zero pedidos, descarte de resposta pendente ao limpar A, alteração de cenário, teclado, validação,
+falha e repetição. Capturas inspecionadas; corrigida quebra vertical da legenda no celular.
+
+Pendentes: commit, clone limpo, push e PR. Não há autorização de merge nesta entrega.
+Limitações: mesmos custos excluídos e modelo determinístico; sem previsão de demanda ou IA.
+Leitor de tela, aparelho físico, toque, zoom real, outros navegadores e pessoas reais não foram verificados.
+
 ## RAI-007 — interface intuitiva
 
 Integrada à `main` pelo PR #8, merge `0cd6855`, autorizado pela pessoa responsável.
