@@ -1,6 +1,24 @@
 # Progresso
 
-Última atualização: 2026-11-04.
+Última atualização: 2026-11-05.
+
+## RAI-007 — interface intuitiva
+
+Em revisão no PR #8, branch `feat/rai-007-interface-intuitiva`, sem merge na `main`.
+As entregas 0 a 6 estão integradas (PR #7: `3a9ff71`). O histórico abaixo registra a revisão anterior do MVP.
+
+Revisão do código do PR e correções no commit `4678c84`: navegação entre partes ocultas no celular,
+foco dos links internos e links diretos, estouro horizontal, contraste no tema claro e ícones decorativos.
+O teste do guia foi atualizado para o novo conteúdo. Roteiro reproduzível em
+`docs/revisao-rai-007.md` e `tests/browser/interface.cjs`.
+
+Verificação local e em clone limpo do commit `4678c84`, com ambiente virtual próprio e dependências
+reinstaladas: **176 testes Python e 97 JavaScript aprovados**, `pip check` sem erros. Chrome instalado, em modo
+sem janela: 320, 390, 860, 861, 1100, 1101, 1440 e 1920 px, temas claro e escuro, duas vistas:
+sem estouro horizontal e sem violações detectadas pelo axe. Links por teclado, foco, âncora repetida,
+link direto para operação e console passaram. Capturas desktop e celular inspecionadas.
+Menos movimento emulado pelo navegador. Isso não equivale a validação com leitor de tela,
+aparelho físico ou pessoas reais; essas verificações permanecem pendentes.
 
 ## Estado atual
 

@@ -11,10 +11,22 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 3 | Canvas isométrico e estações | `feat/canvas-isometrico` | 2 | Concluída (PR #4) |
 | 4 | Reprodução dos eventos e primeiro uso | `feat/reproducao-eventos` | 3 | Concluída (PR #5) |
 | 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Concluída (PR #6) |
-| 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Em revisão |
+| 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Concluída (PR #7) |
+| RAI-007 | Interface intuitiva | `feat/rai-007-interface-intuitiva` | 6 | Em revisão (PR #8) |
 | — | Validação com usuários | Sem branch | Pessoas reais | Pendente |
 
 ## Classificação final dos critérios
+
+### RAI-007 — primeira etapa
+
+- [x] Revisar o código do PR #8 e corrigir links móveis, foco, contraste e estouro horizontal.
+- [x] Executar testes Python (176) e JavaScript (97), todos aprovados também em clone limpo de `4678c84`, com ambiente virtual próprio.
+- [x] Chrome sem janela: duas vistas, temas claro e escuro, oito larguras entre 320 e 1920 px; sem estouro ou violações automatizadas do axe.
+- [x] Exercitar links por teclado, foco, repetição de âncora e link direto.
+- [x] Registrar roteiro reproduzível em `docs/revisao-rai-007.md`.
+- [ ] PR revisado e integrado pela pessoa responsável.
+
+Leitor de tela, aparelho físico e validação com usuários permanecem pendentes.
 
 Conferida contra o código na revisão final. Os detalhes de cada verificação estão em
 `docs/progress.md`.
