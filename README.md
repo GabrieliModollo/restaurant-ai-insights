@@ -108,24 +108,28 @@ node --test "tests/js/*.test.mjs"
 O segundo comando testa a lógica do JavaScript. Ele usa só o Node.js, sem pacotes npm, e não é
 necessário para executar o simulador.
 
-Na validação da RAI-007, o código do commit `685dc6f` passou em clone limpo, com ambiente virtual
+Na validação da RAI-008, o código do commit `d70c28c` passou em clone limpo, com ambiente virtual
 próprio e dependências reinstaladas:
 
 | Verificação | Resultado registrado |
 | --- | --- |
-| Python / pytest | 176 testes aprovados |
-| JavaScript / Node.js | 97 testes aprovados |
+| Python / pytest | 225 testes aprovados |
+| JavaScript / Node.js | 104 testes aprovados |
 | Dependências / `pip check` | Sem erros |
-| Chrome instalado, sem janela, com Playwright e axe | 72 combinações: seis áreas × seis larguras × dois temas, sem estouro horizontal ou violações detectadas pelo axe |
+| Chrome instalado, sem janela, com Playwright e axe | Promoções: 24 combinações de largura, tema e sinal da margem, sem estouro horizontal ou violações detectadas pelo axe, com detalhes abertos |
 
 As larguras verificadas foram 320, 390, 768, 1024, 1440 e 1920 px. Os fluxos cobrem simulação,
 preservação dos campos, comparação, validação, contribuição negativa, zero pedidos, exemplos,
 gargalos, reprodução, seleção, histórico, teclado e recuperação de falhas.
+Os fluxos anteriores da RAI-007 foram preservados. A revisão visual das seis áreas da RAI-007
+está registrada separadamente em `docs/revisao-rai-007.md`.
 
 O teste opcional de navegador exige Chrome e ferramentas de desenvolvimento instaladas separadamente.
 Os comandos, as versões e a opção de executar apenas os fluxos estão em
 [`docs/revisao-rai-007.md`](docs/revisao-rai-007.md). O script é
 [`tests/browser/interface.cjs`](tests/browser/interface.cjs); capturas temporárias ficam em `tmp/`.
+Para a análise de promoções, use [`tests/browser/promocoes.cjs`](tests/browser/promocoes.cjs)
+com as instruções de [`docs/promocoes.md`](docs/promocoes.md).
 Esses resultados são verificações técnicas, não validação com usuários nem garantia de acessibilidade completa.
 
 ## API

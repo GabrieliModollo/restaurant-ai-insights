@@ -13,7 +13,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Concluída (PR #6) |
 | 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Concluída (PR #7) |
 | RAI-007 | Interface intuitiva | `feat/rai-007-interface-intuitiva` | 6 | Concluída (PR #8, merge `0cd6855`) |
-| RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Código local sem commit |
+| RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Em revisão (PR #10) |
 | — | Validação com usuários | Sem branch | Pessoas reais | Pendente |
 
 ## Classificação final dos critérios
@@ -25,10 +25,11 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 - [x] Resolver equilíbrio com centavos inteiros, inclusive margens zero/negativas e base negativa.
 - [x] Distinguir recebidos de concluídos; confrontar a meta com volume-limite e capacidade operacional.
 - [x] Integrar hipóteses de desconto/volume à área Cenários, sem IA ou previsão de vendas.
-- [x] Testes Python (225) e JavaScript (104) aprovados na pasta de trabalho.
+- [x] Testes Python (225) e JavaScript (104) aprovados em clone limpo de `d70c28c`, com ambiente virtual próprio e `pip check` sem erros.
 - [x] Chrome: seis larguras, dois temas e margens positiva/negativa, 24 combinações sem estouro ou violações detectadas pelo axe, com detalhes abertos.
 - [x] Fluxos anteriores e novos, erros, recuperação, descarte de respostas antigas, teclado e foco conferidos no navegador.
-- [ ] Entrega commitada, validada em clone limpo e PR aberto para revisão.
+- [x] Implementação commitada em `d70c28c` e validada em clone limpo.
+- [x] PR #10 aberto para revisão, sem merge na `main`.
 - [ ] PR integrado com autorização da pessoa responsável.
 
 ### RAI-007 — refatoração completa

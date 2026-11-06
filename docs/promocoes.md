@@ -16,6 +16,8 @@ os resultados que já não correspondem às entradas. Há feedback de espera, va
 
 ![Análise de promoção com capacidade insuficiente](capturas/promocao-rai-008.png)
 
+[Ver captura no celular](capturas/promocao-mobile-rai-008.png).
+
 ## Fórmulas e convenções
 
 Todas as decisões usam centavos inteiros. O financeiro e a operação existentes são reutilizados,
@@ -108,6 +110,11 @@ O roteiro anterior `tests/browser/interface.cjs` verifica os fluxos da RAI-007; 
 para o mesmo servidor para verificar compatibilidade. As capturas do teste ficam em `tmp/`.
 
 ## Limitações
+
+Validação do código `d70c28c` em clone limpo: **225 testes Python, 104 JavaScript**, `pip check`
+sem erros. Chrome: 24 combinações de largura/tema/sinal da margem, sem estouro ou violações
+detectadas pelo axe. Fluxos novos e anteriores aprovados também contra o servidor desse clone.
+Entrega em revisão no [PR #10](https://github.com/GabrieliModollo/restaurant-ai-insights/pull/10).
 
 - É equilíbrio da **contribuição entre cenários**, não o ponto de equilíbrio completo da empresa.
 - Impostos, salários, aluguel, desperdício e custos de pedidos não concluídos continuam excluídos.
