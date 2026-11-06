@@ -1,7 +1,7 @@
 /* RAI-007: camada visual sem alterar os contratos existentes. */
 :root {
   --fundo:#f5f7fb;--superficie:#fff;--superficie-suave:#f1f5f9;
-  --texto:#18243a;--texto-suave:#65738a;--linha:#e2e8f0;
+  --texto:#18243a;--texto-suave:#59677d;--linha:#e2e8f0;
   --destaque:#3559b7;--positivo:#187451;--negativo:#b52c45;
   --alerta:#895b14;--fundo-positivo:#e5f5ee;--fundo-negativo:#fbe9ed;
   --fundo-alerta:#fff4df;--raio:16px;
@@ -18,7 +18,7 @@
 html {scroll-behavior:smooth;scroll-padding-top:1.25rem}
 body {line-height:1.55}
 .aplicacao {display:grid;grid-template-columns:242px minmax(0,1fr);min-height:100vh}
-.barra-lateral {position:sticky;top:0;height:100vh;padding:1.65rem 1rem;display:flex;flex-direction:column;gap:2.25rem;background:var(--superficie);border-right:1px solid var(--linha)}
+.barra-lateral {position:sticky;top:0;height:100vh;min-width:0;overflow-y:auto;padding:1.65rem 1rem;display:flex;flex-direction:column;gap:2.25rem;background:var(--superficie);border-right:1px solid var(--linha)}
 .marca {display:flex;align-items:center;gap:.75rem;padding:.4rem .6rem;color:var(--texto);font-size:1.03rem;font-weight:650;text-decoration:none;line-height:1.3}
 .marca strong {display:block}
 .marca-simbolo {display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:#e5edff;color:#294baf;font-size:1.8rem}
@@ -41,7 +41,7 @@ body {line-height:1.55}
 .guia-titulo {display:flex;align-items:center;gap:.9rem;margin-bottom:1rem}
 .guia-titulo h2 {font-size:1.15rem;margin:0}
 .guia-titulo p {font-size:.85rem}
-.guia-icone {display:grid;place-items:center;width:43px;height:43px;background:#e9efff;color:#3559b7;border-radius:13px;font-size:1.4rem}
+.guia-icone {display:grid;place-items:center;flex:none;width:43px;height:43px;background:#e9efff;color:#3559b7;border-radius:13px;font-size:1.4rem}
 .guia ol {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));padding:0;gap:.75rem;list-style:none}
 .guia li a {display:flex;gap:.75rem;align-items:center;height:100%;padding:1rem;background:var(--superficie);border:1px solid var(--linha);border-radius:var(--raio);text-decoration:none;color:var(--texto);transition:border-color .2s,transform .2s}
 .guia li a:hover {border-color:var(--destaque);transform:translateY(-2px)}
@@ -71,6 +71,7 @@ body {line-height:1.55}
 .exemplos {background:var(--superficie-suave);border-radius:12px;padding:.75rem}
 .controle label {font-size:.87rem}
 .entrada-numero {background:var(--superficie)}
+.grade-estacoes {grid-template-columns:repeat(auto-fit,minmax(min(260px,100%),1fr))}
 .pular-conteudo {position:absolute;left:-10000px;top:0;background:var(--superficie);padding:.75rem;z-index:100}
 .pular-conteudo:focus {left:1rem;top:1rem}
 :focus-visible {outline:3px solid var(--destaque);outline-offset:3px}

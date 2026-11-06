@@ -25,4 +25,39 @@ export function criarNavegacao() {
   }
 
   mostrar(document.body.dataset.vista);
+
+  // Revela a parte antes de o navegador seguir a âncora, inclusive no celular.
+  function seguirAncora() {
+    const destino = document.getElementById(location.hash.slice(1));
+    if (!destino) return;
+    if (destino.closest(".painel")) mostrar("ajustar");
+    if (destino.closest(".coluna-resultados")) mostrar("resultados");
+    destino.setAttribute("tabindex", "-1");
+    destino.focus({ preventScroll: true });
+    destino.scrollIntoView();
+  }
+
+  for (const link of document.querySelectorAll('a[href^="#"]')) {
+    link.addEventListener("click", () => {
+      const destino = document.getElementById(link.hash.slice(1));
+      if (destino?.closest(".painel")) mostrar("ajustar");
+      if (destino?.closest(".coluna-resultados")) mostrar("resultados");
+      // Também funciona quando a âncora já é a atual.
+      requestAnimationFrame(seguirAncora);
+    });
+  }
+  window.addEventListener("hashchange", seguirAncora);
+  seguirAncora();
+
+  // Um link direto para resultados aguarda a primeira resposta do servidor.
+  const resultados = document.getElementById("resultados");
+  if (location.hash && resultados.hidden) {
+    const observador = new MutationObserver(() => {
+      if (!resultados.hidden) {
+        observador.disconnect();
+        seguirAncora();
+      }
+    });
+    observador.observe(resultados, { attributes: true, attributeFilter: ["hidden"] });
+  }
 }
