@@ -17,12 +17,16 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 
 ## Classificação final dos critérios
 
-### RAI-007 — primeira etapa
+### RAI-007 — refatoração completa
 
-- [x] Revisar o código do PR #8 e corrigir links móveis, foco, contraste e estouro horizontal.
-- [x] Executar testes Python (176) e JavaScript (97), todos aprovados também em clone limpo de `4678c84`, com ambiente virtual próprio.
-- [x] Chrome sem janela: duas vistas, temas claro e escuro, oito larguras entre 320 e 1920 px; sem estouro ou violações automatizadas do axe.
-- [x] Exercitar links por teclado, foco, repetição de âncora e link direto.
+- [x] Inspecionar a referência PNG e a arquitetura; preservar API, cálculos e funcionalidades existentes.
+- [x] Reorganizar a experiência em seis áreas, com dashboard, ação principal de simulação e navegação com estado preservado.
+- [x] Priorizar contribuição, pedidos concluídos, tempo médio e gargalos; detalhes secundários expansíveis.
+- [x] Formulário agrupado, estados de carregamento/erro/comparação vazia e animação integrada ao Restaurante.
+- [x] Executar testes Python (176) e JavaScript (97), todos aprovados também em clone limpo de `685dc6f`, com ambiente virtual próprio e `pip check` sem erros.
+- [x] Chrome sem janela: seis áreas, dois temas e seis larguras entre 320 e 1920 px; 72 combinações sem estouro ou violações detectadas pelo axe.
+- [x] Exercitar fluxos de simulação/comparação, valores extremos, reprodução, erros e recuperação, teclado, foco, histórico e links diretos.
+- [x] Inspecionar e versionar capturas do dashboard, celular e restaurante.
 - [x] Registrar roteiro reproduzível em `docs/revisao-rai-007.md`.
 - [ ] PR revisado e integrado pela pessoa responsável.
 

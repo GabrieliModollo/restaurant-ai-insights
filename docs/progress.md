@@ -7,20 +7,36 @@
 Em revisão no PR #8, branch `feat/rai-007-interface-intuitiva`, sem merge na `main`.
 As entregas 0 a 6 estão integradas (PR #7: `3a9ff71`). O histórico abaixo registra a revisão anterior do MVP.
 
-Revisão do código do PR e correções no commit `4678c84`: navegação entre partes ocultas no celular,
-foco dos links internos e links diretos, estouro horizontal, contraste no tema claro e ícones decorativos.
-O teste do guia foi atualizado para o novo conteúdo. Roteiro reproduzível em
-`docs/revisao-rai-007.md` e `tests/browser/interface.cjs`.
+Refatoração completa implementada no commit `685dc6f`, substituindo a primeira etapa visual anterior.
+A referência PNG fornecida em Downloads foi inspecionada: composição semelhante, ilustrações próprias,
+sem afirmar reprodução exata. Seis áreas substituem a tela única: Visão geral, Simulador, Cenários,
+Financeiro, Restaurante e Ajuda. O dashboard prioriza contribuição, conclusão, tempo médio e gargalos;
+o botão Simular cenário recalcula e abre a visão geral. Atualização automática e funcionalidades anteriores
+preservadas. Detalhes secundários expansíveis; reprodução pausa ao sair da área Restaurante.
 
-Verificação local e em clone limpo do commit `4678c84`, com ambiente virtual próprio e dependências
-reinstaladas: **176 testes Python e 97 JavaScript aprovados**, `pip check` sem erros. Chrome instalado, em modo
-sem janela: 320, 390, 860, 861, 1100, 1101, 1440 e 1920 px, temas claro e escuro, duas vistas:
-sem estouro horizontal e sem violações detectadas pelo axe. Links por teclado, foco, âncora repetida,
-link direto para operação e console passaram. Capturas desktop e celular inspecionadas.
-Menos movimento emulado pelo navegador. Isso não equivale a validação com leitor de tela,
-aparelho físico ou pessoas reais; essas verificações permanecem pendentes.
+**Pasta de trabalho e clone limpo de `685dc6f`:** 176 testes Python e 97 JavaScript aprovados.
+O clone tem ambiente virtual próprio, dependências reinstaladas e `pip check` sem erros.
+Nenhuma alteração na API ou nos cálculos. `pytest.ini` impede coleta de clones temporários como testes do produto.
 
-## Estado atual
+**Chrome instalado, sem janela:** seis áreas × seis larguras (320, 390, 768, 1024, 1440 e 1920 px) ×
+dois temas, totalizando 72 combinações sem estouro horizontal ou violações detectadas pelo axe.
+Grupos expansíveis abertos na matriz; guia recolhido no celular e seis destinos do menu visíveis.
+Capturas de desktop, celular e restaurante inspecionadas e versionadas em `docs/capturas/`.
+
+**Fluxos aprovados:** carregamento pendente, ação Simular cenário, preservação dos campos, guardar/
+substituir/limpar A, diferenças de parâmetros e resultados, validação e foco no campo inválido,
+contribuição negativa, zero pedidos, exemplos, gargalos, reprodução e pausa ao navegar, seleção,
+histórico, link direto para seção recolhida, falhas inicial e posterior com recuperação, teclado,
+âncora repetida e console sem erros JavaScript. Menos movimento emulado na matriz; reprodução
+verificada também com movimento normal.
+Os fluxos completos foram repetidos com sucesso contra o servidor do clone limpo, na porta 8019;
+as ferramentas de navegador opcionais vieram da instalação local de revisão.
+
+Roteiro e limitações em `docs/revisao-rai-007.md`. Leitor de tela, aparelho físico, toque, zoom real,
+outros navegadores e pessoas reais permanecem pendentes. A verificação técnica não comprova
+usabilidade com usuários. Próximo passo: revisão do PR #8 pela pessoa responsável, sem merge automático.
+
+## Histórico do MVP — estado em 2026-11-04
 
 - **Entregas 0 a 5:** integradas à `main` pelos PRs #1 a #6 (último merge `6ecf8bf`).
 - **Entrega 6:** em revisão, na branch `docs/revisao-final`. Encerra o MVP.
