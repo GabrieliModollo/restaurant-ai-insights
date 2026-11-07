@@ -38,7 +38,9 @@ Núcleo, sem dependência de HTTP
 | `src/simulador/web/js/cena/pagina.js` | Tamanho, clique, reprodução, detalhe e avisos | Pronto |
 | `src/simulador/web/js/cena/linha-do-tempo.js` | Estado em cada instante, a partir dos eventos | Pronto |
 | `src/simulador/web/js/cena/reproducao.js` | Relógio e ciclo de quadros | Pronto |
-| `src/simulador/web/js/navegacao.js` | Alterna formulário e resultados no celular | Pronto |
+| `src/simulador/web/js/navegacao.js` | Alterna seis áreas, foco, histórico e âncoras | Pronto |
+| `src/simulador/promocoes.py` | Compara contribuições e resolve a desigualdade com limites operacionais | Em revisão |
+| `src/simulador/web/js/promocoes-pagina.js` | Hipóteses e análise na área Cenários, com o mesmo cenário A | Em revisão |
 | `src/simulador/resumo.py` | Resumo do turno completo, gerado por regras | Em revisão |
 | `src/simulador/web/js/comparacao.js` | Cenário A e diferenças em relação ao atual | Em revisão |
 | `src/simulador/web/js/comparacao-pagina.js` | Mostra a comparação na página | Em revisão |
@@ -48,6 +50,12 @@ Núcleo, sem dependência de HTTP
 
 | Decisão | Justificativa |
 | --- | --- |
+| RAI-008: endpoint novo, com duas instâncias de `ParametrosSimulacao` | Reutiliza limites, campos e validação; não altera contratos antigos. |
+| `executar_simulacao` para base, hipótese e volume-limite | Reutiliza financeiro e operação consolidados, com arredondamento por pedido e conclusões reais do modelo. |
+| Equilíbrio como desigualdade `n × u ≥ B`, com inteiros | Trata margens positiva/zero/negativa e base negativa sem divisão por zero ou promessa de crescimento. |
+| Percentuais relativos ao valor absoluto da base; `null` se zero | Mantém sentido de aumento/redução com base negativa. Convenção explícita na interface e nas fórmulas; `Fraction` até a saída. |
+| Promoções dentro de Cenários, compartilhando A e parâmetros atuais | Evita formulário completo e fluxo de referências duplicados. Só desconto e volume são hipóteses locais. |
+| Requisições explícitas com `criarExecutor` | Reutiliza cancelamento e rejeição de respostas antigas, inclusive ao limpar A ou alterar cenários. |
 | Dinheiro em centavos inteiros | Evita erros de `float`, como 0,1 + 0,2 ≠ 0,3. |
 | Taxa arredondada por pedido, meio centavo para cima (`ROUND_HALF_UP`) | Regra documentada e previsível; o total sempre fecha com valor por pedido × pedidos. |
 | Tempo em `Fraction` | Permite decidir sem erro de arredondamento se um pedido terminou exatamente no fim do turno. |

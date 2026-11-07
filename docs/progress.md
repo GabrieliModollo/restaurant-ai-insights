@@ -1,6 +1,46 @@
 # Progresso
 
-Última atualização: 2026-11-05.
+Última atualização: 2026-11-06.
+
+## Revisão técnica da RAI-008 — 2026-11-06
+
+Diff completo do PR #10 revisado contra `main` em `b492299`; código examinado em `0ad21bb`.
+Nenhum bloqueante ou problema importante de produto identificado. Corrigida apenas a fórmula
+documental da chegada do k-ésimo pedido, que começa no minuto zero; código financeiro preservado.
+Parecer técnico: apto para merge, que continua dependendo da autorização da pessoa responsável.
+
+Novas execuções nesta revisão: **225 testes Python e 104 JavaScript aprovados**, também com
+fonte em clone limpo e dependências do ambiente existente; `pip check` sem erros. Não houve
+reinstalação bem-sucedida em ambiente novo: acesso ao PyPI bloqueado pelo ambiente (WinError 10013).
+Chrome sem janela: 24 combinações de promoções e 72 das seis áreas da RAI-007, sem estouro ou
+violações detectadas pelo axe; fluxos novos e anteriores aprovados. Auditoria matemática adicional:
+840.582 comparações da desigualdade original, todas aprovadas.
+
+Relatório, arquivos analisados, comandos e limites em [`revisao-rai-008.md`](revisao-rai-008.md).
+PR permanece em revisão, sem merge. RAI-009 não iniciada; branch de pesquisa do PR #9 preservada.
+
+## RAI-008 — análise de promoções e ponto de equilíbrio
+
+Em revisão no [PR #10](https://github.com/GabrieliModollo/restaurant-ai-insights/pull/10), branch
+`feature/rai-008-analise-promocoes`, a partir da `main` atualizada em `b492299`.
+Implementação no commit `d70c28c`: endpoint novo `POST /api/promocoes` e painel na área Cenários, reutilizando
+A e cenário atual. Desconto/volume são hipóteses locais; nenhum contrato anterior mudou.
+Regras e decisões: `docs/promocoes.md` e `docs/architecture.md`.
+
+Pasta de trabalho e clone limpo de `d70c28c`, com ambiente virtual próprio e dependências reinstaladas:
+**225 testes Python e 104 JavaScript aprovados**, `pip check` sem erros. Chrome instalado, sem janela:
+seis larguras (320, 390, 768, 1024, 1440 e 1920), dois temas, margens promocionais positiva e negativa,
+24 combinações sem estouro horizontal ou violações detectadas pelo axe, com detalhamento aberto.
+Matriz e fluxos repetidos contra o servidor do clone limpo na porta 8021, usando a instalação
+opcional de ferramentas de navegador da revisão local.
+Fluxos anteriores da RAI-007 e novos da promoção aprovados, incluindo base negativa, margem zero,
+zero pedidos, descarte de resposta pendente ao limpar A, alteração de cenário, teclado, validação,
+falha e repetição. Capturas inspecionadas; corrigida quebra vertical da legenda no celular.
+
+Implementação e documentação enviadas ao PR #10. Próximo passo: revisão pela pessoa responsável.
+Não houve merge na `main`; não há autorização de merge nesta entrega.
+Limitações: mesmos custos excluídos e modelo determinístico; sem previsão de demanda ou IA.
+Leitor de tela, aparelho físico, toque, zoom real, outros navegadores e pessoas reais não foram verificados.
 
 ## RAI-007 — interface intuitiva
 

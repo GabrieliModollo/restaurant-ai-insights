@@ -5,6 +5,7 @@
  <meta name="color-scheme" content="light dark"/><title>Restaurant AI Insights</title>
  <link rel="icon" href="data:,"/><link rel="stylesheet" href="estilos.css"/><link rel="stylesheet" href="experiencia.css"/>
  <script type="module" src="js/principal.js"></script>
+ <link rel="stylesheet" href="promocoes.css"/>
 </head>
 <body>
  <a class="pular-conteudo" href="#titulo-parametros">Ir para o simulador</a>
@@ -78,12 +79,40 @@
               <div class="cena-botoes">
                 <button id="a-salvar" class="botao" type="button">Guardar como cenário A</button>
                 <button id="a-limpar" class="botao" type="button" hidden>Limpar cenário A</button>
+                <a class="botao" href="#titulo-promocoes">Analisar promoção ↓</a>
               </div>
               <p id="a-dica" class="cena-dica"></p>
               <p class="cena-dica">Recarregar a página descarta o cenário A.</p>
               <p id="a-anuncio" class="somente-leitor" aria-live="polite"></p>
             </div>
             <div id="a-conteudo" class="comparacao-conteudo"></div>
+          </section>
+          <section class="superficie promocao-painel" aria-labelledby="titulo-promocoes">
+            <p class="secao-kicker">PROMOÇÕES · PONTO DE EQUILÍBRIO</p>
+            <h2 id="titulo-promocoes">O desconto se paga nesta hipótese?</h2>
+            <p>Compare a contribuição do cenário A com uma hipótese promocional. Desconto não é previsão de vendas.</p>
+            <p id="promocao-status" class="promocao-status" role="status">Guarde o cenário A acima para começar.</p>
+            <div id="promocao-controles" hidden>
+              <p id="promocao-referencia" class="promocao-referencia"></p>
+              <p class="dica">Preço, custos, equipe e turno vêm do cenário atual. Desconto e volume abaixo valem só para esta análise; não alteram o simulador nem o cenário A.</p>
+              <form id="promocao-formulario" class="promocao-formulario" novalidate>
+                <div>
+                  <label for="promocao-desconto">Desconto promocional por pedido (R$)</label>
+                  <input id="promocao-desconto" name="desconto" type="number" inputmode="decimal" required aria-describedby="promocao-limite-desconto promocao-erro-desconto"/>
+                  <p id="promocao-limite-desconto" class="limites"></p>
+                  <p id="promocao-erro-desconto" class="erro-campo"></p>
+                </div>
+                <div>
+                  <label for="promocao-pedidos">Pedidos recebidos na promoção (hipótese)</label>
+                  <input id="promocao-pedidos" name="pedidos" type="number" inputmode="numeric" required aria-describedby="promocao-limite-pedidos promocao-erro-pedidos"/>
+                  <p id="promocao-limite-pedidos" class="limites"></p>
+                  <p id="promocao-erro-pedidos" class="erro-campo"></p>
+                </div>
+                <button id="promocao-analisar" type="submit" class="botao botao-principal">Analisar promoção</button>
+              </form>
+            </div>
+            <div id="promocao-resultado" hidden></div>
+            <p class="nota-rodape">Contribuição não é lucro líquido. Sem IA conectada. Não inclui impostos, salários, aluguel, desperdício nem custos dos pedidos não concluídos.</p>
           </section></div>
      <div data-pagina="financeiro" hidden><div class="titulo-secao"><div><p class="sobretitulo">FINANCEIRO</p><h1>Entenda o valor que sobra.</h1><p>Receita, custos por pedido e margem de contribuição.</p></div><a class="botao botao-principal" href="#titulo-parametros">Simular cenário</a></div><section class="superficie" aria-labelledby="titulo-financeiro">
             <h2 id="titulo-financeiro">Resultado financeiro do turno completo</h2>
