@@ -198,3 +198,29 @@ Validação com pessoas reais, que depende da pessoa responsável:
 ## Decisões tomadas
 
 - **Branch `feature/analise-avaliacoes`:** permanece separada do simulador.
+
+## Roadmap orientado por evidências — proposta de 2026-11-05
+
+Fonte versionada: [base de evidências de restaurantes](pesquisa/evidencias-restaurantes.md). **Planejado não significa implementado ou validado com clientes.** Revisar prioridades a cada sprint com novas evidências.
+
+| ID | Prioridade | Dor / objetivo | Estado proposto | Dependência / validação |
+| --- | --- | --- | --- | --- |
+| RAI-008 | P0 | Promoções, margem e ponto de equilíbrio (E006) | Em implementação informada; verificar branch/PR | Preservar cálculos e testar limites operacionais |
+| RAI-009 | P0 | Ficha técnica e custo por produto (E001, E004) | Planejado | Definir unidades, perdas e arredondamentos; entrevistas |
+| RAI-010 | P0 | Entrevistas e testes com gestores | Pendente | Pessoas reais; não fabricar achados |
+| RAI-011 | P1 | Importação de dados de vendas | Hipótese | Investigar formatos de exportação e privacidade |
+| RAI-012 | P1 | Gargalos operacionais explicáveis | Hipótese | Testar com operações reais |
+| RAI-013 | P1 | Interpretação assistida por IA | Hipótese | Dados e cálculos confiáveis; citações/guardrails |
+| RAI-014 | P2 | Desperdício e fornecedores (E005) | Discovery | Validar registro de perdas e dados disponíveis |
+| RAI-015 | P2 | Previsão de demanda | Discovery | Exige histórico e avaliação de erro |
+| RAI-016 | P2 | Integrações | Discovery | Avaliar APIs e permissões reais |
+| DISC-001 | P1 | Metas de desempenho (E002) | Hipótese | Entrevistas antes de implementar |
+| DISC-002 | P1 | Saúde financeira e fluxo de caixa (E003) | Hipótese | Entrevistas e escopo de dados |
+
+### Cadência de sprints e decisão
+
+- Pesquisa diária: capturar novas fontes, deduplicar, registrar qualidade e relação com backlog.
+- Planejamento quinzenal sugerido: escolher uma entrega principal e discovery em paralelo; não alterar escopo em execução sem decisão explícita.
+- Revisão ao final da sprint: verificar testes, critérios de aceite, valor demonstrado, riscos e novas evidências.
+- Critério para promover hipótese: problema repetido em fontes independentes ou entrevistas, impacto compreendido, solução testável e custo razoável.
+- Merge em main permanece sob aprovação da responsável.
