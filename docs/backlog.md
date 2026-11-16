@@ -198,3 +198,12 @@ Validação com pessoas reais, que depende da pessoa responsável:
 ## Decisões tomadas
 
 - **Branch `feature/analise-avaliacoes`:** permanece separada do simulador.
+
+## Radar de pesquisa — 2026-11-16 (propostas, não implementadas)
+
+- **P0 — RAI-009:** preservar ficha técnica e custo teórico como escopo sugerido (valor alto, esforço médio, confiança média quanto à relevância; sem validação da solução).
+- **P0 — RAI-010:** entrevistas e testes com proprietários de pequenos restaurantes brasileiros (valor alto para redução de incerteza, esforço médio, confiança alta no método).
+- **P1 — RAI-013 / E028:** investigar trade-offs da redução do cardápio, giro, contribuição e expectativas de clientes (valor potencial médio, esforço baixo para discovery, confiança baixa para generalização). Não implementar recomendação automática.
+- **P2 — RAI-014:** estoque e desperdício completos permanecem hipótese (valor incerto, esforço alto, confiança baixa).
+- **Rastreabilidade:** consultar [`radar-2026-11-16.md`](pesquisa/radar-2026-11-16.md). Identificador E028 provisório; deduplicar com PRs de pesquisa antes do merge. Nenhuma validação com usuários realizada.
+- **Pendência documental:** a tabela acima ainda classifica RAI-008 como 'Em revisão'; confirmar estado atual do PR #10 antes de atualizar os critérios de merge.
