@@ -13,7 +13,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Concluída (PR #6) |
 | 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Concluída (PR #7) |
 | RAI-007 | Interface intuitiva | `feat/rai-007-interface-intuitiva` | 6 | Concluída (PR #8, merge `0cd6855`) |
-| RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Em revisão (PR #10) |
+| RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Concluída (PR #10, merge 07/11/2026) |
 | — | Validação com usuários | Sem branch | Pessoas reais | Pendente |
 
 ## Classificação final dos critérios
@@ -22,7 +22,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 
 Revisão técnica independente em 2026-11-06: apto para merge, sem bloqueantes identificados.
 Novas execuções e limitações em [`revisao-rai-008.md`](revisao-rai-008.md); os registros de clone
-com dependências reinstaladas abaixo pertencem à validação anterior. Status continua **Em revisão**.
+com dependências reinstaladas abaixo pertencem à validação anterior. Status **Concluída** após merge do PR #10 em 07/11/2026.
 
 - [x] Reutilizar financeiro, operação, validação e cenário A; preservar contratos anteriores.
 - [x] Comparar preço, desconto, taxa, custos, contribuição unitária/total e diferenças.
@@ -33,8 +33,8 @@ com dependências reinstaladas abaixo pertencem à validação anterior. Status 
 - [x] Chrome: seis larguras, dois temas e margens positiva/negativa, 24 combinações sem estouro ou violações detectadas pelo axe, com detalhes abertos.
 - [x] Fluxos anteriores e novos, erros, recuperação, descarte de respostas antigas, teclado e foco conferidos no navegador.
 - [x] Implementação commitada em `d70c28c` e validada em clone limpo.
-- [x] PR #10 aberto para revisão, sem merge na `main`.
-- [ ] PR integrado com autorização da pessoa responsável.
+- [x] PR #10 revisado e integrado à `main` em 07/11/2026.
+- [x] PR integrado em 07/11/2026.
 
 ### RAI-007 — refatoração completa
 
@@ -198,3 +198,7 @@ Validação com pessoas reais, que depende da pessoa responsável:
 ## Decisões tomadas
 
 - **Branch `feature/analise-avaliacoes`:** permanece separada do simulador.
+
+## Radar de pesquisa — 17/11/2026 (proposta, não validação)
+
+Ver [`docs/pesquisa/radar-2026-11-17.md`](pesquisa/radar-2026-11-17.md) para fontes e classificação. Prioridade P0: RAI-009 deve distinguir custo teórico de caixa e sinalizar dados ausentes/desatualizados; RAI-010 deve testar compreensão desses conceitos com gestores reais. P1: investigar explicações financeiras (RAI-013). P2: não implementar fluxo de caixa completo sem discovery. Identificadores E029–E030 provisórios; consolidar PRs #9 e #11–#17 antes de integrar documentação.
