@@ -13,7 +13,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Concluída (PR #6) |
 | 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Concluída (PR #7) |
 | RAI-007 | Interface intuitiva | `feat/rai-007-interface-intuitiva` | 6 | Concluída (PR #8, merge `0cd6855`) |
-| RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Em revisão (PR #10) |
+| RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Concluída (PR #10, merge em 07/11/2026) |
 | — | Validação com usuários | Sem branch | Pessoas reais | Pendente |
 
 ## Classificação final dos critérios
@@ -22,7 +22,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 
 Revisão técnica independente em 2026-11-06: apto para merge, sem bloqueantes identificados.
 Novas execuções e limitações em [`revisao-rai-008.md`](revisao-rai-008.md); os registros de clone
-com dependências reinstaladas abaixo pertencem à validação anterior. Status continua **Em revisão**.
+com dependências reinstaladas abaixo pertencem à validação anterior. Status **Concluída** após merge do PR #10 em 07/11/2026.
 
 - [x] Reutilizar financeiro, operação, validação e cenário A; preservar contratos anteriores.
 - [x] Comparar preço, desconto, taxa, custos, contribuição unitária/total e diferenças.
@@ -33,8 +33,8 @@ com dependências reinstaladas abaixo pertencem à validação anterior. Status 
 - [x] Chrome: seis larguras, dois temas e margens positiva/negativa, 24 combinações sem estouro ou violações detectadas pelo axe, com detalhes abertos.
 - [x] Fluxos anteriores e novos, erros, recuperação, descarte de respostas antigas, teclado e foco conferidos no navegador.
 - [x] Implementação commitada em `d70c28c` e validada em clone limpo.
-- [x] PR #10 aberto para revisão, sem merge na `main`.
-- [ ] PR integrado com autorização da pessoa responsável.
+- [x] PR #10 revisado e integrado na `main` em 07/11/2026.
+- [x] PR integrado com autorização da pessoa responsável.
 
 ### RAI-007 — refatoração completa
 
@@ -198,3 +198,12 @@ Validação com pessoas reais, que depende da pessoa responsável:
 ## Decisões tomadas
 
 - **Branch `feature/analise-avaliacoes`:** permanece separada do simulador.
+
+## Radar documental — 18/11/2026 (propostas, não implementação)
+
+- Evidências e deduplicação: [radar-2026-11-18.md](pesquisa/radar-2026-11-18.md).
+- **P0 / valor alto, esforço médio, confiança média:** RAI-009, validar critérios de custo teórico por porção (unidade, peso bruto/líquido, perda, rendimento e embalagem quando aplicáveis) antes de implementar; não afirmar custo realizado.
+- **P0 / valor alto para reduzir incerteza, esforço médio, confiança alta na necessidade de testar:** RAI-010, entrevistas e tarefas de uso com proprietários reais, ainda não realizadas.
+- **P1 / valor médio, esforço médio, confiança baixa na eficácia:** RAI-013, explicações contextuais a validar.
+- **P2 / valor incerto, esforço alto, confiança baixa:** RAI-014, gestão de estoque e desperdício, apenas discovery.
+- Conciliar evidências E001–E030 dos PRs de pesquisa #9 e #11–#18 antes de integração; este radar não registra nova frequência nem nova reclamação específica de plataforma.
