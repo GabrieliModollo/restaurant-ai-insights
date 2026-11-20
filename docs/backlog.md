@@ -198,3 +198,17 @@ Validação com pessoas reais, que depende da pessoa responsável:
 ## Decisões tomadas
 
 - **Branch `feature/analise-avaliacoes`:** permanece separada do simulador.
+
+## Radar de pesquisa — 2026-11-20 (propostas, não implementadas)
+
+Fonte e limitações: [radar-2026-11-20](pesquisa/radar-2026-11-20.md). Identificadores provisórios, sem validação de usuários.
+
+| Prioridade proposta | Item | Valor potencial | Esforço | Confiança | Decisão |
+| --- | --- | --- | --- | --- | --- |
+| P0 | RAI-009: ficha técnica e custo teórico | Alto | Médio | Média | Manter escopo; não confundir com lucro ou CMV realizado |
+| P0 discovery | RAI-010: compreensão de indicadores e exclusões | Alto | Baixo–médio | Média | Testar com gestores, sem alegar validação |
+| P1 | RAI-013: avisos de tributos/custos excluídos | Médio | Baixo | Média para risco, baixa para eficácia | Investigar textos explicativos |
+| P2 | RAI-014: estoque/desperdício | Incerto | Alto | Baixa | Não antecipar |
+| Fora do MVP | Cálculo e escolha de regime IBS/CBS | Incerto | Alto | Baixa | Não implementar com base apenas em pesquisa de preparo tributário |
+
+A pesquisa Abrasel de 09/09/2026 relata 60,9% de despreparo declarado entre 1.480 respondentes; não demonstra demanda por módulo fiscal. A situação do PR #10 deve ser conferida antes de corrigir o status histórico da RAI-008 na main. Há PRs de pesquisa anteriores com potencial sobreposição documental; consolidar antes de integrar.
