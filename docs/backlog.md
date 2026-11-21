@@ -13,7 +13,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Concluída (PR #6) |
 | 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Concluída (PR #7) |
 | RAI-007 | Interface intuitiva | `feat/rai-007-interface-intuitiva` | 6 | Concluída (PR #8, merge `0cd6855`) |
-| RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Em revisão (PR #10) |
+| RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Concluída (PR #10, merge 07/11/2026) |
 | — | Validação com usuários | Sem branch | Pessoas reais | Pendente |
 
 ## Classificação final dos critérios
@@ -198,3 +198,11 @@ Validação com pessoas reais, que depende da pessoa responsável:
 ## Decisões tomadas
 
 - **Branch `feature/analise-avaliacoes`:** permanece separada do simulador.
+
+## Propostas do radar de pesquisa — 21/11/2026 (não implementadas)
+
+- **P0 — RAI-009:** ficha técnica, perdas e custo por porção; valor alto, esforço médio, confiança média.
+- **P0 discovery — RAI-010:** testar compreensão de custo-benefício, contribuição e cenários de capacidade com proprietários; valor alto, esforço baixo-médio, confiança alta para redução de incerteza.
+- **P1 — RAI-013:** avisos de custos excluídos e interpretação transparente dos resultados; valor médio, esforço baixo-médio, confiança média.
+- **P2 — capacidade por turno:** investigar escala/cobertura operacional sem criar otimizador jurídico; valor potencial médio, esforço médio, confiança baixa.
+- Evidências E033/E034 (provisórias): [`radar-2026-11-21.md`](pesquisa/radar-2026-11-21.md). Dados setoriais não substituem validação de usuários. Consolidar PRs documentais antes do merge.
