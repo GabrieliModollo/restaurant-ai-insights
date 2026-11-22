@@ -13,7 +13,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 5 | Comparação e explicações | `feat/comparacao-cenarios` | 2 | Concluída (PR #6) |
 | 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Concluída (PR #7) |
 | RAI-007 | Interface intuitiva | `feat/rai-007-interface-intuitiva` | 6 | Concluída (PR #8, merge `0cd6855`) |
-| RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Em revisão (PR #10) |
+| RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Concluída (PR #10, merge 2026-11-07) |
 | — | Validação com usuários | Sem branch | Pessoas reais | Pendente |
 
 ## Classificação final dos critérios
@@ -22,7 +22,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 
 Revisão técnica independente em 2026-11-06: apto para merge, sem bloqueantes identificados.
 Novas execuções e limitações em [`revisao-rai-008.md`](revisao-rai-008.md); os registros de clone
-com dependências reinstaladas abaixo pertencem à validação anterior. Status continua **Em revisão**.
+com dependências reinstaladas abaixo pertencem à validação anterior. Status **Concluída**, conforme merge do PR #10 em 2026-11-07.
 
 - [x] Reutilizar financeiro, operação, validação e cenário A; preservar contratos anteriores.
 - [x] Comparar preço, desconto, taxa, custos, contribuição unitária/total e diferenças.
@@ -33,8 +33,8 @@ com dependências reinstaladas abaixo pertencem à validação anterior. Status 
 - [x] Chrome: seis larguras, dois temas e margens positiva/negativa, 24 combinações sem estouro ou violações detectadas pelo axe, com detalhes abertos.
 - [x] Fluxos anteriores e novos, erros, recuperação, descarte de respostas antigas, teclado e foco conferidos no navegador.
 - [x] Implementação commitada em `d70c28c` e validada em clone limpo.
-- [x] PR #10 aberto para revisão, sem merge na `main`.
-- [ ] PR integrado com autorização da pessoa responsável.
+- [x] PR #10 revisado e integrado à `main` em 2026-11-07.
+- [x] PR integrado pela pessoa responsável em 2026-11-07.
 
 ### RAI-007 — refatoração completa
 
@@ -198,3 +198,16 @@ Validação com pessoas reais, que depende da pessoa responsável:
 ## Decisões tomadas
 
 - **Branch `feature/analise-avaliacoes`:** permanece separada do simulador.
+
+## Radar de evidências — 2026-11-22 (proposta, sem implementação)
+
+Fonte e limites: [radar-2026-11-22.md](pesquisa/radar-2026-11-22.md). E035 é pesquisa setorial EUA; M002 é indicador macro de preços, não prevalência entre restaurantes. Nenhuma validação com usuários.
+
+| Prioridade | Proposta | Valor potencial | Esforço | Confiança |
+| --- | --- | --- | --- | --- |
+| P0 | RAI-009: ficha técnica, custos teóricos e data de atualização dos insumos | Alto | Médio | Média |
+| P0 | RAI-010: entrevistas e testes de compreensão de custos e margem | Alto | Baixo–médio | Média para hipótese; alta para reduzir incerteza |
+| P1 | RAI-013: distinguir contribuição, lucro e caixa; alertar despesas ausentes | Alto | Baixo–médio | Média |
+| P2 | RAI-014: investigar estoque e desperdício antes de implementação | Incerto | Alto | Baixa |
+
+**Dívida documental:** consolidar registros e resolver PRs de pesquisa abertos, evitando duplicação e conflitos em `docs/backlog.md`. Não ampliar escopo fiscal/contábil sem discovery.
