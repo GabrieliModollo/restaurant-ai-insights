@@ -4,7 +4,7 @@
 
 ## Avaliação de qualidade do assistente — AIB-04
 
-Em revisão na branch `feature/avaliacao-assistente`, criada da `feature/assistente-decisoes` (PR #42).
+Integrada à main no PR #43, branch `feature/avaliacao-assistente`.
 45 casos versionados em três conjuntos (ajuste, novos e robustez), avaliados de ponta a ponta em
 interpretação, ferramenta, fidelidade numérica e texto esperado. O portão roda no pytest e no CI.
 Os testes encontraram cinco erros 500 com valores extremos, corrigidos nesta branch.
@@ -15,7 +15,7 @@ Com Ollama 0.40.18 e `qwen2.5:1.5b`: fidelidade 45/45; interpretação 20/20, 10
 
 ## Assistente de decisões
 
-Em revisão na branch `feature/assistente-decisoes`. Painel na Visão geral e rota `POST /api/assistente`:
+Integrado à main no PR #42, branch `feature/assistente-decisoes`. Painel na Visão geral e rota `POST /api/assistente`:
 a pergunta vira uma intenção em JSON (Ollama opcional ou regras), validada e executada pelo motor
 existente. A resposta é escrita no Python, só com números calculados. Detalhes em [Assistente](assistente.md).
 

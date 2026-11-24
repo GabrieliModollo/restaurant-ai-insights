@@ -26,8 +26,8 @@ Núcleo, sem dependência de HTTP
 | `src/simulador/operacao.py` | Filas, capacidade, diagnóstico e eventos | Pronto |
 | `src/simulador/simulacao.py` | Executa operação e finanças em sequência | Pronto |
 | `src/simulador/api.py` | Rotas e entrega da interface | Pronto |
-| `src/simulador/assistente.py` | Interpreta perguntas (Ollama opcional ou regras), valida e chama o motor | Em revisão |
-| `src/simulador/web/js/assistente.js` | Painel de perguntas na Visão geral | Em revisão |
+| `src/simulador/assistente.py` | Interpreta perguntas (Ollama opcional ou regras), valida e chama o motor | Integrado (PR #42) |
+| `src/simulador/web/js/assistente.js` | Painel de perguntas na Visão geral | Integrado (PR #42) |
 | `src/simulador/web/js/api.js` | Comunicação HTTP e descrição das falhas | Pronto |
 | `src/simulador/web/js/execucao.js` | Só o pedido mais recente chega à tela | Pronto |
 | `src/simulador/web/js/formulario.js` | Controles, limites e validação imediata | Pronto |
@@ -41,12 +41,12 @@ Núcleo, sem dependência de HTTP
 | `src/simulador/web/js/cena/linha-do-tempo.js` | Estado em cada instante, a partir dos eventos | Pronto |
 | `src/simulador/web/js/cena/reproducao.js` | Relógio e ciclo de quadros | Pronto |
 | `src/simulador/web/js/navegacao.js` | Alterna seis áreas, foco, histórico e âncoras | Pronto |
-| `src/simulador/promocoes.py` | Compara contribuições e resolve a desigualdade com limites operacionais | Em revisão |
-| `src/simulador/web/js/promocoes-pagina.js` | Hipóteses e análise na área Cenários, com o mesmo cenário A | Em revisão |
-| `src/simulador/resumo.py` | Resumo do turno completo, gerado por regras | Em revisão |
-| `src/simulador/web/js/comparacao.js` | Cenário A e diferenças em relação ao atual | Em revisão |
-| `src/simulador/web/js/comparacao-pagina.js` | Mostra a comparação na página | Em revisão |
-| `src/simulador/web/js/exemplos.js` | Aplica os exemplos fictícios ao formulário | Em revisão |
+| `src/simulador/promocoes.py` | Compara contribuições e resolve a desigualdade com limites operacionais | Integrado (PR #10) |
+| `src/simulador/web/js/promocoes-pagina.js` | Hipóteses e análise na área Cenários, com o mesmo cenário A | Integrado (PR #10) |
+| `src/simulador/resumo.py` | Resumo do turno completo, gerado por regras | Pronto |
+| `src/simulador/web/js/comparacao.js` | Cenário A e diferenças em relação ao atual | Pronto |
+| `src/simulador/web/js/comparacao-pagina.js` | Mostra a comparação na página | Pronto |
+| `src/simulador/web/js/exemplos.js` | Aplica os exemplos fictícios ao formulário | Pronto |
 
 ## Decisões em vigor
 
