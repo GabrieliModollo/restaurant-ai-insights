@@ -69,6 +69,26 @@ A maior fila de cada etapa conta pedidos esperando para entrar em atendimento. A
 soma as filas de preparo e embalagem dos pedidos que ficaram prontos. Os pedidos pendentes
 aparecem separadamente. Essas chegadas representam uma hipótese para comparar a operação.
 
+## Consultar pedidos de referência
+
+Em **Cenários → Consultar pedidos de referência**, carregue ou baixe o exemplo fictício.
+Para importar outro arquivo, use CSV UTF-8 separado por vírgulas, com até 128 KB e
+1.500 registros agregados. Cada linha reúne um dia, uma hora de criação e um status.
+O painel soma as contagens pela hora de criação no período e mantém a hipótese editável.
+
+| Coluna | Conteúdo |
+| --- | --- |
+| `referenceDate` | Dia em AAAA-MM-DD |
+| `orderCreationHour` | Hora local de criação, de 0 a 23 |
+| `orderStatus` | `CONCLUDED` ou `CANCELLED` no recorte |
+| `count` | Contagem inteira de pedidos no grupo |
+
+O CSV usa um formato do projeto baseado nas dimensões e contagens do
+[iFood Analytics](https://developer.ifood.com.br/en-US/docs/food/guides/modules/analytics/homologation),
+cuja API devolve dados agregados em JSON e requer acesso oficial. O status do canal não
+informa quando o pedido ficou pronto na cozinha nem quando a entrega ocorreu. Use dados
+agregados, sem dados pessoais.
+
 ## Fórmulas e convenções
 
 Todas as decisões usam centavos inteiros. O financeiro e a operação existentes são reutilizados,

@@ -18,6 +18,7 @@ from .explicacao import explicar_promocao
 from .ficha_tecnica import FichaTecnica, calcular_ficha_tecnica
 from .parametros import ParametrosSimulacao, campos_para_interface, exemplos_para_interface
 from .promocoes import ParametrosAlternativas, ParametrosPromocao, analisar_promocao, comparar_alternativas
+from .referencia import ArquivoReferencia, importar_referencia
 from .regras_comerciais import ConsultaComercial, consultar_regras
 from .simulacao import comparar_pico, executar_simulacao
 
@@ -98,6 +99,14 @@ def canais(parametros: ParametrosCanais) -> dict:
 @app.post("/api/promocoes/pico")
 def pico(parametros: ParametrosSimulacao) -> dict:
     return comparar_pico(parametros)
+
+
+@app.post("/api/referencias/csv")
+def importar_csv(arquivo: ArquivoReferencia) -> Response:
+    try:
+        return JSONResponse(content=importar_referencia(arquivo.csv))
+    except ValueError as erro:
+        return JSONResponse(status_code=422, content={"erros": {"csv": str(erro)}})
 
 
 @app.post("/api/ficha-tecnica")

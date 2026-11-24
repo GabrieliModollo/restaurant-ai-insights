@@ -2,6 +2,18 @@
 
 Última atualização: 2026-11-24.
 
+## Importação de dados de referência
+
+Em revisão na branch `feature/importar-referencia`. A área Cenários carrega um exemplo
+sintético ou aceita um CSV local no mesmo formato. Mostra origem, período e quantidades
+agregadas pela hora de criação, com concluídos e cancelados em colunas próprias. O arquivo
+é processado pelo servidor do simulador sem armazenamento e não muda a hipótese da promoção.
+
+Verificação: 289 testes Python e 104 JavaScript aprovados. No Chromium, o fluxo de
+exemplo, erro e importação passou em 320 px, com teclado e verificação pelo axe.
+
+Próxima entrega após revisão: guardar e compartilhar cenários.
+
 ## Simulação de pico de pedidos
 
 Em revisão na branch `feature/simular-pico`. A hipótese promocional compara pedidos chegando
@@ -11,8 +23,6 @@ e os pendentes. A média usa apenas pedidos prontos no turno.
 
 Verificação: 278 testes Python, 104 JavaScript e navegação das seis áreas no Chromium.
 O fluxo de pico foi conferido em 320 px, com teclado e axe.
-
-Próxima entrega após revisão: importação de dados de referência por CSV sintético.
 
 ## Consulta de regras comerciais
 

@@ -92,6 +92,7 @@ export const compararCanais = (valores, signal) => enviarParametros("/api/promoc
 export const compararPico = (valores, signal) => enviarParametros("/api/promocoes/pico", valores, signal);
 
 export const consultarRegras = (valores, signal) => enviarParametros("/api/promocoes/regras", valores, signal);
+export const importarReferencia = (valores, signal) => enviarParametros("/api/referencias/csv", valores, signal);
 
 export const calcularFicha = (valores, signal) => enviarParametros("/api/ficha-tecnica", valores, signal);
 
