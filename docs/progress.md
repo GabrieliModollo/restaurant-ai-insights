@@ -2,16 +2,27 @@
 
 Última atualização: 2026-11-24.
 
+## Simulação de pico de pedidos
+
+Em revisão na branch `feature/simular-pico`. A hipótese promocional compara pedidos chegando
+ao longo de todo o turno ou concentrados no primeiro quarto, com a mesma equipe e os mesmos
+tempos. Os cartões mostram a maior fila em cada estação, a espera média, os pedidos prontos
+e os pendentes. A média usa apenas pedidos prontos no turno.
+
+Verificação: 278 testes Python, 104 JavaScript e navegação das seis áreas no Chromium.
+O fluxo de pico foi conferido em 320 px, com teclado e axe.
+
+Próxima entrega após revisão: importação de dados de referência por CSV sintético.
+
 ## Consulta de regras comerciais
 
-A branch feature/rag-regras-comerciais acrescenta busca local em quatro guias oficiais e
+Integrada à main no PR #32. A consulta acrescenta busca local em quatro guias oficiais e
 respostas compostas por tema. A tela identifica quais campos ainda precisam ser confirmados
 nos dois canais. As taxas e os valores seguem como entrada do simulador.
-Próxima entrega: simulação de picos de pedidos.
 
 ## Comparação de canais
 
-Na branch feature/comparar-canais, a mesma hipótese pode ser comparada com custos comerciais
+Integrada à main no PR #31. A mesma hipótese pode ser comparada com custos comerciais
 de dois canais. As taxas são informadas na tela, assim como o frete e a divisão do desconto.
 O simulador preserva preço ao cliente, ficha técnica, volume, equipe e turno entre canais.
 
