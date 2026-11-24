@@ -16,7 +16,7 @@ from starlette.exceptions import HTTPException
 from .explicacao import explicar_promocao
 from .ficha_tecnica import FichaTecnica, calcular_ficha_tecnica
 from .parametros import ParametrosSimulacao, campos_para_interface, exemplos_para_interface
-from .promocoes import ParametrosPromocao, analisar_promocao
+from .promocoes import ParametrosAlternativas, ParametrosPromocao, analisar_promocao, comparar_alternativas
 from .simulacao import executar_simulacao
 
 PASTA_WEB = Path(__file__).parent / "web"
@@ -81,6 +81,11 @@ def simular(parametros: ParametrosSimulacao) -> dict:
 @app.post("/api/promocoes")
 def analisar(parametros: ParametrosPromocao) -> dict:
     return analisar_promocao(parametros)
+
+
+@app.post("/api/promocoes/alternativas")
+def alternativas(parametros: ParametrosAlternativas) -> dict:
+    return comparar_alternativas(parametros)
 
 
 @app.post("/api/ficha-tecnica")

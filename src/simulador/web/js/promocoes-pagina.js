@@ -1,3 +1,4 @@
+import { criarComparacaoAlternativas } from "./alternativas.js";
 import { analisarPromocao, explicarPromocao, descreverErro, ErroDeValidacao } from "./api.js";
 import { criarExecutor } from "./execucao.js";
 import { textoLimites, validarCampo } from "./formulario.js";
@@ -46,7 +47,7 @@ function criarExplicacao(hipotese) {
   return { secao, cancelar: executor.cancelar };
 }
 
-function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotuloBase, explicacao }) {
+function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotuloBase, explicacao, comparacao }) {
   const textos = textosDoEquilibrio(resultado);
   const indicadores = criar("dl", { className: "promocao-metricas" });
   for (const [rotulo, valor] of [
@@ -120,7 +121,7 @@ function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotul
     equipe.addEventListener("click", ajustarEquipe);
     alternativas.append(equipe);
   }
-  partes.push(alternativas);
+  partes.push(alternativas, comparacao);
   if (textos.intervalo) partes.push(criar("p", { className: "resumo-atencao", textContent: textos.intervalo }));
   partes.push(criar("p", { className: "dica", textContent:
     `No limite de ${resultado.equilibrio.limite_pedidos_recebidos} pedidos recebidos, este modelo conclui no máximo ${resultado.equilibrio.maximo_concluidos_no_limite} com a equipe, os tempos e o turno promocionais. Não é previsão nem meta de pedidos recebidos.` }),
@@ -155,7 +156,7 @@ export function criarAnalisePromocoes() {
   let assinatura = "";
   let disponivel = false;
   let analisando = false;
-  let cancelarExplicacao = null;
+  let cancelarDetalhes = null;
   const rascunhos = new Map();
 
   function mensagem(texto) {
@@ -172,8 +173,8 @@ export function criarAnalisePromocoes() {
 
   function cancelar() {
     executor.cancelar();
-    cancelarExplicacao?.();
-    cancelarExplicacao = null;
+    cancelarDetalhes?.();
+    cancelarDetalhes = null;
     liberarBotao();
   }
 
@@ -195,9 +196,14 @@ export function criarAnalisePromocoes() {
     },
     aoResultado({ dados, hipotese }) {
       const explicacao = criarExplicacao(hipotese);
-      cancelarExplicacao = explicacao.cancelar;
+      const comparacao = criarComparacaoAlternativas(hipotese);
+      cancelarDetalhes = () => {
+        explicacao.cancelar();
+        comparacao.cancelar();
+      };
       renderizar(dados, resultado, {
         explicacao: explicacao.secao,
+        comparacao: comparacao.secao,
         rotuloBase: modo === "exemplo" ? "Turno de referência" : "Cenário A",
         aplicarDesconto(centavos) {
           editar();

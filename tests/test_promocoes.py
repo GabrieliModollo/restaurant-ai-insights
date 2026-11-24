@@ -194,3 +194,46 @@ def test_mudanca_de_equipe_avisa_que_o_custo_adicional_fica_fora_da_contribuicao
     assert resultado["promocional"]["pedidos_concluidos"] == 27
     assert resultado["equilibrio"]["atingiu_na_hipotese"]
     assert any("custo adicional de pessoal" in alerta for alerta in resultado["alertas"])
+
+
+def enviar_alternativas(**alteracoes):
+    return cliente.post("/api/promocoes/alternativas", json={
+        "base": PADRAO,
+        "promocional": {**PADRAO, "desconto": 5, "pedidos": 30},
+        "desconto_menor_centavos": 300,
+        "estacao": "pessoas_preparo",
+        "custo_adicional_centavos": 2010,
+        **alteracoes,
+    })
+
+
+@pytest.mark.parametrize(("custo", "diferenca"), [(0, 2010), (2009, 1), (2010, 0), (2011, -1), (40000, -37990)])
+def test_comparar_alternativas_preserva_centavos_e_desconta_custo(custo, diferenca):
+    resposta = enviar_alternativas(custo_adicional_centavos=custo)
+    assert resposta.status_code == 200
+    dados = resposta.json()
+    assert dados["referencia_centavos"] == 28350
+    assert dados["desconto_menor"] == {
+        "pedidos_prontos": 22, "contribuicao_centavos": 29040,
+        "custo_adicional_centavos": 0, "resultado_ajustado_centavos": 29040,
+    }
+    assert dados["reforco_equipe"]["pedidos_prontos"] == 27
+    assert dados["reforco_equipe"]["contribuicao_centavos"] == 31050
+    assert dados["reforco_equipe"]["resultado_ajustado_centavos"] == 31050 - custo
+    assert dados["diferenca_reforco_centavos"] == diferenca
+
+
+@pytest.mark.parametrize("alteracoes", [
+    {"desconto_menor_centavos": 500},
+    {"custo_adicional_centavos": -1},
+    {"custo_adicional_centavos": 20.1},
+    {"promocional": {**PADRAO, "desconto": 5, "pessoas_preparo": 50}},
+])
+def test_comparar_alternativas_rejeita_entradas_invalidas(alteracoes):
+    assert enviar_alternativas(**alteracoes).status_code == 422
+
+
+def test_comparar_alternativas_sinaliza_referencia_com_duracao_diferente():
+    resposta = enviar_alternativas(base={**PADRAO, "duracao_turno_min": 120})
+    assert resposta.status_code == 200
+    assert resposta.json()["turnos_diferentes"] is True

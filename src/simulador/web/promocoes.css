@@ -155,3 +155,29 @@
   .promocao-modos {display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
   .promocao-modos .botao {white-space:normal;justify-content:center;text-align:center}
 }
+
+.alternativas-formulario select {
+  display:block;
+  width:100%;
+  min-height:44px;
+  padding:.6rem;
+  color:var(--texto);
+  background:var(--superficie);
+  border:1px solid var(--texto-suave);
+  border-radius:8px;
+  font:inherit;
+}
+.alternativas-cartoes {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,14rem),1fr));
+  gap:.75rem;
+  margin:.65rem 0;
+}
+.alternativa-cartao {
+  background:var(--superficie);
+  padding:.85rem;
+  border-radius:10px;
+}
+.alternativa-cartao dl > div {margin-top:.45rem}
+.alternativa-cartao dt {font-size:.8rem;color:var(--texto-suave)}
+.alternativa-cartao dd {font-weight:650}

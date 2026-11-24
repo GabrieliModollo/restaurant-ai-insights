@@ -6,8 +6,9 @@ Não estima demanda nem confunde equilíbrio da contribuição com lucro do neg�
 
 from decimal import Decimal
 from fractions import Fraction
+from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field, ValidationInfo, field_validator
 
 from .financeiro import calcular_financeiro
 from .parametros import CAMPOS, ParametrosSimulacao
@@ -19,6 +20,61 @@ class ParametrosPromocao(BaseModel):
 
     base: ParametrosSimulacao
     promocional: ParametrosSimulacao
+
+
+class ParametrosAlternativas(ParametrosPromocao):
+    desconto_menor_centavos: Annotated[int, Field(strict=True, ge=0)]
+    estacao: Literal["pessoas_preparo", "pessoas_embalagem"]
+    custo_adicional_centavos: Annotated[int, Field(strict=True, ge=0, le=100_000_000)]
+
+    @field_validator("desconto_menor_centavos")
+    @classmethod
+    def validar_desconto(cls, valor: int, info: ValidationInfo) -> int:
+        promocao = info.data.get("promocional")
+        if promocao is not None and valor >= promocao.desconto * 100:
+            raise ValueError("Informe um desconto menor que o da hipótese analisada.")
+        return valor
+
+    @field_validator("estacao")
+    @classmethod
+    def validar_estacao(cls, valor: str, info: ValidationInfo) -> str:
+        promocao = info.data.get("promocional")
+        limite = next(campo.maximo for campo in CAMPOS if campo.nome == valor)
+        if promocao is not None and getattr(promocao, valor) >= limite:
+            raise ValueError("A equipe desta estação já atingiu o limite do simulador.")
+        return valor
+
+
+def comparar_alternativas(parametros: ParametrosAlternativas) -> dict:
+    """Compara hipóteses de mesmo volume, duração e custos variáveis."""
+    promocao = parametros.promocional
+    menor = promocao.model_copy(update={
+        "desconto": Decimal(parametros.desconto_menor_centavos).scaleb(-2),
+    })
+    reforco = promocao.model_copy(update={
+        parametros.estacao: getattr(promocao, parametros.estacao) + 1,
+    })
+    referencia = executar_simulacao(parametros.base)["financeiro"]["contribuicao_total_centavos"]
+
+    def resumir(cenario, custo):
+        dados = executar_simulacao(cenario)
+        contribuicao = dados["financeiro"]["contribuicao_total_centavos"]
+        return {
+            "pedidos_prontos": dados["operacao"]["pedidos_concluidos"],
+            "contribuicao_centavos": contribuicao,
+            "custo_adicional_centavos": custo,
+            "resultado_ajustado_centavos": contribuicao - custo,
+        }
+
+    desconto = resumir(menor, 0)
+    equipe = resumir(reforco, parametros.custo_adicional_centavos)
+    return {
+        "desconto_menor": desconto,
+        "reforco_equipe": equipe,
+        "referencia_centavos": referencia,
+        "turnos_diferentes": parametros.base.duracao_turno_min != promocao.duracao_turno_min,
+        "diferenca_reforco_centavos": equipe["resultado_ajustado_centavos"] - desconto["resultado_ajustado_centavos"],
+    }
 
 
 def variacao_percentual(base: int, atual: int) -> float | None:

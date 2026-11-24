@@ -2,6 +2,14 @@
 
 Última atualização: 2026-11-24.
 
+## Comparação entre desconto menor e reforço
+
+Em revisão na branch feature/comparar-alternativas. As alternativas usam o mesmo volume e turno
+da hipótese analisada. O reforço preserva o desconto e adiciona uma pessoa à estação escolhida.
+O custo do reforço é informado para o turno e descontado no servidor em centavos inteiros.
+
+Próxima entrega de produto: comparar a promoção por canal.
+
 ## Fluxo de promoção e ficha técnica
 
 A entrega P0 está na branch feature/fluxo-promocao para revisão. O painel separa exemplo e dados
@@ -12,8 +20,6 @@ O menu Restaurante abre a cena da cozinha, com os controles de reprodução.
 
 Verificação: 249 testes Python e 104 JavaScript aprovados. O Chromium confirmou o resumo completo
 na primeira tela em 320 × 740 e 390 × 844, a preservação da hipótese e os fluxos de ficha e teclado.
-
-Próxima entrega de produto: comparar desconto menor e reforço de equipe com o custo adicional.
 
 ## Explicação local e avaliação
 
