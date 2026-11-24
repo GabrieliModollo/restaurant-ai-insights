@@ -21,6 +21,17 @@ As capturas abaixo registram a interface da primeira entrega da RAI-008.
 
 [Ver captura no celular](capturas/promocao-mobile-rai-008.png).
 
+## Desconto menor ou reforço de equipe
+
+Em **Ver detalhes e alternativas**, informe um desconto menor, a estação que receberia uma
+pessoa a mais e o custo adicional dessa pessoa no turno. As duas opções usam o mesmo volume,
+turno e demais custos da hipótese analisada. A tela mostra pedidos prontos, contribuição,
+custo adicional e resultado ajustado por alternativa.
+
+Com 30 pedidos recebidos, o desconto de R$ 3,00 com a equipe original resulta em R$ 290,40
+de contribuição. Manter R$ 5,00 de desconto e acrescentar uma pessoa no preparo resulta
+em R$ 310,50 antes do reforço. Com custo de R$ 20,10, ambas deixam R$ 290,40.
+
 ## Fórmulas e convenções
 
 Todas as decisões usam centavos inteiros. O financeiro e a operação existentes são reutilizados,

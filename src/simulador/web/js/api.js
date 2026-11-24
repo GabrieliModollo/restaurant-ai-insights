@@ -86,6 +86,8 @@ async function enviarParametros(url, valores, signal, tempoLimite) {
 export const simular = (valores, signal) => enviarParametros("/api/simulacoes", valores, signal);
 export const analisarPromocao = (valores, signal) => enviarParametros("/api/promocoes", valores, signal);
 
+export const compararAlternativas = (valores, signal) => enviarParametros("/api/promocoes/alternativas", valores, signal);
+
 export const calcularFicha = (valores, signal) => enviarParametros("/api/ficha-tecnica", valores, signal);
 
 export const explicarPromocao = (valores, signal) =>
