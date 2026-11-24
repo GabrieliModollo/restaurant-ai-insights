@@ -2,19 +2,31 @@
 
 Última atualização: 2026-11-24.
 
+## Demonstração e MCP local
+
+Em revisão na branch `feature/demo-e-mcp`. O roteiro de cinco minutos vai da promoção
+de exemplo à comparação de desconto e equipe, ao pico de pedidos e à exportação.
+O servidor MCP local disponibiliza as ferramentas de promoção e alternativas via stdio,
+com resultados estruturados e os mesmos modelos de validação da API.
+
+Verificação local: 307 testes Python, incluindo o cliente MCP em subprocesso,
+104 JavaScript e fluxos de promoção, referência e arquivo no Chromium. O roteiro
+e a configuração do cliente estão em [Demonstração](demonstracao.md) e [MCP local](mcp.md).
+A validação com gestores permanece pendente.
+
 ## Guardar e compartilhar cenários
 
-Em revisão na branch `feature/guardar-cenarios`. A área Cenários baixa a hipótese, a
+Integrada à main no PR #37. A área Cenários baixa a hipótese, a
 referência, a ficha calculada e as comparações concluídas em um JSON versionado. A
 reabertura recalcula o resumo para consulta e preserva o cenário em edição. O resumo
-é exportável em texto. Próxima entrega do backlog: atualizar o roteiro da demonstração.
+é exportável em texto.
 
 Verificação: 306 testes Python, 104 JavaScript e fluxo de download, reabertura e
 exportação em Chromium a 320 px com axe. O README descreve as entregas recentes.
 
 ## Melhorias de arquitetura
 
-Em revisão na branch `feature/melhorias-arquitetura`. O Ollama escolhe entre versões
+Integradas à main no PR #36. O Ollama escolhe entre versões
 escritas no servidor, e respostas fora do formato acionam o texto por regras.
 A busca comercial exige que a pergunta indique um tema coberto. O GitHub Actions
 executa Playwright e axe no painel de referência em 320 px.

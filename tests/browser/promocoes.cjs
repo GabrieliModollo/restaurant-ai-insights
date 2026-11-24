@@ -239,6 +239,11 @@ const url = process.env.RAI_URL || 'http://127.0.0.1:8020';
     await page.getByRole('button', { name: 'Comparar alternativas' }).click();
     await page.waitForFunction(() => document.querySelector('#comparar-alternativas [role="status"]').textContent.includes('empatam'));
     assert.match(await page.locator('.alternativas-cartoes').textContent(), /290,40.*310,50.*20,10.*290,40/);
+    await pico.locator('summary').click();
+    await pico.getByRole('button', { name: 'Comparar com pico' }).click();
+    await pico.getByText('20,75 min', { exact: true }).waitFor();
+    assert.match(await pico.locator('.alternativas-cartoes').textContent(),
+      /Ao longo do turno.*Maior fila no preparo6.*No pico.*Maior fila no preparo24/);
     await page.getByRole('button', { name: 'Testar outra equipe' }).click();
     await page.locator('#promocao-pessoas_preparo').fill('3');
     await analisar('5', '30');

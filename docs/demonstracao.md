@@ -1,46 +1,40 @@
 # Roteiro de demonstração
 
-Demonstração de cerca de 5 minutos, reproduzível a partir de um clone limpo. Todos os dados são
-fictícios. Os números abaixo foram conferidos no navegador e valem para os valores indicados.
+Em cerca de cinco minutos, mostre como o simulador ajuda a decidir entre baixar o desconto,
+reforçar a equipe ou rever o volume de uma promoção. Use os valores iniciais e dados fictícios
+para reproduzir os resultados.
 
 ## Preparação
 
-No PowerShell, depois de clonar o repositório e entrar na pasta:
+Siga [Como executar](../README.md#como-executar) e abra <http://127.0.0.1:8010>.
+Recarregue a página antes de começar para restaurar os valores iniciais.
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe -m uvicorn src.simulador.api:app --port 8010
-```
+## Da hipótese à decisão
 
-Abra <http://127.0.0.1:8010>. Se a porta estiver ocupada, escolha outro número.
+| Tempo | Ação na tela | O que interpretar |
+| --- | --- | --- |
+| 0:00–1:00 | Na **Visão geral**, observe o turno inicial e clique em **Testar uma promoção**. | No turno inicial, 18 de 20 pedidos ficam prontos e a contribuição é de R$ 283,50. Com R$ 5 de desconto, nas mesmas condições, a contribuição cai para R$ 207,00. Seriam necessários 25 pedidos prontos para preservar a contribuição, mas a capacidade simulada é 22. |
+| 1:00–2:00 | Em **Cenários**, abra **Editar hipótese**, mude **Pedidos recebidos na promoção (hipótese)** para 30 e clique em **Analisar promoção**. | Chegam 30 pedidos, 22 ficam prontos e 8 ficam pendentes. O volume é uma entrada fictícia que permite testar a operação. |
+| 2:00–3:00 | Abra **Ver detalhes e alternativas**. Informe R$ 3,00 em **Desconto reduzido**, escolha **Preparo**, informe R$ 20,10 para o reforço e clique em **Comparar alternativas**. | O desconto menor deixa R$ 290,40, com 22 pedidos prontos. O reforço deixa R$ 310,50 com 27 prontos e R$ 290,40 após o custo adicional. Com esse empate financeiro, compare quantos pedidos ficam prontos e verifique se a equipe extra está disponível. |
+| 3:00–4:00 | No mesmo resultado, abra **Simular pico de pedidos** e clique em **Comparar com pico**. | Na hipótese promocional com a equipe original, 22 ficam prontos nos dois casos. Concentrar as chegadas nos primeiros 15 minutos aumenta a maior fila de preparo de 6 para 24 e a espera média dos pedidos prontos de 5 para 20,75 minutos. |
+| 4:00–5:00 | Em **Guardar e compartilhar cenário**, use **Baixar cenário JSON** e **Exportar resumo**. Abra o mesmo JSON em **Reabrir cenário**. | O arquivo permite rever a referência e os cálculos. O TXT registra hipóteses, custos e resultados para discutir a decisão. |
 
-## Passos
+## Se quiser mostrar mais dados
 
-Na abertura, clique em **Testar uma promoção**. O exemplo usa R$ 5 de desconto e começa
-pela diferença entre a meta de 25 pedidos concluídos e a capacidade de 22. O [vídeo de
-24 segundos](capturas/demo-promocao.mp4) registra a interface anterior a este fluxo.
+- **Ficha técnica.** Em **Simulador → Calcular ingredientes por ficha técnica**, carregue o
+  exemplo e calcule R$ 3,00 por porção. O botão **Usar custo no simulador** aplica o custo e
+  altera os números do roteiro principal.
+- **Canais e fontes.** Em **Comparar custos por canal**, mostre que comissão, pagamento, frete e
+  divisão do desconto vêm das hipóteses informadas. Abra **Consultar regras de iFood e 99Food**
+  e use a pergunta de exemplo para mostrar as fontes e os dados que precisam ser conferidos.
+- **Referência por horário.** Em **Consultar pedidos de referência**, carregue o exemplo fictício
+  para ver 82 pedidos concluídos e 3 cancelados pelo canal. São contagens por hora de criação.
+  A simulação da cozinha usa a hipótese de demanda digitada.
+- **Restaurante.** Abra a área, inicie a reprodução e selecione **Preparo** para comparar o momento
+  do relógio com os indicadores do turno completo.
 
-1. **O que é.** Mostre o aviso: simulação ilustrativa com dados fictícios e IA local opcional.
-2. **Resultado sem preencher nada.** Leia o resumo: 18 de 20 pedidos ficaram prontos, e o valor que
-   sobra é R$ 283,50. Explique que impostos, salários, aluguel e desperdício não foram descontados.
-3. **Testar a própria promoção.** Abra **Cenários → Testar minha promoção** e preencha R$ 5 em
-   **Editar hipótese**. O valor que sobra cai R$ 4,25 por pedido e R$ 76,50 no turno com 20 recebidos
-   e 18 prontos. O volume é uma hipótese informada. Para guardar ou substituir a base manualmente,
-   abra **Comparar cenários avançados**.
-4. **Ver onde acumula.** Em "Simulador" → "Ver exemplos fictícios", aplique "acúmulo no preparo". Os valores são
-   substituídos e o cenário A é mantido. O resumo aponta onde os pedidos estão acumulando.
-5. **Acompanhar o turno.** Abra "Restaurante", clique em "Iniciar" e use a velocidade 4×. A cena mostra o momento do
-   relógio, e os indicadores continuam sendo do turno completo. O gargalo só aparece no fim.
-6. **Selecionar uma estação.** Clique em "Preparo" na cena ou no botão, e compare os dados do momento
-   com os do turno completo.
-7. **Comportamento em falha.** Volte ao "Simulador" e digite um desconto maior que o preço. A mensagem aparece no campo, e a
-   página avisa que os dados são do último cenário válido.
-8. **Limites honestos.** Mostre `docs/progress.md`: o que foi verificado, o que não foi, e que a
-   facilidade de uso ainda não foi validada com usuários.
+A contribuição calcula o que sobra depois do desconto, das taxas e dos custos variáveis considerados.
+Impostos, salários regulares, aluguel e desperdício ficam fora. Os resultados descrevem os cenários
+informados. A validação com gestores segue pendente, com roteiro em [teste de uso](teste-de-uso.md).
 
-## O que não afirmar
-
-- Que os cálculos são feitos pela IA. A integração opcional explica valores calculados pelo simulador.
-- Que o simulador aumenta resultados de um negócio. Nenhum benefício foi medido.
-- Que a interface é fácil de usar. Isso depende do teste em `docs/teste-de-uso.md`.
+O [vídeo de 24 segundos](capturas/demo-promocao.mp4) registra uma versão anterior da interface.

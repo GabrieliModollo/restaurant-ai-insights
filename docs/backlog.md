@@ -14,9 +14,9 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 5 | P1 | RAG de regras comerciais, após o item 4 (concluída, PR #32) | Responder por que a mesma promoção deixa contribuições diferentes entre canais. Buscar localmente em um conjunto pequeno de guias oficiais e citar fonte e data. Distinguir regra geral de condição contratual, pedir os valores faltantes e delegar o cálculo ao motor Python. Avaliar casos com fontes claras, condições contratuais e dados ausentes. |
 | 6 | P1 | Simular pico de pedidos (concluída, PR #33) | Comparar o mesmo volume, com a mesma equipe, chegando distribuído ou concentrado. Mostrar fila, espera e pedidos prontos. |
 | 7 | P2 | Importar dados de referência (concluída, PR #34) | Começar com CSV sintético baseado nos campos documentados do iFood Analytics. Identificar a origem e distinguir pedido pronto de entrega concluída. A conexão autenticada depende do acesso oficial. |
-| 8 | P2 | Guardar e compartilhar cenários (em revisão) | Reabrir ficha, referência e alternativas. Exportar um resumo com hipóteses, resultados e custos considerados. |
-| 9 | P2 | Atualizar o roteiro da demonstração | Cobrir primeiro uso, edição e interpretação dos resultados com dados fictícios. A validação com gestores fica pendente até haver participantes. |
-| 10 | P2 | MCP para assistente externo | Expor duas ferramentas de consulta, **simular promoção** e **comparar alternativas**, com entradas validadas e resultados estruturados. Reutilizar o motor existente e reproduzir os mesmos números em um cliente MCP compatível. |
+| 8 | P2 | Guardar e compartilhar cenários (concluída, PR #37) | Reabrir ficha, referência e alternativas. Exportar um resumo com hipóteses, resultados e custos considerados. |
+| 9 | P2 | Atualizar o roteiro da demonstração (em revisão) | Cobrir primeiro uso, edição e interpretação dos resultados com dados fictícios. A validação com gestores fica pendente até haver participantes. |
+| 10 | P2 | MCP para assistente externo (em revisão) | Expor duas ferramentas de consulta, **simular promoção** e **comparar alternativas**, com entradas validadas e resultados estruturados. Reutilizar o motor existente e reproduzir os mesmos números em um cliente MCP compatível. |
 
 ## Melhorias de arquitetura
 
@@ -24,9 +24,9 @@ Após a revisão dos PRs #33 e #34, priorizar a consistência das explicações 
 
 | Ordem | Prioridade | Entrega | Critério de aceite |
 | --- | --- | --- | --- |
-| A1 | P1 | Preservar a conclusão calculada na explicação do Ollama (em revisão) | Exibir o diagnóstico do motor Python sobre capacidade e contribuição. Se a resposta do modelo contradisser esse diagnóstico ou não puder ser validada, exibir a explicação por regras. Cobrir em testes capacidade insuficiente e contribuição negativa, incluindo respostas que invertem ou negam essas conclusões. |
-| A2 | P2 | Melhorar a relevância das fontes comerciais (em revisão) | Recuperar fontes apenas quando a pergunta corresponder a um tema coberto. Perguntas fora do escopo, como taxa para anunciar um produto, devem informar que a base não cobre o tema. Testar também perguntas válidas sobre comissão, pagamento, frete e promoções. |
-| A3 | P2 | Executar testes de navegador no GitHub Actions (em revisão) | Rodar Playwright e axe em cada PR com um fluxo mínimo que abra a aplicação, carregue o CSV de referência e confira o resultado em 320 px. A verificação falha se o fluxo quebrar, houver estouro horizontal ou o axe apontar violações no painel. Depende da integração do PR #34. |
+| A1 | P1 | Preservar a conclusão calculada na explicação do Ollama (concluída, PR #36) | Exibir o diagnóstico do motor Python sobre capacidade e contribuição. Se a resposta do modelo contradisser esse diagnóstico ou não puder ser validada, exibir a explicação por regras. Cobrir em testes capacidade insuficiente e contribuição negativa, incluindo respostas que invertem ou negam essas conclusões. |
+| A2 | P2 | Melhorar a relevância das fontes comerciais (concluída, PR #36) | Recuperar fontes apenas quando a pergunta corresponder a um tema coberto. Perguntas fora do escopo, como taxa para anunciar um produto, devem informar que a base não cobre o tema. Testar também perguntas válidas sobre comissão, pagamento, frete e promoções. |
+| A3 | P2 | Executar testes de navegador no GitHub Actions (concluída, PR #36) | Rodar Playwright e axe em cada PR com um fluxo mínimo que abra a aplicação, carregue o CSV de referência e confira o resultado em 320 px. A verificação falha se o fluxo quebrar, houver estouro horizontal ou o axe apontar violações no painel. Depende da integração do PR #34. |
 
 ## Histórico de entregas
 

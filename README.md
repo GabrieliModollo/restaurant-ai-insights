@@ -3,8 +3,8 @@
 **Um desconto de R$ 5 se paga?** No exemplo, seriam necessários **25 pedidos concluídos** para preservar
 a contribuição do turno. A equipe consegue concluir no máximo **22** nas condições simuladas.
 
-[**Ver a demonstração em 24 segundos (MP4)**](docs/capturas/demo-promocao.mp4) ·
-[Como executar](#como-executar) · [Avaliação da IA local](docs/explicacoes-ia.md)
+[**Roteiro da demonstração**](docs/demonstracao.md) ·
+[Como executar](#como-executar) · [Avaliação da IA local](docs/explicacoes-ia.md) · [MCP local](docs/mcp.md)
 
 O simulador explora como preço, desconto, custos, volume e equipe afetam um turno de restaurante.
 O Python calcula a operação e as finanças usando dados fictícios. A explicação com IA local é opcional
@@ -133,7 +133,7 @@ servidor ao editar o código, acrescente `--reload`. O roteiro em
 ## Testes e validação
 
 [GitHub Actions](.github/workflows/testes.yml) executa as suítes Python e JavaScript, a avaliação
-por regras e testes Playwright e axe em 320 px nos PRs e após alterações na `main`. A avaliação com Ollama é
+por regras, testes do cliente MCP e testes Playwright e axe em 320 px nos PRs e após alterações na `main`. A avaliação com Ollama é
 local. Os comandos e o roteiro de pontuação estão em [Avaliação da IA local](docs/explicacoes-ia.md).
 
 Para os testes Python, use o ambiente virtual acima. Os testes JavaScript foram verificados com
@@ -196,6 +196,9 @@ Com o servidor em execução:
 ```powershell
 Invoke-RestMethod http://127.0.0.1:8010/api/campos
 ```
+
+Em um cliente externo, a [integração MCP local](docs/mcp.md) disponibiliza **Simular promoção**
+e **Comparar alternativas** com a mesma validação e os mesmos resultados da API.
 
 ## Limitações
 

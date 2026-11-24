@@ -227,7 +227,7 @@ class ParametrosSimulacao(BaseModel):
     tempo_embalagem_min: Decimal
     duracao_turno_min: int
 
-    @field_validator("*", mode="before")
+    @field_validator("*", mode="before", json_schema_input_type=float)
     @classmethod
     def _dentro_dos_limites(cls, valor: object, info: ValidationInfo):
         return _validar_campo(_CAMPOS_POR_NOME[info.field_name], valor)
