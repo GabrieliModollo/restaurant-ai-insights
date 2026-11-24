@@ -2,33 +2,30 @@
 
 import json
 import os
-import re
 from http.client import HTTPException, HTTPConnection
-from typing import Annotated
+from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, StringConstraints, ValidationError
+from pydantic import BaseModel, ConfigDict
 
 from .promocoes import ParametrosPromocao, analisar_promocao
 
 MODELO = "qwen2.5:1.5b"
 CONTEXTO = 2048
-VERSAO_PROMPT = "promocoes-v8"
-_DADO_NA_PROSA = re.compile(r"\d|[$%<>{}\[\]]|\b(?:lucro|prejuízo|faturamento)\b", re.IGNORECASE)
+VERSAO_PROMPT = "promocoes-v9"
 _INSTRUCAO = (
-    "Reescreva esta causa em uma frase curta, em português do Brasil, para o gerente de um restaurante. "
-    "Use somente o que aparece na referência e preserve a relação entre causa e efeito. "
-    "Escreva sem números, percentuais, valores, recomendações ou causas adicionais."
+    "Escolha a versão mais clara para o gerente de um restaurante. "
+    "Responda apenas com a chave da versão no campo versao."
 )
-_CRITERIOS = {
-    "capacidade": (r"\bmeta\b", r"capacidade|equipe"),
-    "negativa": (r"perda|redu[çz]|diminu|piora", r"contribuiç"),
-    "duracao": (r"duraç|período|turno", r"diferent|distint"),
+_VERSOES_SIMPLES = {
+    "capacidade": "Mesmo com o turno no limite, a equipe consegue concluir menos pedidos do que a meta exige.",
+    "negativa": "Cada pedido pronto reduz a contribuição total porque sua contribuição por pedido é negativa.",
+    "duracao": "Os totais de contribuição cobrem turnos de durações diferentes.",
 }
 
 
 class RespostaModelo(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    explicacao: Annotated[str, StringConstraints(strip_whitespace=True, min_length=12, max_length=340)]
+    versao: Literal["padrao", "simples"]
 
 
 class OllamaIndisponivel(Exception):
@@ -81,20 +78,7 @@ def _referencia(resultado: dict) -> tuple[str, str, list[str]]:
     return fatos, " ".join(motivos) or equilibrio["explicacao"], criterios
 
 
-def aplicar_resposta(conteudo: str, criterios: list[str]) -> str:
-    texto = RespostaModelo.model_validate_json(conteudo).explicacao
-    if _DADO_NA_PROSA.search(texto):
-        raise ValueError("A resposta contém valores ou termos financeiros imprevistos.")
-    if "capacidade" in criterios and re.search(r"sobrecarreg", texto, re.IGNORECASE):
-        raise ValueError("O limite da hipótese não caracteriza sobrecarga observada.")
-    if "duracao" in criterios and re.search(r"desconto|salári|funcionári|mão de obra", texto, re.IGNORECASE):
-        raise ValueError("A conclusão sobre duração deve se ater à diferença entre períodos.")
-    if any(not re.search(padrao, texto, re.IGNORECASE) for criterio in criterios for padrao in _CRITERIOS[criterio]):
-        raise ValueError("A explicação não destacou a causa da conclusão.")
-    return texto
-
-
-def consultar_ollama(referencia: str) -> str:
+def consultar_ollama(opcoes: dict[str, str]) -> str:
     formato = RespostaModelo.model_json_schema()
     corpo = json.dumps({
         "model": MODELO,
@@ -103,7 +87,7 @@ def consultar_ollama(referencia: str) -> str:
         "options": {"temperature": 0, "num_ctx": CONTEXTO, "num_predict": 280},
         "messages": [
             {"role": "system", "content": _INSTRUCAO},
-            {"role": "user", "content": referencia},
+            {"role": "user", "content": json.dumps(opcoes, ensure_ascii=False)},
         ],
     })
     # Conexão direta, sem proxy, redirecionamento ou endereço escolhido pelo navegador.
@@ -131,11 +115,15 @@ def explicar_promocao(parametros: ParametrosPromocao) -> dict:
     resposta = {"texto": f"{fatos} {motivo}", "origem": "regras", "motivo": "desativada"}
     if not habilitada():
         return resposta
+    if not criterios:
+        return {**resposta, "motivo": "sem_alternativa"}
+    opcoes = {"padrao": motivo, "simples": " ".join(_VERSOES_SIMPLES[criterio] for criterio in criterios)}
     try:
-        conteudo = consultar_ollama(motivo)
-        texto = aplicar_resposta(conteudo, criterios)
+        versao = RespostaModelo.model_validate_json(consultar_ollama(opcoes)).versao
     except OllamaIndisponivel:
         return {**resposta, "motivo": "indisponivel"}
-    except (ValidationError, ValueError, KeyError, TypeError):
+    except (ValueError, KeyError, TypeError):
         return {**resposta, "motivo": "resposta_invalida"}
-    return {"texto": f"{fatos} {texto}", "origem": "ia_local", "modelo": MODELO, "prompt": VERSAO_PROMPT}
+    if versao == "padrao":
+        return {**resposta, "motivo": "preferiu_regras"}
+    return {"texto": f"{fatos} {opcoes[versao]}", "origem": "ia_local", "modelo": MODELO, "prompt": VERSAO_PROMPT}

@@ -219,10 +219,10 @@ const url = process.env.RAI_URL || 'http://127.0.0.1:8020';
     await page.setViewportSize(tamanhoOriginal);
     await page.getByRole('button', { name: 'Explicar este resultado' }).press('Enter');
     const origem = page.locator('.promocao-explicacao [role="status"]');
-    await page.waitForFunction(() => /IA local desativada|gerada por IA local/.test(
+    await page.waitForFunction(() => /Explicação por regras|selecionada por IA local/.test(
       document.querySelector('.promocao-explicacao [role="status"]').textContent,
     ));
-    assert.match(await origem.textContent(), /Explicação por regras|gerada por IA local/);
+    assert.match(await origem.textContent(), /Explicação por regras|selecionada por IA local/);
     assert.equal(await page.evaluate(() => document.activeElement.textContent), 'Explicar este resultado');
     assert.match(await page.locator('.promocao-explicacao p:not([role])').textContent(), /25 pedidos.*22/);
 

@@ -1,13 +1,13 @@
 # Explicação local e avaliação
 
 O botão **Explicar este resultado** aparece em Cenários após a análise de uma promoção. A opção
-padrão usa a referência por regras. Quando ativado, um modelo local pode reescrever a causa em
-linguagem simples. O Python continua compondo todos os valores exibidos. O texto enviado ao modelo
-é a causa calculada, sem os valores do cenário. O resultado identifica a origem da explicação.
+padrão usa a referência por regras. Quando ativado, o Ollama pode selecionar a versão mais clara
+entre duas frases escritas no Python para a mesma conclusão. O modelo recebe as opções sem
+os valores do cenário e devolve apenas a chave da versão. O Python compõe todos os valores
+e cada frase exibida. A interface identifica quando a IA escolhe a versão alternativa.
 
-O servidor volta às regras se Ollama estiver indisponível, se o formato falhar ou se a explicação
-gerada trouxer números, termos financeiros indevidos ou deixar de destacar a causa esperada nos
-três casos avaliados. A checagem do texto é heurística. A revisão semântica continua necessária.
+O servidor usa a frase padrão se o Ollama estiver indisponível, se a resposta não seguir
+o formato ou se a conclusão não tiver alternativa cadastrada.
 
 ## Execução opcional
 
@@ -42,8 +42,8 @@ python -m scripts.avaliar_explicacoes --com-ia
 ```
 
 O relatório JSON mostra a explicação por regras, a candidata, sua origem, os fatos ausentes
-e o tempo de resposta. Com `--com-ia`, cair nas regras marca a comparação como falha de geração,
-mesmo se o texto das regras estiver correto.
+e o tempo de resposta. Com `--com-ia`, escolher a versão padrão é uma resposta válida.
+Usar a versão padrão por indisponibilidade ou resposta inválida sinaliza falha da consulta.
 
 | Caso | Valores esperados | Pergunta para a revisão do texto |
 | --- | --- | --- |
@@ -61,8 +61,8 @@ fictícios. A taxa de acerto para outros cenários permanece desconhecida.
 Na primeira tentativa, o modelo recebeu um texto com marcadores para números e frequentemente
 omitiu os marcadores ou inventou percentuais. Ao separar os dados calculados da frase gerada, a
 checagem automática de números passou, mas a revisão manual pegou uma conclusão que atribuía ao
-desconto uma diferença entre turnos. A versão atual usa um aviso fixo para a diferença de períodos,
-restringe o texto gerado a uma causa qualitativa e aplica critérios de aceitação por caso.
+desconto uma diferença entre turnos. A versão v8 acrescentou um aviso fixo para a diferença de
+períodos e aplicou critérios de aceitação por caso.
 
 Na rodada final, com **Ollama 0.40.18**, **Qwen2.5 1.5B** e **promocoes-v8**, o modelo respondeu
 nos **três casos** e a checagem automática preservou os valores. A primeira chamada incluiu o
