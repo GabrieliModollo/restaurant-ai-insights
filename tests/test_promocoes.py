@@ -237,3 +237,57 @@ def test_comparar_alternativas_sinaliza_referencia_com_duracao_diferente():
     resposta = enviar_alternativas(base={**PADRAO, "duracao_turno_min": 120})
     assert resposta.status_code == 200
     assert resposta.json()["turnos_diferentes"] is True
+
+
+CANAL_A = {
+    "comissao_bps": 1500, "pagamento_bps": 0, "frete_loja_centavos": 0,
+    "desconto_loja_centavos": 500, "subsidio_plataforma_centavos": 0,
+}
+CANAL_B = {
+    "comissao_bps": 1000, "pagamento_bps": 200, "frete_loja_centavos": 200,
+    "desconto_loja_centavos": 200, "subsidio_plataforma_centavos": 300,
+}
+
+
+def enviar_canais(canal_a=None, canal_b=None, promocao=None, base=None):
+    return cliente.post("/api/promocoes/canais", json={
+        "base": {**PADRAO, **(base or {})},
+        "promocional": {**PADRAO, "desconto": 5, **(promocao or {})},
+        "canal_a": {**CANAL_A, **(canal_a or {})},
+        "canal_b": {**CANAL_B, **(canal_b or {})},
+    })
+
+
+def test_canais_mantem_oferta_operacao_e_referencia():
+    resposta = enviar_canais()
+    assert resposta.status_code == 200
+    dados = resposta.json()
+    assert (dados["preco_cliente_centavos"], dados["referencia_centavos"]) == (3000, 28350)
+    assert (dados["pedidos_recebidos"], dados["pedidos_prontos"]) == (20, 18)
+    a, b = dados["canal_a"], dados["canal_b"]
+    assert a["contribuicao_total_centavos"] == 20700
+    assert b["valor_loja_por_pedido_centavos"] == 3300
+    assert (b["comissao_por_pedido_centavos"], b["pagamento_por_pedido_centavos"]) == (330, 66)
+    assert b["contribuicao_total_centavos"] == 23472
+    assert dados["diferenca_b_menos_a_centavos"] == 2772
+
+
+def test_canais_arredondam_cada_taxa_por_pedido():
+    dados = enviar_canais(canal_a={"comissao_bps": 5, "pagamento_bps": 5}).json()
+    a = dados["canal_a"]
+    assert (a["comissao_por_pedido_centavos"], a["pagamento_por_pedido_centavos"]) == (2, 2)
+    assert a["contribuicao_total_centavos"] == 1596 * 18
+
+
+@pytest.mark.parametrize("invalido", [
+    {"subsidio_plataforma_centavos": 1}, {"frete_loja_centavos": -1},
+    {"pagamento_bps": 10001}, {"comissao_bps": 15.5},
+])
+def test_canais_validam_divisao_do_desconto_e_limites(invalido):
+    assert enviar_canais(canal_a=invalido).status_code == 422
+
+
+def test_canais_sem_pedidos_comparam_totais_zero_e_sinalizam_duracao():
+    dados = enviar_canais(promocao={"pedidos": 0}, base={"duracao_turno_min": 120}).json()
+    assert dados["pedidos_prontos"] == dados["diferenca_b_menos_a_centavos"] == 0
+    assert dados["turnos_diferentes"]

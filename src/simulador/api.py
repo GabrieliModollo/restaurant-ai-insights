@@ -13,6 +13,7 @@ from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 
+from .canais import ParametrosCanais, comparar_canais
 from .explicacao import explicar_promocao
 from .ficha_tecnica import FichaTecnica, calcular_ficha_tecnica
 from .parametros import ParametrosSimulacao, campos_para_interface, exemplos_para_interface
@@ -43,7 +44,7 @@ async def _erros_em_portugues(_: Request, erro: RequestValidationError) -> JSONR
     erros = {}
     for item in erro.errors():
         local = item["loc"]
-        if len(local) == 3 and local[1] in {"base", "promocional"} and isinstance(local[2], str):
+        if len(local) == 3 and local[1] in {"base", "promocional", "canal_a", "canal_b"} and isinstance(local[2], str):
             erros[f"{local[1]}.{local[2]}"] = mensagens_padrao.get(item["type"], item["msg"])
         elif local[1:2] == ("ingredientes",) and len(local) >= 3:
             campo = ".".join(map(str, local[1:]))
@@ -86,6 +87,11 @@ def analisar(parametros: ParametrosPromocao) -> dict:
 @app.post("/api/promocoes/alternativas")
 def alternativas(parametros: ParametrosAlternativas) -> dict:
     return comparar_alternativas(parametros)
+
+
+@app.post("/api/promocoes/canais")
+def canais(parametros: ParametrosCanais) -> dict:
+    return comparar_canais(parametros)
 
 
 @app.post("/api/ficha-tecnica")

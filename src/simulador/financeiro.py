@@ -12,6 +12,10 @@ def _para_centavos(valor: Decimal) -> int:
     return int((valor * 100).to_integral_value(rounding=ROUND_HALF_UP))
 
 
+def calcular_taxa_centavos(base_centavos: int, taxa_pct: Decimal) -> int:
+    return int((Decimal(base_centavos) * taxa_pct / 100).to_integral_value(rounding=ROUND_HALF_UP))
+
+
 def calcular_financeiro(
     *,
     preco_venda: Decimal,
@@ -22,9 +26,7 @@ def calcular_financeiro(
     pedidos_concluidos: int,
 ) -> dict:
     preco_liquido = _para_centavos(preco_venda) - _para_centavos(desconto)
-    taxa_canal = int(
-        (Decimal(preco_liquido) * taxa_canal_pct / 100).to_integral_value(rounding=ROUND_HALF_UP)
-    )
+    taxa_canal = calcular_taxa_centavos(preco_liquido, taxa_canal_pct)
     contribuicao_por_pedido = (
         preco_liquido
         - taxa_canal

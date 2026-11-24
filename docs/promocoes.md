@@ -32,6 +32,19 @@ Com 30 pedidos recebidos, o desconto de R$ 3,00 com a equipe original resulta em
 de contribuição. Manter R$ 5,00 de desconto e acrescentar uma pessoa no preparo resulta
 em R$ 310,50 antes do reforço. Com custo de R$ 20,10, ambas deixam R$ 290,40.
 
+## Comparar custos por canal
+
+Em **Ver detalhes e alternativas → Comparar custos por canal**, informe comissão, taxa de
+pagamento e frete pago pela loja por pedido. Divida o desconto da hipótese entre a loja e a
+plataforma. As duas parcelas devem somar o mesmo desconto exibido ao cliente nos dois canais.
+As condições são editáveis e representam cenários, sem tarifas predefinidas de marketplaces.
+
+Na convenção desta simulação, comissão e pagamento incidem separadamente sobre o preço do item
+menos o desconto pago pela loja. Cada taxa é arredondada por pedido ao centavo, meio para cima.
+O simulador também desconta ingredientes, embalagem e frete pago pela loja. A contribuição no
+turno é calculada apenas para pedidos prontos. O resumo mostra o total do turno de referência e
+avisa quando a duração da referência é diferente.
+
 ## Fórmulas e convenções
 
 Todas as decisões usam centavos inteiros. O financeiro e a operação existentes são reutilizados,

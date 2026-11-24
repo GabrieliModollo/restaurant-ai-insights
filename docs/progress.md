@@ -2,17 +2,23 @@
 
 Última atualização: 2026-11-24.
 
+## Comparação de canais
+
+Na branch feature/comparar-canais, a mesma hipótese pode ser comparada com custos comerciais
+de dois canais. As taxas são informadas na tela, assim como o frete e a divisão do desconto.
+O simulador preserva preço ao cliente, ficha técnica, volume, equipe e turno entre canais.
+
+Próxima entrega: RAG de regras comerciais vinculado à comparação por canal.
+
 ## Comparação entre desconto menor e reforço
 
-Em revisão na branch feature/comparar-alternativas. As alternativas usam o mesmo volume e turno
+Integrada à main no PR #30. As alternativas usam o mesmo volume e turno
 da hipótese analisada. O reforço preserva o desconto e adiciona uma pessoa à estação escolhida.
 O custo do reforço é informado para o turno e descontado no servidor em centavos inteiros.
 
-Próxima entrega de produto: comparar a promoção por canal.
-
 ## Fluxo de promoção e ficha técnica
 
-A entrega P0 está na branch feature/fluxo-promocao para revisão. O painel separa exemplo e dados
+A entrega P0 foi integrada à main no PR #29. O painel separa exemplo e dados
 próprios, abre o resultado antes dos controles e sinaliza a análise anterior durante a edição.
 O desconto, o volume e a equipe digitados ficam na sessão após mudanças no Simulador.
 A ficha abre junto ao custo de ingredientes e permite preencher e editar um ingrediente fictício.
