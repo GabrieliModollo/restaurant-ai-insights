@@ -57,6 +57,18 @@ A consulta distingue orientações dos guias de condições da loja e pede os ca
 não preenchidos nos dois canais. Use **Comparar canais** para calcular com as condições
 do seu cenário. A resposta atual usa síntese por regras e funciona sem instalar modelo.
 
+## Simular pico de pedidos
+
+Em **Ver detalhes e alternativas → Simular pico de pedidos**, use **Comparar com pico**.
+O primeiro cenário distribui os pedidos ao longo do turno e o segundo, pelo primeiro quarto
+do mesmo turno (15 minutos em um turno de 60). Nos dois casos, a primeira chegada ocorre
+no minuto zero e as seguintes ocorrem em intervalos iguais dentro da janela. Volume, equipe
+e tempos de trabalho vêm da hipótese promocional.
+
+A maior fila de cada etapa conta pedidos esperando para entrar em atendimento. A espera média
+soma as filas de preparo e embalagem dos pedidos que ficaram prontos. Os pedidos pendentes
+aparecem separadamente. Essas chegadas representam uma hipótese para comparar a operação.
+
 ## Fórmulas e convenções
 
 Todas as decisões usam centavos inteiros. O financeiro e a operação existentes são reutilizados,

@@ -10,7 +10,7 @@ from fastapi.testclient import TestClient
 import src.simulador.api as modulo_api
 from src.simulador.api import app
 from src.simulador.parametros import CAMPOS, ParametrosSimulacao
-from src.simulador.simulacao import executar_simulacao
+from src.simulador.simulacao import comparar_pico, executar_simulacao
 
 PASTA_WEB = Path(modulo_api.__file__).parent / "web"
 CABECALHO_JSON = {"Content-Type": "application/json"}
@@ -83,6 +83,20 @@ def test_media_ausente_chega_como_nulo_e_nao_como_zero():
 
     assert operacao["espera_media_fila_min"] is None
     assert operacao["tempo_total_medio_min"] is None
+
+
+def test_comparacao_do_pico_usa_os_parametros_do_simulador():
+    dados = {**PADRAO, "pedidos": 0}
+    resposta = cliente.post("/api/promocoes/pico", json=dados)
+    assert resposta.status_code == 200
+    assert resposta.json() == comparar_pico(ParametrosSimulacao(**dados))
+    pico = resposta.json()["pico"]
+    assert pico["pedidos_pendentes"] == pico["pedidos_prontos"] == pico["fila_maxima_preparo"] == 0
+    assert pico["espera_media_fila_min"] is None
+
+    resposta = cliente.post("/api/promocoes/pico", json={**dados, "pedidos": -1})
+    assert resposta.status_code == 422
+    assert "pedidos" in resposta.json()["erros"]
 
 
 @pytest.mark.parametrize(

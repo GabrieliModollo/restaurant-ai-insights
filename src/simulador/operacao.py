@@ -4,7 +4,8 @@ Os tempos usam Fraction (fração exata), não float. Assim, um pedido que termi
 exatamente no fim do turno é contado como concluído, sem erro de arredondamento.
 
 Regras do modelo:
-- Os pedidos chegam em intervalos iguais: minuto 0, T/N, 2T/N... (T = turno, N = pedidos).
+- Os pedidos chegam em intervalos iguais dentro da janela inicial de chegadas.
+  Por padrão, essa janela dura o turno inteiro.
 - Cada estação tem fila única em ordem de chegada; cada pessoa atende um pedido por vez.
 - Todos têm o mesmo tempo de atendimento, portanto a ordem dos pedidos nunca se inverte.
 - No instante exato do fim do turno, quem começou a ser atendido conta como em atendimento.
@@ -140,18 +141,20 @@ def simular_operacao(
     pessoas_embalagem: int,
     tempo_preparo_min,
     tempo_embalagem_min,
+    fracao_turno_chegadas: Fraction = Fraction(1),
 ) -> dict:
     turno = Fraction(duracao_turno_min)
     tempo_preparo = Fraction(tempo_preparo_min)
     tempo_embalagem = Fraction(tempo_embalagem_min)
 
-    chegadas = [indice * turno / pedidos for indice in range(pedidos)]
+    janela_chegadas = turno * fracao_turno_chegadas
+    chegadas = [indice * janela_chegadas / pedidos for indice in range(pedidos)]
     preparos = _atender(chegadas, pessoas_preparo, tempo_preparo)
     entradas_embalagem = [fim for _, fim, _ in preparos]
     embalagens = _atender(entradas_embalagem, pessoas_embalagem, tempo_embalagem)
 
     # A embalagem só recebe o que o preparo consegue entregar.
-    fluxo_preparo = Fraction(pedidos) / turno
+    fluxo_preparo = Fraction(pedidos) / janela_chegadas
     fluxo_embalagem = min(fluxo_preparo, pessoas_preparo / tempo_preparo)
     estacoes = {
         PREPARO: _resumir_estacao(

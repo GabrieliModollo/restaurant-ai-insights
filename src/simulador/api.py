@@ -19,7 +19,7 @@ from .ficha_tecnica import FichaTecnica, calcular_ficha_tecnica
 from .parametros import ParametrosSimulacao, campos_para_interface, exemplos_para_interface
 from .promocoes import ParametrosAlternativas, ParametrosPromocao, analisar_promocao, comparar_alternativas
 from .regras_comerciais import ConsultaComercial, consultar_regras
-from .simulacao import executar_simulacao
+from .simulacao import comparar_pico, executar_simulacao
 
 PASTA_WEB = Path(__file__).parent / "web"
 MENSAGEM_CORPO_INVALIDO = "Envie um objeto JSON válido."
@@ -93,6 +93,11 @@ def alternativas(parametros: ParametrosAlternativas) -> dict:
 @app.post("/api/promocoes/canais")
 def canais(parametros: ParametrosCanais) -> dict:
     return comparar_canais(parametros)
+
+
+@app.post("/api/promocoes/pico")
+def pico(parametros: ParametrosSimulacao) -> dict:
+    return comparar_pico(parametros)
 
 
 @app.post("/api/ficha-tecnica")

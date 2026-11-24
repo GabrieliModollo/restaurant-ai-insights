@@ -4,9 +4,40 @@ import json
 from pathlib import Path
 
 from src.simulador.parametros import CAMPOS, ParametrosSimulacao, exemplos_para_interface
-from src.simulador.simulacao import executar_simulacao
+from src.simulador.simulacao import comparar_pico, executar_simulacao
 
 PADRAO = {campo.nome: campo.padrao for campo in CAMPOS}
+
+
+def test_pico_muda_apenas_quando_os_mesmos_pedidos_chegam():
+    parametros = ParametrosSimulacao(**{
+        **PADRAO, "pedidos": 4, "duracao_turno_min": 12, "pessoas_preparo": 1,
+        "pessoas_embalagem": 1, "tempo_preparo_min": 2, "tempo_embalagem_min": 2,
+    })
+    resultado = comparar_pico(parametros)
+    assert resultado["pedidos_recebidos"] == 4
+    assert resultado["duracao_turno_min"] == 12
+    assert resultado["distribuido"] == {
+        "janela_chegadas_min": 12, "pedidos_prontos": 3, "pedidos_pendentes": 1,
+        "espera_media_fila_min": 0, "fila_maxima_preparo": 0, "fila_maxima_embalagem": 0,
+    }
+    assert resultado["pico"] == {
+        "janela_chegadas_min": 3, "pedidos_prontos": 4, "pedidos_pendentes": 0,
+        "espera_media_fila_min": 1.88, "fila_maxima_preparo": 2, "fila_maxima_embalagem": 0,
+    }
+
+
+def test_pico_com_pedidos_que_nao_ficam_prontos_mostra_fila_sem_media():
+    parametros = ParametrosSimulacao(**{
+        **PADRAO, "pedidos": 3, "duracao_turno_min": 4, "pessoas_preparo": 1,
+        "tempo_preparo_min": 5,
+    })
+    pico = comparar_pico(parametros)["pico"]
+    assert pico["pedidos_prontos"] == 0
+    assert pico["pedidos_pendentes"] == 3
+    assert pico["fila_maxima_preparo"] == 2
+    assert pico["espera_media_fila_min"] is None
+
 
 # Resultados reais do núcleo, usados pelos testes de JavaScript em tests/js/.
 ARQUIVO_DA_FIXTURE = Path(__file__).parent / "fixtures" / "simulacoes.json"
