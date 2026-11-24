@@ -44,11 +44,12 @@ class Interpretacao(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     intencao: Literal["promocao", "equipe", "pedidos", "regras", "fora_do_escopo"]
-    desconto_reais: Annotated[float, Field(gt=0, le=1000)] | None = None
-    desconto_pct: Annotated[float, Field(gt=0, le=100)] | None = None
-    pedidos: Annotated[int, Field(ge=0, le=1000)] | None = None
+    # Só o sinal é conferido aqui. Os limites ficam em ParametrosSimulacao, que explica o erro.
+    desconto_reais: Annotated[float, Field(gt=0)] | None = None
+    desconto_pct: Annotated[float, Field(gt=0)] | None = None
+    pedidos: Annotated[int, Field(ge=0)] | None = None
     estacao: Literal["preparo", "embalagem"] | None = None
-    pessoas_a_mais: Annotated[int, Field(ge=1, le=10)] | None = None
+    pessoas_a_mais: Annotated[int, Field(ge=1)] | None = None
 
 
 # ---------------------------------------------------------------- interpretação por regras
@@ -100,14 +101,18 @@ def interpretar_por_regras(pergunta: str) -> Interpretacao:
     if acrescenta_equipe:
         valores["estacao"] = "embalagem" if "embal" in texto else "preparo"
         quantidade = pessoas.group(1) if pessoas else "1"
-        valores["pessoas_a_mais"] = _POR_EXTENSO.get(quantidade) or int(quantidade)
+        valores["pessoas_a_mais"] = _POR_EXTENSO.get(quantidade) or int(quantidade) or 1
 
-    if quer_desconto and (dinheiro or percentual):
-        if dinheiro:
-            valores["desconto_reais"] = float(_decimal(dinheiro.group(1) or dinheiro.group(2)))
-        else:
-            valores["desconto_pct"] = float(_decimal(percentual.group(1)))
+    # Desconto zero não é uma hipótese a testar: a pergunta segue como "qual desconto?".
+    if dinheiro and _decimal(dinheiro.group(1) or dinheiro.group(2)) > 0:
+        valores["desconto_reais"] = float(_decimal(dinheiro.group(1) or dinheiro.group(2)))
+    elif percentual and _decimal(percentual.group(1)) > 0:
+        valores["desconto_pct"] = float(_decimal(percentual.group(1)))
+    tem_valor = "desconto_reais" in valores or "desconto_pct" in valores
+    if quer_desconto and tem_valor:
         return Interpretacao(intencao="promocao", **valores)
+    valores.pop("desconto_reais", None)
+    valores.pop("desconto_pct", None)
     if _TERMOS_REGRAS.search(texto):
         return Interpretacao(intencao="regras")
     if quer_desconto:

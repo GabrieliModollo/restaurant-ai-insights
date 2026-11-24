@@ -18,6 +18,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 9 | P2 | Atualizar o roteiro da demonstração (concluída, PR #38) | Cobrir primeiro uso, edição e interpretação dos resultados com dados fictícios. A validação com gestores fica pendente até haver participantes. |
 | 10 | P2 | MCP para assistente externo (concluída, PR #38) | Expor duas ferramentas de consulta, **simular promoção** e **comparar alternativas**, com entradas validadas e resultados estruturados. Reutilizar o motor existente e reproduzir os mesmos números em um cliente MCP compatível. |
 | 11 | P1 | Assistente de decisões (em revisão) | Pergunta em português sobre desconto, equipe, volume ou regras comerciais. A IA local só interpreta; a resposta usa apenas números do motor; números fora da pergunta e falhas do modelo voltam às regras. Funciona sem IA. |
+| 12 | P1 | Avaliação de qualidade do assistente (em revisão) | Casos versionados com conjunto separado do ajuste; interpretação, ferramenta, fidelidade numérica e texto conferidos de ponta a ponta; portão no CI; cenários aleatórios sem erro nem número sem origem. |
 
 ## Melhorias de arquitetura
 

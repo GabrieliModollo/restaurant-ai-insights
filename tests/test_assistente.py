@@ -190,10 +190,3 @@ def test_interpretacao_incompleta_da_ia_cede_para_regras_completas(monkeypatch):
     resposta = perguntar("E se o movimento subir para 50 pedidos no turno?")
     assert resposta["origem"] == "regras" and resposta["motivo"] == "interpretacao_incompleta"
     assert resposta["interpretacao"] == {"intencao": "pedidos", "pedidos": 50}
-
-
-def test_avaliacao_por_regras_roda_sem_ia():
-    from scripts.avaliar_assistente import CASOS, avaliar
-    relatorio = avaliar(False, CASOS)
-    assert relatorio["respostas_da_ia"] == 0
-    assert relatorio["acertos_regras"] == relatorio["acertos_finais"] >= 19

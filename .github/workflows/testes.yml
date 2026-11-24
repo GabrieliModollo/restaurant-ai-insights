@@ -42,8 +42,8 @@ jobs:
           python -m pytest -q tests/test_mcp.py
       - name: Conferir a referência da avaliação
         run: python -m scripts.avaliar_explicacoes
-      - name: Avaliar a interpretação do assistente por regras
-        run: python -m scripts.avaliar_assistente > /dev/null
+      - name: Portão de qualidade do assistente
+        run: python -m scripts.avaliar_assistente --tabela --verificar >> "$GITHUB_STEP_SUMMARY"
       - name: Instalar ferramentas de teste no navegador
         run: |
           npm install --no-save --no-package-lock playwright@1.58.2 @axe-core/playwright@4.11.1 axe-core@4.11.4
