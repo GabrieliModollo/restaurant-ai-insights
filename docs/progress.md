@@ -2,6 +2,19 @@
 
 Última atualização: 2026-11-24.
 
+## Fluxo de promoção e ficha técnica
+
+A entrega P0 está na branch feature/fluxo-promocao para revisão. O painel separa exemplo e dados
+próprios, abre o resultado antes dos controles e sinaliza a análise anterior durante a edição.
+O desconto, o volume e a equipe digitados ficam na sessão após mudanças no Simulador.
+A ficha abre junto ao custo de ingredientes e permite preencher e editar um ingrediente fictício.
+O menu Restaurante abre a cena da cozinha, com os controles de reprodução.
+
+Verificação: 249 testes Python e 104 JavaScript aprovados. O Chromium confirmou o resumo completo
+na primeira tela em 320 × 740 e 390 × 844, a preservação da hipótese e os fluxos de ficha e teclado.
+
+Próxima entrega de produto: comparar desconto menor e reforço de equipe com o custo adicional.
+
 ## Explicação local e avaliação
 
 A branch `feature/explicacao-local-e-validacao` adiciona explicação opcional com Ollama, referência

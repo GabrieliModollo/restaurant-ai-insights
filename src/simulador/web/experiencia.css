@@ -1085,3 +1085,14 @@ h1 {
 .ficha-tecnica .erro-campo,.ficha-tecnica fieldset button {grid-column:1/-1;justify-self:start}
 .ficha-acoes {display:flex;flex-wrap:wrap;gap:.5rem}
 #ficha-custos {padding-left:1.25rem;margin:.6rem 0}
+
+.ficha-medida {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(5rem,auto);
+  align-items:end;
+  gap:.5rem;
+}
+.ficha-medida,
+.ficha-tecnica fieldset > .erro-campo,
+.ficha-tecnica fieldset > button {grid-column:1/-1}
+#ficha-exemplo {margin:.35rem 0 .65rem}

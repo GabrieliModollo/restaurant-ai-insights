@@ -13,7 +13,7 @@
   <aside class="barra-lateral" aria-label="Navegação principal">
    <a class="marca" href="#inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 14a5 5 0 0 1-2-9 5 5 0 0 1 8-2 5 5 0 0 1 8 2 5 5 0 0 1-2 9v7H6Zm0 3h12M10 10v7m4-7v7"/></svg><span>Restaurant<strong>AI Insights</strong></span></a>
    <p class="menu-rotulo">SEU ESPAÇO PARA EXPERIMENTAR</p>
-   <nav class="menu-principal" aria-label="Seções do aplicativo"><a href="#inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10 12 3l9 7M5 9v12h5v-7h4v7h5V9"/></svg><span>Visão geral</span></a><a href="#titulo-parametros"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 4 12 8-12 8Z"/></svg><span>Simulador</span></a><a href="#titulo-comparacao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 7 9-4 9 4-9 4Zm0 5 9 4 9-4M3 17l9 4 9-4"/></svg><span>Cenários</span></a><a href="#titulo-financeiro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V13h4v8m3 0V8h4v13m3 0V3h4v18"/></svg><span>Financeiro</span></a><a href="#titulo-operacao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v11h16V10M3 10l2-7h14l2 7M9 21v-7h6v7M3 10c0 3 4 3 4 0 0 3 5 3 5 0 0 3 5 3 5 0 0 3 4 3 4 0"/></svg><span>Restaurante</span></a><a href="#titulo-explicacoes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9a3 3 0 1 1 5 2c-2 1-2 2-2 3m0 3v1M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0"/></svg><span>Ajuda</span></a></nav>
+   <nav class="menu-principal" aria-label="Seções do aplicativo"><a href="#inicio"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10 12 3l9 7M5 9v12h5v-7h4v7h5V9"/></svg><span>Visão geral</span></a><a href="#titulo-parametros"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 4 12 8-12 8Z"/></svg><span>Simulador</span></a><a href="#titulo-comparacao"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 7 9-4 9 4-9 4Zm0 5 9 4 9-4M3 17l9 4 9-4"/></svg><span>Cenários</span></a><a href="#titulo-financeiro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V13h4v8m3 0V8h4v13m3 0V3h4v18"/></svg><span>Financeiro</span></a><a href="#titulo-cena"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v11h16V10M3 10l2-7h14l2 7M9 21v-7h6v7M3 10c0 3 4 3 4 0 0 3 5 3 5 0 0 3 5 3 5 0 0 3 4 3 4 0"/></svg><span>Restaurante</span></a><a href="#titulo-explicacoes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 9a3 3 0 1 1 5 2c-2 1-2 2-2 3m0 3v1M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0"/></svg><span>Ajuda</span></a></nav>
    <div class="menu-rodape"><span class="etiqueta">AMBIENTE DEMONSTRATIVO</span><p>Um turno. Muitas possibilidades.</p><small>Dados fictícios · IA local opcional</small></div>
   </aside>
   <div class="conteudo-aplicacao">
@@ -70,16 +70,16 @@
           <p id="exemplo-aplicado" class="dica" role="status"></p>
         </details>
         <form id="formulario" novalidate></form>
+        <form id="ficha-formulario"></form>
         <details id="ficha-tecnica" class="ficha-tecnica">
           <summary>Calcular ingredientes por ficha técnica</summary>
           <p class="dica">Informe a compra e quanto de cada ingrediente entra em uma porção. Use o resultado para preencher o custo do cenário.</p>
-          <form id="ficha-formulario">
+          <button id="ficha-exemplo" class="botao" type="button">Preencher ingrediente de exemplo</button>
             <div id="ficha-ingredientes"></div>
             <div class="ficha-acoes">
               <button id="ficha-adicionar" class="botao" type="button">Adicionar ingrediente</button>
-              <button id="ficha-calcular" class="botao botao-principal" type="submit">Calcular custo</button>
+              <button id="ficha-calcular" class="botao botao-principal" type="submit" form="ficha-formulario">Calcular custo</button>
             </div>
-          </form>
           <p id="ficha-status" role="status"></p>
           <div id="ficha-resultado" hidden>
             <ul id="ficha-custos"></ul>
@@ -89,30 +89,21 @@
         <div class="acoes-simulacao"><button id="simular-cenario" class="botao botao-principal" type="submit" form="formulario">Simular cenário <span aria-hidden="true">→</span></button><a href="#inicio">Ver resultados atuais</a></div>
 
       </section><aside class="dicas-simulacao superficie"><span class="icone-grande"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V13h4v8m3 0V8h4v13m3 0V3h4v18"/></svg></span><h2>Pequenas mudanças, novas perspectivas.</h2><p>Comece com os valores preenchidos. Mude um grupo de cada vez para entender seu efeito.</p><ol><li>Informe preço e demanda.</li><li>Confira os custos por pedido.</li><li>Ajuste equipe e duração do turno.</li></ol><p>O cenário já vem preenchido: altere só o que quiser.</p><a href="#titulo-comparacao">Quer comparar duas alternativas? →</a></aside></div></div>
-     <div data-pagina="comparacao" hidden><div class="titulo-secao"><div><p class="sobretitulo">CENÁRIOS</p><h1>Compare possibilidades.</h1><p>Guarde uma referência e veja o que muda. Sem escolher um vencedor por você.</p></div><a class="botao botao-principal" href="#titulo-parametros">Simular cenário</a></div><section class="superficie" aria-labelledby="titulo-comparacao">
-            <p class="secao-kicker">EXPLORE ALTERNATIVAS</p>
-            <h2 id="titulo-comparacao">E se você mudasse alguma coisa?</h2>
-            <div class="comparacao-acoes">
-              <div class="cena-botoes">
-                <button id="a-salvar" class="botao" type="button">Guardar como cenário A</button>
-                <button id="a-limpar" class="botao" type="button" hidden>Limpar cenário A</button>
-                <a class="botao" href="#titulo-promocoes">Analisar promoção ↓</a>
-              </div>
-              <p id="a-dica" class="cena-dica"></p>
-              <p class="cena-dica">Recarregar a página descarta o cenário A.</p>
-              <p id="a-anuncio" class="somente-leitor" aria-live="polite"></p>
+     <div data-pagina="comparacao" hidden>
+          <section id="titulo-comparacao" class="superficie promocao-painel" aria-labelledby="titulo-promocoes">
+            <h1 id="titulo-promocoes">Teste uma promoção</h1>
+            <div id="promocao-modos" class="promocao-modos" role="group" aria-label="Dados da promoção">
+              <button id="promocao-exemplo" class="botao" type="button" aria-pressed="false">Experimentar exemplo</button>
+              <button id="promocao-propria" class="botao" type="button" aria-pressed="false">Testar minha promoção</button>
             </div>
-            <div id="a-conteudo" class="comparacao-conteudo"></div>
-          </section>
-          <section class="superficie promocao-painel" aria-labelledby="titulo-promocoes">
-            <p class="secao-kicker">PROMOÇÕES · PONTO DE EQUILÍBRIO</p>
-            <h2 id="titulo-promocoes">O desconto se paga nesta hipótese?</h2>
-            <p>Compare a contribuição do turno de referência com a da promoção. Você informa o volume de pedidos.</p>
-            <button id="promocao-usar-cenarios" class="botao" type="button" hidden>Usar meus cenários</button>
-            <p id="promocao-status" class="promocao-status" role="status">Guarde o cenário A acima para começar.</p>
+            <p id="promocao-status" class="promocao-status" role="status">Escolha um exemplo fictício ou use seu cenário atual como referência.</p>
+            <p id="promocao-desatualizada" class="promocao-aviso" hidden>Resultado anterior. Recalcule para aplicar os ajustes.</p>
+            <div id="promocao-resultado" hidden></div>
             <div id="promocao-controles" hidden>
-              <p id="promocao-referencia" class="promocao-referencia"></p>
-              <p class="dica">Desconto, volume e equipe nesta seção valem apenas para esta análise.</p>
+              <details id="promocao-ajustes">
+                <summary id="promocao-editar">Editar hipótese</summary>
+                <p id="promocao-referencia" class="promocao-referencia"></p>
+                <p class="dica">Desconto, volume e equipe nesta seção valem apenas para esta análise.</p>
               <form id="promocao-formulario" class="promocao-formulario" novalidate>
                 <div>
                   <label for="promocao-desconto">Desconto promocional por pedido (R$)</label>
@@ -146,10 +137,25 @@
                 </details>
                 <button id="promocao-analisar" type="submit" class="botao botao-principal">Analisar promoção</button>
               </form>
+              </details>
             </div>
-            <div id="promocao-resultado" hidden></div>
-            <p class="nota-rodape">A contribuição calculada deixa de fora impostos, salários, aluguel, desperdício nem custos dos pedidos não concluídos.</p>
-          </section></div>
+            <p class="nota-rodape promocao-exclusoes">A contribuição calculada deixa de fora impostos, salários, aluguel, desperdício e custos dos pedidos não concluídos.</p>
+          </section>
+          <details id="comparacao-avancada" class="superficie comparacao-avancada">
+            <summary>Comparar cenários avançados</summary>
+            <div class="comparacao-acoes">
+              <div class="cena-botoes">
+                <button id="a-salvar" class="botao" type="button">Guardar como cenário A</button>
+                <button id="a-limpar" class="botao" type="button" hidden>Limpar cenário A</button>
+                <a class="botao" href="#titulo-parametros">Editar cenário no simulador</a>
+              </div>
+              <p id="a-dica" class="cena-dica"></p>
+              <p class="cena-dica">Recarregar a página descarta o cenário A.</p>
+              <p id="a-anuncio" class="somente-leitor" aria-live="polite"></p>
+            </div>
+            <div id="a-conteudo" class="comparacao-conteudo"></div>
+          </details>
+     </div>
      <div data-pagina="financeiro" hidden><div class="titulo-secao"><div><p class="sobretitulo">FINANCEIRO</p><h1>Entenda o valor que sobra.</h1><p>Receita, custos por pedido e margem de contribuição.</p></div><a class="botao botao-principal" href="#titulo-parametros">Simular cenário</a></div><section class="superficie" aria-labelledby="titulo-financeiro">
             <h2 id="titulo-financeiro">Resultado financeiro do turno completo</h2>
             <dl class="grade-indicadores grade-financeira">

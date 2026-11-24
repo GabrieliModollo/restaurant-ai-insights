@@ -22,7 +22,7 @@ function criarExplicacao(hipotese) {
   const executor = criarExecutor({
     buscar: explicarPromocao,
     aoResultado(dados) {
-      botao.disabled = false;
+      botao.setAttribute("aria-disabled", "false");
       status.textContent = dados.origem === "ia_local"
         ? `Explicação gerada por IA local · ${dados.modelo}`
         : motivos[dados.motivo] ?? "Explicação por regras.";
@@ -30,14 +30,15 @@ function criarExplicacao(hipotese) {
       texto.hidden = false;
     },
     aoErro(erro) {
-      botao.disabled = false;
+      botao.setAttribute("aria-disabled", "false");
       status.textContent = erro.name === "TimeoutError"
         ? "A explicação demorou mais que o esperado. Você pode tentar de novo."
         : descreverErro(erro);
     },
   });
   botao.addEventListener("click", () => {
-    botao.disabled = true;
+    if (botao.getAttribute("aria-disabled") === "true") return;
+    botao.setAttribute("aria-disabled", "true");
     texto.hidden = true;
     status.textContent = "Preparando a explicação…";
     executor.executar(hipotese);
@@ -49,10 +50,9 @@ function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotul
   const textos = textosDoEquilibrio(resultado);
   const indicadores = criar("dl", { className: "promocao-metricas" });
   for (const [rotulo, valor] of [
-    ["Diferença por pedido", textos.unitario],
-    ["Conclusões mínimas para compensar", textos.minimo],
-    ["Adicionais sobre conclusões da base", textos.adicionais],
-    ["Diferença total nesta hipótese", textos.total],
+    ["Pedidos prontos necessários", textos.minimo],
+    ["Capacidade do turno", `${resultado.equilibrio.maximo_concluidos_no_limite} pedidos`],
+    ["Diferença no turno", textos.total],
   ]) indicadores.append(criar("div", {}, criar("dt", { textContent: rotulo }), criar("dd", { textContent: valor })));
   const colunas = [rotuloBase, "Promoção", "Diferença", "Variação (%)"];
   const tabela = criar("table", { className: "tabela-comparacao tabela-promocao" },
@@ -73,14 +73,33 @@ function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotul
     criar("ul", {}, ...resultado.formulas.map(textContent => criar("li", { textContent }))),
   );
   const detalhamento = criar("details", {
-    className: "promocao-detalhamento", open: !window.matchMedia("(max-width:700px)").matches,
+    className: "promocao-detalhamento",
   }, criar("summary", { textContent: "Comparação financeira lado a lado" }),
     criar("p", { className: "dica", textContent: "A variação usa o valor da base sem o sinal. Se a base for zero, o percentual não é definido." }), tabela);
-  const partes = [
+  const contribuicao = resultado.promocional.contribuicao_total_centavos;
+  const negativa = resultado.base.contribuicao_total_centavos < 0 || contribuicao < 0;
+  const turnosDiferentes = resultado.base.duracao_turno_min !== resultado.promocional.duracao_turno_min;
+  const atingiu = resultado.equilibrio.atingiu_na_hipotese;
+  const titulo = negativa
+    ? contribuicao < 0 ? "Contribuição ainda negativa" : "Referência com contribuição negativa"
+    : atingiu ? "A hipótese mantém a contribuição" : "Abaixo da referência";
+  const resumo = criar("div", { className: "promocao-resumo" },
+    criar("h2", {
+      id: "promocao-titulo-resultado", tabIndex: -1, textContent: titulo,
+    }),
     criar("p", { className: "promocao-conclusao", textContent: textos.conclusao }),
-    explicacao,
-    indicadores,
-  ];
+  );
+  resumo.dataset.estado = atingiu && !negativa && !turnosDiferentes ? "favoravel" : "atencao";
+  if (contribuicao < 0) {
+    const valor = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(contribuicao / 100);
+    resumo.append(criar("p", { textContent: "Contribuição da promoção: " + valor + "." }));
+  }
+  if (turnosDiferentes) {
+    resumo.append(criar("p", { textContent: "Os turnos têm durações diferentes. Os totais cobrem períodos diferentes." }));
+  }
+  resumo.append(indicadores);
+  const partes = [criar("p", { className: "dica", textContent:
+    "Diferença por pedido: " + textos.unitario + ". Acima do volume concluído de referência: " + textos.adicionais + "." })];
   const maximo = resultado.equilibrio.desconto_maximo_centavos;
   const concluidos = resultado.promocional.pedidos_concluidos;
   const alternativas = criar("section", { className: "promocao-alternativas" },
@@ -91,7 +110,7 @@ function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotul
         ? "Neste volume, mesmo sem desconto a contribuição fica abaixo da referência."
         : "O desconto máximo só pode ser estimado quando há pedidos concluídos." }),
   );
-  if (maximo != null && maximo < resultado.promocional.desconto_centavos) {
+  if (!negativa && maximo != null && maximo < resultado.promocional.desconto_centavos) {
     const aplicar = criar("button", { className: "botao", type: "button", textContent: "Testar desconto máximo" });
     aplicar.addEventListener("click", () => aplicarDesconto(maximo));
     alternativas.append(aplicar);
@@ -106,9 +125,11 @@ function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotul
   partes.push(criar("p", { className: "dica", textContent:
     `No limite de ${resultado.equilibrio.limite_pedidos_recebidos} pedidos recebidos, este modelo conclui no máximo ${resultado.equilibrio.maximo_concluidos_no_limite} com a equipe, os tempos e o turno promocionais. Não é previsão nem meta de pedidos recebidos.` }),
     criar("ul", { className: "promocao-alertas" }, ...resultado.alertas.map(textContent => criar("li", { textContent }))),
-    detalhamento, formula, criar("p", { className: "nota-rodape", textContent: resultado.identificacao }),
+    explicacao, detalhamento, formula, criar("p", { className: "nota-rodape", textContent: resultado.identificacao }),
   );
-  elemento.replaceChildren(...partes);
+  elemento.replaceChildren(resumo, criar("details", { id: "promocao-detalhes" },
+    criar("summary", { textContent: "Ver detalhes e alternativas" }), ...partes,
+  ));
 }
 
 export function criarAnalisePromocoes() {
@@ -117,6 +138,9 @@ export function criarAnalisePromocoes() {
   const resultado = document.getElementById("promocao-resultado");
   const botao = document.getElementById("promocao-analisar");
   const grupo = document.getElementById("promocao-controles");
+  const ajustes = document.getElementById("promocao-ajustes");
+  const aviso = document.getElementById("promocao-desatualizada");
+  const painel = grupo.closest("section");
   const equipe = document.getElementById("promocao-equipe");
   const referencia = document.getElementById("promocao-referencia");
   const controles = ["desconto", "pedidos", "pessoas_preparo", "pessoas_embalagem"].map(nome => ({
@@ -127,22 +151,44 @@ export function criarAnalisePromocoes() {
   let base = null;
   let atual = null;
   let campos = [];
+  let modo = null;
   let assinatura = "";
   let disponivel = false;
-  let rotuloBase = "Base A";
+  let analisando = false;
   let cancelarExplicacao = null;
+  const rascunhos = new Map();
+
   function mensagem(texto) {
     status.textContent = texto;
+    status.hidden = !texto;
   }
+
+  function liberarBotao() {
+    analisando = false;
+    resultado.setAttribute("aria-busy", "false");
+    botao.setAttribute("aria-disabled", String(!disponivel));
+    botao.textContent = "Analisar promoção";
+  }
+
   function cancelar() {
     executor.cancelar();
     cancelarExplicacao?.();
     cancelarExplicacao = null;
-    resultado.hidden = true;
-    resultado.setAttribute("aria-busy", "false");
-    botao.disabled = !disponivel;
-    botao.textContent = "Analisar promoção";
+    liberarBotao();
   }
+
+  function desatualizar() {
+    cancelar();
+    aviso.hidden = resultado.hidden;
+    resultado.dataset.desatualizado = String(!resultado.hidden);
+  }
+
+  function editar() {
+    if (grupo.hidden) return;
+    ajustes.open = true;
+    controles[0].entrada.focus();
+  }
+
   const executor = criarExecutor({
     async buscar(hipotese, signal) {
       return { dados: await analisarPromocao(hipotese, signal), hipotese };
@@ -152,42 +198,55 @@ export function criarAnalisePromocoes() {
       cancelarExplicacao = explicacao.cancelar;
       renderizar(dados, resultado, {
         explicacao: explicacao.secao,
-        rotuloBase,
+        rotuloBase: modo === "exemplo" ? "Turno de referência" : "Cenário A",
         aplicarDesconto(centavos) {
-          const desconto = controles[0].entrada;
-          desconto.value = (centavos / 100).toFixed(2);
-          desconto.focus();
+          editar();
+          controles[0].entrada.value = (centavos / 100).toFixed(2);
+          registrarEdicao();
           formulario.requestSubmit();
         },
         ajustarEquipe() {
+          ajustes.open = true;
           equipe.open = true;
           document.getElementById("promocao-pessoas_preparo").focus();
         },
       });
       resultado.hidden = false;
-      resultado.setAttribute("aria-busy", "false");
-      botao.disabled = !disponivel;
-      botao.textContent = "Analisar promoção";
-      mensagem("Análise concluída.");
+      aviso.hidden = true;
+      resultado.dataset.desatualizado = "false";
+      liberarBotao();
+      mensagem("");
+      const podeMoverFoco = painel.contains(document.activeElement) && !painel.closest("[data-pagina]").hidden;
+      const focoNosAjustes = ajustes.contains(document.activeElement);
+      ajustes.open = false;
+      if (podeMoverFoco && focoNosAjustes) {
+        document.getElementById("promocao-titulo-resultado").focus();
+      }
     },
     aoErro(erro) {
-      cancelar();
+      liberarBotao();
+      ajustes.open = true;
       mensagem(erro instanceof ErroDeValidacao
         ? `Confira os parâmetros: ${Object.entries(erro.erros).map(([chave, texto]) => {
           const [cenario, nome] = chave.split(".");
           const campo = campos.find(c => c.nome === nome);
-          return `${cenario === "base" ? rotuloBase : "Promoção"}${campo ? ` — ${campo.rotulo}` : ""}: ${texto}`;
+          return `${cenario === "base" ? "Turno de referência" : "Promoção"}${campo ? ` — ${campo.rotulo}` : ""}: ${texto}`;
         }).join(" ")}`
         : `${descreverErro(erro)} Tente Analisar promoção novamente.`);
     },
   });
-  for (const controle of controles) controle.entrada.addEventListener("input", () => {
-    cancelar();
-    mensagem("Hipótese alterada. Clique em Analisar promoção para recalcular.");
-  });
+
+  function registrarEdicao() {
+    rascunhos.set(modo, Object.fromEntries(controles.map(({ nome, entrada }) => [nome, entrada.value])));
+    desatualizar();
+    if (disponivel) mensagem("");
+  }
+
+  for (const controle of controles) controle.entrada.addEventListener("input", registrarEdicao);
+
   formulario.addEventListener("submit", evento => {
     evento.preventDefault();
-    if (!disponivel) return;
+    if (!disponivel || analisando) return;
     const promocional = { ...atual.parametros };
     let primeiroInvalido = null;
     for (const controle of controles) {
@@ -199,65 +258,83 @@ export function criarAnalisePromocoes() {
       promocional[controle.nome] = Number(controle.entrada.value);
     }
     if (primeiroInvalido) {
-      cancelar();
+      desatualizar();
       mensagem("Corrija os campos indicados.");
+      ajustes.open = true;
       if (equipe.contains(primeiroInvalido)) equipe.open = true;
       primeiroInvalido.focus();
       return;
     }
-    cancelar();
-    botao.disabled = true;
+    desatualizar();
+    analisando = true;
+    botao.setAttribute("aria-disabled", "true");
     botao.textContent = "Analisando…";
-    resultado.hidden = true;
     resultado.setAttribute("aria-busy", "true");
-    mensagem("Calculando contribuição e verificando o limite operacional…");
+    mensagem("Calculando contribuição e capacidade…");
     executor.executar({ base: base.parametros, promocional });
   });
+
+  function preencherCampos(draft) {
+    for (const controle of controles) {
+      const campo = campos.find(c => c.nome === controle.nome);
+      controle.entrada.value = draft?.[controle.nome] ?? atual.parametros[controle.nome];
+      controle.entrada.min = campo.minimo;
+      controle.entrada.max = campo.maximo;
+      controle.entrada.step = campo.casas === 0 ? "1" : String(10 ** -campo.casas);
+      controle.limite.textContent = textoLimites(campo, campo.maximo_campo ? "Preço de venda" : undefined);
+      controle.erro.textContent = "";
+      controle.entrada.removeAttribute("aria-invalid");
+    }
+  }
+
   return {
-    atualizar(novaBase, novoAtual, atualizado, novosCampos, exemplo = false) {
-      const estavaDisponivel = disponivel;
+    atualizar(novaBase, novoAtual, atualizado, novosCampos, novoModo) {
+      const mudouModo = modo !== novoModo;
       base = novaBase;
       atual = novoAtual;
       campos = novosCampos;
-      rotuloBase = exemplo ? "Turno de referência" : "Base A";
-      disponivel = Boolean(base && atual && atualizado && campos.length);
-      grupo.hidden = !base;
-      botao.disabled = !disponivel;
+      modo = novoModo;
+      const estavaDisponivel = disponivel;
+      disponivel = Boolean(modo && base && atual && atualizado && campos.length);
+      grupo.hidden = !modo || !base;
+      if (mudouModo || !base) {
+        resultado.hidden = true;
+        aviso.hidden = true;
+        assinatura = "";
+        ajustes.open = false;
+        equipe.open = false;
+      }
       if (!disponivel) {
-        if (!base) assinatura = "";
-        cancelar();
-        mensagem(!base ? "Guarde o cenário A acima para usá-lo como base da promoção." : "Aguarde o cenário atual ficar válido e atualizado para analisar.");
+        desatualizar();
+        mensagem(!modo
+          ? "Escolha um exemplo fictício ou use seu cenário atual como referência."
+          : !base ? "Escolha Testar minha promoção para guardar o cenário atual como referência."
+            : "Aguarde o cenário atual ficar válido para analisar.");
         return;
       }
-      const novaAssinatura = JSON.stringify([exemplo, base.parametros, atual.parametros]);
-      const preco = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(atual.parametros.preco_venda);
-      referencia.textContent = exemplo
-        ? `Exemplo fictício · preço original de ${preco} · turno de ${atual.parametros.duracao_turno_min} min.`
-        : `Base A: ${base.resultado.operacao.pedidos_concluidos} pedidos concluídos. Promoção: preço original de ${preco} e turno de ${atual.parametros.duracao_turno_min} min.`;
+      const novaAssinatura = JSON.stringify([modo, base.parametros, atual.parametros]);
       if (novaAssinatura !== assinatura) {
         assinatura = novaAssinatura;
-        cancelar();
-        equipe.open = false;
-        for (const controle of controles) {
-          const campo = campos.find(c => c.nome === controle.nome);
-          controle.entrada.value = atual.parametros[controle.nome];
-          controle.entrada.min = campo.minimo;
-          controle.entrada.max = campo.maximo;
-          controle.entrada.step = campo.casas === 0 ? "1" : String(10 ** -campo.casas);
-          controle.limite.textContent = textoLimites(campo, campo.maximo_campo ? "Preço de venda" : undefined);
-          controle.erro.textContent = "";
-          controle.entrada.removeAttribute("aria-invalid");
-        }
-        mensagem(exemplo
-          ? "Altere os valores para testar outra hipótese."
-          : "Base: cenário A. Ajuste os valores abaixo e clique em Analisar promoção.");
+        desatualizar();
+        preencherCampos(rascunhos.get(modo));
+        const preco = new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL" }).format(atual.parametros.preco_venda);
+        referencia.textContent = modo === "exemplo"
+          ? `Exemplo fictício · preço original de ${preco} · turno de ${atual.parametros.duracao_turno_min} min.`
+          : `Referência: ${base.resultado.operacao.pedidos_concluidos} pedidos prontos. Promoção: preço de ${preco} e turno de ${atual.parametros.duracao_turno_min} min.`;
+        mensagem("");
       } else if (!estavaDisponivel) {
-        mensagem("Cenário atual pronto. Clique em Analisar promoção para conferir sua hipótese.");
+        liberarBotao();
+        mensagem("");
       }
     },
+    editar,
     analisarExemplo() {
+      if (!disponivel) return;
+      rascunhos.delete("exemplo");
+      preencherCampos();
+      ajustes.open = false;
       equipe.open = false;
-      for (const { nome, entrada } of controles) entrada.value = atual.parametros[nome];
+      desatualizar();
       formulario.requestSubmit();
     },
   };

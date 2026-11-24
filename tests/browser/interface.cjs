@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const { chromium } = require('playwright');
 const { AxeBuilder } = require('@axe-core/playwright');
 const url = process.env.RAI_URL || 'http://127.0.0.1:8010';
-const destinos = ['inicio', 'titulo-parametros', 'titulo-comparacao', 'titulo-financeiro', 'titulo-operacao', 'titulo-explicacoes'];
+const destinos = ['inicio', 'titulo-parametros', 'titulo-comparacao', 'titulo-financeiro', 'titulo-cena', 'titulo-explicacoes'];
 
 (async () => {
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
@@ -30,7 +30,7 @@ const destinos = ['inicio', 'titulo-parametros', 'titulo-comparacao', 'titulo-fi
         await pronto();
         for (const id of destinos) {
           await ir(id);
-          if (id === 'titulo-operacao') await page.locator('.dados-operacao').evaluate(e => e.open = true);
+          if (id === 'titulo-cena') await page.locator('.dados-operacao').evaluate(e => e.open = true);
           if (id === 'titulo-parametros') await page.locator('.grupo-recolhido').evaluate(e => e.open = true);
           assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false,
             `Estouro: ${width}, ${colorScheme}, ${id}`);
@@ -61,6 +61,7 @@ const destinos = ['inicio', 'titulo-parametros', 'titulo-comparacao', 'titulo-fi
     await page.locator('#campo-preco_venda').fill('35');
     await pronto();
     await ir('titulo-comparacao');
+    await page.locator('#comparacao-avancada > summary').click();
     assert.ok(await page.locator('.comparacao-vazia').isVisible());
     await page.locator('#a-salvar').click();
     await ir('titulo-parametros');
@@ -104,11 +105,11 @@ const destinos = ['inicio', 'titulo-parametros', 'titulo-comparacao', 'titulo-fi
     await pronto();
     await ir('inicio');
     assert.match(await page.locator('#kpi-gargalos').textContent(), /Preparo/);
-    await ir('titulo-operacao');
+    await ir('titulo-cena');
     await page.locator('#reproducao-alternar').click();
     await page.waitForFunction(() => document.getElementById('reproducao-alternar').textContent.includes('Pausar'));
     await ir('inicio');
-    await ir('titulo-operacao');
+    await ir('titulo-cena');
     assert.match(await page.locator('#reproducao-alternar').textContent(), /Continuar|Iniciar/);
     await page.locator('#reproducao-fim').click();
     await page.locator('[data-estacao="preparo"]').click();
@@ -148,7 +149,8 @@ const destinos = ['inicio', 'titulo-parametros', 'titulo-comparacao', 'titulo-fi
     await page.waitForFunction(() => document.activeElement.id === 'inicio');
     // Calcular e aplicar uma ficha reaproveita o campo de valor manual do simulador.
     await ir('titulo-parametros');
-    await page.getByRole('button', { name: 'Abrir ficha técnica' }).click();
+    await page.locator('#ficha-tecnica > summary').click();
+    await page.getByRole('button', { name: 'Preencher ingrediente de exemplo' }).click();
     for (const width of [320, 390]) {
       await page.setViewportSize({ width, height: 844 });
       assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
@@ -156,19 +158,20 @@ const destinos = ['inicio', 'titulo-parametros', 'titulo-comparacao', 'titulo-fi
       assert.deepEqual(violations.map(v => ({ id: v.id, alvos: v.nodes.map(n => n.target) })), []);
     }
     const farinha = page.getByRole('group', { name: 'Ingrediente 1' });
-    await farinha.getByLabel('Ingrediente', { exact: true }).fill('Farinha');
+    assert.equal(await farinha.getByLabel('Ingrediente', { exact: true }).inputValue(), 'Farinha');
+    assert.equal(await farinha.getByLabel('Quantidade usada por porção', { exact: true }).inputValue(), '150');
     await farinha.getByLabel('Preço da compra (R$)', { exact: true }).fill('20');
     await farinha.getByLabel('Quantidade comprada', { exact: true }).fill('1');
     await farinha.getByLabel('Unidade de compra', { exact: true }).selectOption('kg');
-    await farinha.getByLabel('Quantidade usada por porção', { exact: true }).fill('150');
+    await farinha.getByLabel('Quantidade usada por porção', { exact: true }).fill('200');
     await farinha.getByLabel('Unidade usada', { exact: true }).selectOption('g');
     await farinha.getByLabel('Data do preço', { exact: true }).fill('2026-11-24');
     await page.getByRole('button', { name: 'Calcular custo' }).click();
     await page.waitForSelector('#ficha-resultado:not([hidden])');
-    assert.match(await page.locator('#ficha-status').textContent(), /R\$\s*3,00/);
+    assert.match(await page.locator('#ficha-status').textContent(), /R\$\s*4,00/);
     await page.getByRole('button', { name: 'Usar custo no simulador' }).click();
     await pronto();
-    assert.equal(Number(await page.locator('#campo-custo_ingredientes').inputValue()), 3);
+    assert.equal(Number(await page.locator('#campo-custo_ingredientes').inputValue()), 4);
     await farinha.getByLabel('Unidade usada', { exact: true }).selectOption('ml');
     assert.equal(await page.locator('#ficha-resultado').isVisible(), false);
     await page.getByRole('button', { name: 'Calcular custo' }).click();
