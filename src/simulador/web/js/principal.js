@@ -9,6 +9,7 @@ import { criarFichaTecnica } from "./ficha-tecnica.js";
 import { criarFormulario } from "./formulario.js";
 import { renderizarResultado } from "./indicadores.js";
 import { criarNavegacao } from "./navegacao.js";
+import { iniciarReferencia } from "./referencia.js";
 
 const ESPERA_ANTES_DE_CALCULAR_MS = 200;
 const AVISO_ULTIMO_CENARIO = "Os indicadores mostrados são do último cenário válido.";
@@ -18,6 +19,7 @@ const resultados = document.getElementById("resultados");
 const botaoRepetir = document.getElementById("tentar-novamente");
 const cena = criarCena();
 const comparacao = criarComparacao();
+iniciarReferencia();
 
 let formulario;
 let temporizador;

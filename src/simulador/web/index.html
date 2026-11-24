@@ -141,6 +141,35 @@
             </div>
             <p class="nota-rodape promocao-exclusoes">A contribuição calculada deixa de fora impostos, salários, aluguel, desperdício e custos dos pedidos não concluídos.</p>
           </section>
+          <details id="referencia-csv" class="superficie comparacao-avancada">
+            <summary>Consultar pedidos de referência</summary>
+            <div class="comparacao-acoes">
+              <p>Veja em quais horários os pedidos do arquivo se concentram antes de ajustar sua hipótese.</p>
+              <div class="cena-botoes">
+                <button id="referencia-exemplo" class="botao" type="button">Carregar exemplo fictício</button>
+                <a href="exemplos/referencia-sintetica.csv" download>Baixar CSV de exemplo</a>
+              </div>
+              <form id="referencia-formulario" class="promocao-formulario">
+                <div>
+                  <label for="referencia-arquivo">Arquivo CSV de referência</label>
+                  <input id="referencia-arquivo" type="file" accept=".csv,text/csv" aria-describedby="referencia-limite" required>
+                  <p id="referencia-limite" class="dica">CSV em UTF-8, de até 128 KB, com o cabeçalho do exemplo. Use dados agregados, sem dados pessoais.</p>
+                </div>
+                <button class="botao botao-principal" type="submit">Importar CSV</button>
+              </form>
+              <p id="referencia-status" role="status"></p>
+            </div>
+            <div id="referencia-resultado" class="comparacao-conteudo" hidden>
+              <p id="referencia-origem"></p>
+              <p id="referencia-totais"></p>
+              <table class="referencia-horas">
+                <caption>Horário de criação dos pedidos</caption>
+                <thead><tr><th scope="col">Hora</th><th scope="col">Concluídos</th><th scope="col">Cancelados</th></tr></thead>
+                <tbody id="referencia-horas"></tbody>
+              </table>
+              <p class="dica">O status concluído é do canal. O arquivo não informa quando o pedido ficou pronto na cozinha, nem o horário da entrega. A importação não altera a simulação.</p>
+            </div>
+          </details>
           <details id="comparacao-avancada" class="superficie comparacao-avancada">
             <summary>Comparar cenários avançados</summary>
             <div class="comparacao-acoes">

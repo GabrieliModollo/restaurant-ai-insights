@@ -53,6 +53,59 @@ def test_resposta_inclui_o_resumo_por_regras():
     assert resumo["conclusao"]
 
 
+def test_csv_de_exemplo_pode_ser_baixado_e_importado():
+    arquivo = cliente.get("/exemplos/referencia-sintetica.csv")
+    assert arquivo.status_code == 200
+    resposta = cliente.post("/api/referencias/csv", json={"csv": arquivo.text})
+    assert resposta.status_code == 200
+    assert resposta.json() == {
+        "inicio": "2026-11-20", "fim": "2026-11-21", "dias_com_dados": 2,
+        "concluidos": 82, "cancelados": 3,
+        "por_hora": [
+            {"hora": 18, "concluidos": 18, "cancelados": 0},
+            {"hora": 19, "concluidos": 39, "cancelados": 3},
+            {"hora": 20, "concluidos": 25, "cancelados": 0},
+        ],
+    }
+
+
+@pytest.mark.parametrize(
+    ("conteudo", "mensagem"),
+    [
+        ("", "ao menos um registro"),
+        ("2026-02-30,19,CONCLUDED,2", "data válida"),
+        ("2026-11-20,24,CONCLUDED,2", "hora de 0 a 23"),
+        ("2026-11-20,19,PRONTO,2", "status"),
+        ("2026-11-20,19,CONCLUDED,-2", "contagem inteira"),
+        ("2026-11-20,19,CONCLUDED,2,extra", "exatamente quatro"),
+        ("2026-11-20,19,CONCLUDED,2\n2026-11-20,19,CONCLUDED,3", "repetidos"),
+        ('2026-11-20,19,CONCLUDED,"2', "CSV malformado"),
+    ],
+)
+def test_csv_invalido_devolve_erro_explicito(conteudo, mensagem):
+    csv = "referenceDate,orderCreationHour,orderStatus,count\n" + conteudo
+    resposta = cliente.post("/api/referencias/csv", json={"csv": csv})
+    assert resposta.status_code == 422
+    assert mensagem in resposta.json()["erros"]["csv"]
+
+
+def test_csv_rejeita_coluna_extra_e_arquivo_acima_do_limite():
+    invalido = "referenceDate,orderCreationHour,orderStatus,count,cliente\n"
+    resposta = cliente.post("/api/referencias/csv", json={"csv": invalido})
+    assert resposta.status_code == 422
+    assert "cabeçalho" in resposta.json()["erros"]["csv"]
+    resposta = cliente.post("/api/referencias/csv", json={"csv": "á" * 65537})
+    assert resposta.status_code == 422
+    assert "128 KB" in resposta.json()["erros"]["csv"]
+
+
+def test_csv_aceita_bom_aspas_crlf_e_ordem_alternativa_de_colunas():
+    csv = '\ufeff"count",orderStatus,orderCreationHour,referenceDate\r\n"4",CANCELLED,01,2026-11-20\r\n'
+    resposta = cliente.post("/api/referencias/csv", json={"csv": csv})
+    assert resposta.status_code == 200
+    assert resposta.json()["por_hora"] == [{"hora": 1, "concluidos": 0, "cancelados": 4}]
+
+
 def test_rota_delega_o_calculo_a_executar_simulacao(monkeypatch):
     recebidos = []
 
