@@ -174,6 +174,7 @@ export function criarComparacao() {
   mostrar();
 
   return {
+    exportar: promocoes.exportar,
     definirCampos(novosCampos) {
       campos = novosCampos;
     },

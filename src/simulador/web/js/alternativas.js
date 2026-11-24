@@ -30,7 +30,7 @@ export function criarComparacaoAlternativas(hipotese) {
   const descontoAtual = hipotese.promocional.desconto;
   if (descontoAtual <= 0) {
     secao.append(criar("p", { textContent: "Analise uma hipótese com desconto acima de zero para comparar." }));
-    return { secao, cancelar() {} };
+    return { secao, cancelar() {}, exportar: () => null };
   }
 
   const desconto = criar("input", {
@@ -52,6 +52,7 @@ export function criarComparacaoAlternativas(hipotese) {
   );
   const status = criar("p", { role: "status" });
   const resultado = criar("div", { className: "alternativas-resultado" });
+  let opcoesCalculadas = null;
   secao.append(criar("p", { textContent:
     "As duas opções usam o mesmo volume de pedidos e turno. O reforço mantém o desconto da hipótese analisada." }),
   formulario, status, resultado);
@@ -62,8 +63,11 @@ export function criarComparacaoAlternativas(hipotese) {
   }
 
   const executor = criarExecutor({
-    buscar: compararAlternativas,
-    aoResultado(dados) {
+    async buscar(opcoes, signal) {
+      return { opcoes, dados: await compararAlternativas({ ...hipotese, ...opcoes }, signal) };
+    },
+    aoResultado({ dados, opcoes }) {
+      opcoesCalculadas = opcoes;
       botao.setAttribute("aria-disabled", "false");
       const diferenca = dados.diferenca_reforco_centavos;
       status.textContent = diferenca === 0 ? "As alternativas empatam após o custo adicional."
@@ -89,6 +93,7 @@ export function criarComparacaoAlternativas(hipotese) {
 
   function limpar() {
     cancelar();
+    opcoesCalculadas = null;
     resultado.replaceChildren();
     status.textContent = "";
   }
@@ -100,11 +105,10 @@ export function criarComparacaoAlternativas(hipotese) {
     botao.setAttribute("aria-disabled", "true");
     status.textContent = "Comparando…";
     executor.executar({
-      ...hipotese,
       desconto_menor_centavos: Math.round(desconto.valueAsNumber * 100),
       estacao: estacao.value,
       custo_adicional_centavos: Math.round(custo.valueAsNumber * 100),
     });
   });
-  return { secao, cancelar };
+  return { secao, cancelar, exportar: () => opcoesCalculadas };
 }

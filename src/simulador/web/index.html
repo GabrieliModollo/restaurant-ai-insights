@@ -141,6 +141,30 @@
             </div>
             <p class="nota-rodape promocao-exclusoes">A contribuição calculada deixa de fora impostos, salários, aluguel, desperdício e custos dos pedidos não concluídos.</p>
           </section>
+          <details id="cenario-salvo" class="superficie comparacao-avancada">
+            <summary>Guardar e compartilhar cenário</summary>
+            <div class="comparacao-acoes">
+              <p>Depois de analisar uma promoção, baixe o arquivo para reabrir e compartilhar a hipótese, a referência e as comparações calculadas.</p>
+              <div class="cena-botoes">
+                <button id="cenario-baixar" class="botao" type="button">Baixar cenário JSON</button>
+                <button id="cenario-resumir" class="botao" type="button">Exportar resumo</button>
+              </div>
+              <form id="cenario-reabrir" class="promocao-formulario">
+                <div>
+                  <label for="cenario-arquivo">Arquivo de cenário</label>
+                  <input id="cenario-arquivo" type="file" accept=".json,application/json" required>
+                </div>
+                <button class="botao botao-principal" type="submit">Reabrir cenário</button>
+              </form>
+              <p id="cenario-arquivo-status" role="status"></p>
+            </div>
+            <div id="cenario-arquivo-resultado" class="comparacao-conteudo" hidden>
+              <h2>Resumo do cenário reaberto</h2>
+              <p class="dica">A reabertura recalcula o resumo para consulta e preserva o cenário em edição.</p>
+              <button id="cenario-resumo-arquivo" class="botao" type="button">Exportar resumo reaberto</button>
+              <div id="cenario-arquivo-resumo"></div>
+            </div>
+          </details>
           <details id="referencia-csv" class="superficie comparacao-avancada">
             <summary>Consultar pedidos de referência</summary>
             <div class="comparacao-acoes">

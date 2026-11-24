@@ -159,6 +159,7 @@ export function criarAnalisePromocoes() {
   let disponivel = false;
   let analisando = false;
   let cancelarDetalhes = null;
+  let exportarHipotese = null;
   const rascunhos = new Map();
 
   function mensagem(texto) {
@@ -177,6 +178,7 @@ export function criarAnalisePromocoes() {
     executor.cancelar();
     cancelarDetalhes?.();
     cancelarDetalhes = null;
+    exportarHipotese = null;
     liberarBotao();
   }
 
@@ -201,6 +203,9 @@ export function criarAnalisePromocoes() {
       const comparacao = criarComparacaoAlternativas(hipotese);
       const canais = criarComparacaoCanais(hipotese);
       const pico = criarComparacaoPico(hipotese.promocional);
+      exportarHipotese = () => ({
+        ...hipotese, alternativas: comparacao.exportar(), canais: canais.exportar(), pico: pico.exportar(),
+      });
       cancelarDetalhes = () => {
         explicacao.cancelar();
         comparacao.cancelar();
@@ -302,6 +307,7 @@ export function criarAnalisePromocoes() {
   }
 
   return {
+    exportar: () => exportarHipotese?.(),
     atualizar(novaBase, novoAtual, atualizado, novosCampos, novoModo) {
       const mudouModo = modo !== novoModo;
       base = novaBase;

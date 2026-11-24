@@ -10,6 +10,7 @@ import { criarFormulario } from "./formulario.js";
 import { renderizarResultado } from "./indicadores.js";
 import { criarNavegacao } from "./navegacao.js";
 import { iniciarReferencia } from "./referencia.js";
+import { iniciarCenarioSalvo } from "./cenario-salvo.js";
 
 const ESPERA_ANTES_DE_CALCULAR_MS = 200;
 const AVISO_ULTIMO_CENARIO = "Os indicadores mostrados são do último cenário válido.";
@@ -22,6 +23,8 @@ const comparacao = criarComparacao();
 iniciarReferencia();
 
 let formulario;
+let fichaTecnica;
+iniciarCenarioSalvo(() => comparacao.exportar(), () => fichaTecnica?.obterFicha());
 let temporizador;
 let repetir = null;
 let abrirResultado = false;
@@ -105,7 +108,7 @@ async function iniciar() {
       campos,
       agendarSimulacao,
     );
-    criarFichaTecnica(document.getElementById("campo-custo_ingredientes"));
+    fichaTecnica = criarFichaTecnica(document.getElementById("campo-custo_ingredientes"));
     comparacao.definirCampos(campos);
     agendarSimulacao();
   } catch (erro) {

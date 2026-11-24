@@ -2,6 +2,16 @@
 
 Última atualização: 2026-11-24.
 
+## Guardar e compartilhar cenários
+
+Em revisão na branch `feature/guardar-cenarios`. A área Cenários baixa a hipótese, a
+referência, a ficha calculada e as comparações concluídas em um JSON versionado. A
+reabertura recalcula o resumo para consulta e preserva o cenário em edição. O resumo
+é exportável em texto. Próxima entrega do backlog: atualizar o roteiro da demonstração.
+
+Verificação: 306 testes Python, 104 JavaScript e fluxo de download, reabertura e
+exportação em Chromium a 320 px com axe. O README descreve as entregas recentes.
+
 ## Melhorias de arquitetura
 
 Em revisão na branch `feature/melhorias-arquitetura`. O Ollama escolhe entre versões
@@ -10,7 +20,7 @@ A busca comercial exige que a pergunta indique um tema coberto. O GitHub Actions
 executa Playwright e axe no painel de referência em 320 px.
 
 Verificação local: 300 testes Python, 104 JavaScript, três casos com Ollama e o fluxo
-do CSV no Chromium a 320 px. Próxima entrega após revisão: guardar e compartilhar cenários.
+do CSV no Chromium a 320 px.
 
 ## Importação de dados de referência
 
@@ -101,7 +111,7 @@ violações detectadas pelo axe; fluxos novos e anteriores aprovados. Auditoria 
 840.582 comparações da desigualdade original, todas aprovadas.
 
 Relatório, arquivos analisados, comandos e limites em [`revisao-rai-008.md`](revisao-rai-008.md).
-PR permanece em revisão, sem merge. RAI-009 não iniciada; branch de pesquisa do PR #9 preservada.
+Na data dessa revisão, o PR #10 aguardava merge e a RAI-009 ainda não havia começado.
 
 ## RAI-008 — análise de promoções e ponto de equilíbrio
 
@@ -228,7 +238,7 @@ acrescentados atalhos para as partes dos resultados, sem esconder conteúdo.
 - **Fluidez:** medida nesta máquina, em números. A impressão visual de uma pessoa não foi avaliada, e
   com quadros mais espaçados que 1 s o relógio atrasa.
 
-## Próxima tarefa
+## Validação com usuários
 
 Depende de pessoas reais: conduzir as sessões de `docs/teste-de-uso.md`. Com as observações em mãos, o
 Claude Code pode analisá-las e corrigir os problemas prioritários.

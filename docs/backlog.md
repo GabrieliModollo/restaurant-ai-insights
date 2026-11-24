@@ -14,7 +14,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 5 | P1 | RAG de regras comerciais, após o item 4 (concluída, PR #32) | Responder por que a mesma promoção deixa contribuições diferentes entre canais. Buscar localmente em um conjunto pequeno de guias oficiais e citar fonte e data. Distinguir regra geral de condição contratual, pedir os valores faltantes e delegar o cálculo ao motor Python. Avaliar casos com fontes claras, condições contratuais e dados ausentes. |
 | 6 | P1 | Simular pico de pedidos (concluída, PR #33) | Comparar o mesmo volume, com a mesma equipe, chegando distribuído ou concentrado. Mostrar fila, espera e pedidos prontos. |
 | 7 | P2 | Importar dados de referência (concluída, PR #34) | Começar com CSV sintético baseado nos campos documentados do iFood Analytics. Identificar a origem e distinguir pedido pronto de entrega concluída. A conexão autenticada depende do acesso oficial. |
-| 8 | P2 | Guardar e compartilhar cenários | Reabrir ficha, referência e alternativas. Exportar um resumo com hipóteses, resultados e custos considerados. |
+| 8 | P2 | Guardar e compartilhar cenários (em revisão) | Reabrir ficha, referência e alternativas. Exportar um resumo com hipóteses, resultados e custos considerados. |
 | 9 | P2 | Atualizar o roteiro da demonstração | Cobrir primeiro uso, edição e interpretação dos resultados com dados fictícios. A validação com gestores fica pendente até haver participantes. |
 | 10 | P2 | MCP para assistente externo | Expor duas ferramentas de consulta, **simular promoção** e **comparar alternativas**, com entradas validadas e resultados estruturados. Reutilizar o motor existente e reproduzir os mesmos números em um cliente MCP compatível. |
 
