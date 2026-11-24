@@ -18,6 +18,16 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 9 | P2 | Atualizar o roteiro da demonstração | Cobrir primeiro uso, edição e interpretação dos resultados com dados fictícios. A validação com gestores fica pendente até haver participantes. |
 | 10 | P2 | MCP para assistente externo | Expor duas ferramentas de consulta, **simular promoção** e **comparar alternativas**, com entradas validadas e resultados estruturados. Reutilizar o motor existente e reproduzir os mesmos números em um cliente MCP compatível. |
 
+## Melhorias de arquitetura
+
+Após a revisão dos PRs #33 e #34, priorizar a consistência das explicações antes das próximas entregas P2. Dentro das melhorias P2 abaixo, tratar a relevância das fontes antes de ampliar a base comercial e automatizar a verificação de interface.
+
+| Ordem | Prioridade | Entrega | Critério de aceite |
+| --- | --- | --- | --- |
+| A1 | P1 | Preservar a conclusão calculada na explicação do Ollama (pendente) | Exibir o diagnóstico do motor Python sobre capacidade e contribuição. Se a resposta do modelo contradisser esse diagnóstico ou não puder ser validada, exibir a explicação por regras. Cobrir em testes capacidade insuficiente e contribuição negativa, incluindo respostas que invertem ou negam essas conclusões. |
+| A2 | P2 | Melhorar a relevância das fontes comerciais (pendente) | Recuperar fontes apenas quando a pergunta corresponder a um tema coberto. Perguntas fora do escopo, como taxa para anunciar um produto, devem informar que a base não cobre o tema. Testar também perguntas válidas sobre comissão, pagamento, frete e promoções. |
+| A3 | P2 | Executar testes de navegador no GitHub Actions (pendente) | Rodar Playwright e axe em cada PR com um fluxo mínimo que abra a aplicação, carregue o CSV de referência e confira o resultado em 320 px. A verificação falha se o fluxo quebrar, houver estouro horizontal ou o axe apontar violações no painel. Depende da integração do PR #34. |
+
 ## Histórico de entregas
 
 | # | Entrega | Branch sugerida | Depende de | Status |
