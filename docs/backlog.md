@@ -3,7 +3,24 @@
 Status possíveis: **Pendente**, **Código local sem commit**, **Em revisão** e **Concluída**.
 Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 
-## Próximas entregas
+## Próximo ciclo
+
+**Objetivo:** ajudar quem opera um restaurante a comparar desconto, equipe e capacidade em uma promoção e explicar a decisão com os números do simulador. A [pesquisa de produto](pesquisa/radar-consolidado.md) orienta a ordem. A avaliação técnica começa com dados sintéticos de portfólio.
+
+| Ordem | Prioridade | Entrega | Critério de aceite | Depende de |
+| --- | --- | --- | --- | --- |
+| 1 | P1 | RAI-019 · Avaliar o fluxo atual e criar a referência para IA | Criar 40 perguntas e resultados esperados, com paráfrases, capacidade insuficiente, contribuição negativa, empate, custos ausentes, pedidos fora de escopo e tentativas de instruir o modelo a ignorar os cálculos. Separar casos de desenvolvimento e casos reservados. Registrar a referência sem IA e verificar em 320 e 390 px se é possível localizar a comparação e interpretar pedidos prontos e contribuição. | Cenários na main |
+| 2 | P1 | RAI-020 · Assistente de promoção local em Cenários | Oferecer “Pergunte sobre esta promoção” para explicar o resultado, simular uma alteração ou comparar desconto e reforço. Usar o cenário aberto, pedir os valores essenciais ausentes e mostrar a hipótese proposta. O motor Python valida e calcula. A aplicação ao cenário exige ação explícita. | RAI-019 |
+| 3 | P1 | RAI-021 · Avaliar e publicar a demonstração do assistente | Comparar Ollama à referência por regras nos mesmos casos reservados. Meta inicial de pelo menos 90% de acerto de ação e dos parâmetros normalizados nos casos suportados. Exigir zero contradições com o cálculo e zero preenchimento de custos essenciais ausentes na suíte. Medir latência e registrar hardware, modelo, versão do prompt e falhas. Se a meta não for atingida, manter o fluxo por regras como padrão e registrar os resultados. | RAI-020 |
+| 4 | P2 | RAI-022 · Orientar a conferência de taxas por canal | Em comissão, taxa de pagamento, frete e subsídio, mostrar onde obter o valor da própria loja, citar o guia e a data de consulta e marcar o campo como pendente até o preenchimento. Testar a distinção entre desconto da loja e subsídio da plataforma e perguntas fora da cobertura. | Comparação por canal e busca comercial |
+| 5 | P2 | RAI-023 · Testar o assistente em um cliente MCP externo | Reproduzir a mesma hipótese e a comparação de alternativas em um cliente externo com dados fictícios. Registrar os parâmetros efetivamente enviados e conferir paridade com o resultado da API. Documentar como o usuário identifica os dados faltantes. | PR #38 e RAI-021 |
+| 6 | P3 | RAI-024 · Investigar integração autenticada com dados de referência | Confirmar autorização de uma loja, disponibilidade dos campos e condições de homologação. Comparar o agregado obtido com o CSV sintético e documentar a granularidade. Deixar a implementação condicionada ao acesso oficial e aos dados necessários. | Acesso autorizado |
+
+O MVP usa o modelo local disponível e as funções Python existentes. A busca comercial continua
+limitada às fontes curadas. A ampliação da base e a troca de modelo dependem dos resultados da
+avaliação. O teste com gestores fica como etapa futura, quando houver participantes.
+
+## Entregas do ciclo anterior
 
 | Ordem | Prioridade | Entrega | Critério de aceite |
 | --- | --- | --- | --- |
@@ -20,7 +37,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 
 ## Melhorias de arquitetura
 
-Após a revisão dos PRs #33 e #34, priorizar a consistência das explicações antes das próximas entregas P2. Dentro das melhorias P2 abaixo, tratar a relevância das fontes antes de ampliar a base comercial e automatizar a verificação de interface.
+Os três itens foram integrados pelo PR #36. A fila do próximo ciclo está no início deste documento.
 
 | Ordem | Prioridade | Entrega | Critério de aceite |
 | --- | --- | --- | --- |

@@ -2,6 +2,12 @@
 
 Última atualização: 2026-11-24.
 
+## Planejamento do próximo ciclo
+
+A fila do backlog começa pela avaliação reproduzível e pelo assistente local de promoções.
+A [pesquisa de produto](pesquisa/radar-consolidado.md)
+justifica as prioridades e registra o que ainda depende de validação.
+
 ## Demonstração e MCP local
 
 Em revisão na branch `feature/demo-e-mcp`. O roteiro de cinco minutos vai da promoção
