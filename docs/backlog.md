@@ -3,6 +3,23 @@
 Status possíveis: **Pendente**, **Código local sem commit**, **Em revisão** e **Concluída**.
 Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 
+## Próximas entregas
+
+| Ordem | Prioridade | Entrega | Critério de aceite |
+| --- | --- | --- | --- |
+| 1 | P0 | Fluxo de promoção em uma tela | Separar exemplo e cenário próprio. Mostrar meta de 25 pedidos, capacidade de 22 e perda de R$ 76,50 na demo, sem rolar em 320 e 390 px. Preservar as entradas ao editar, sinalizar quando recalcular e manter o foco perceptível pelo teclado. |
+| 2 | P0 | Simplificar ficha técnica e navegação | Abrir a ficha junto ao custo de ingredientes, agrupar quantidade e unidade e oferecer exemplo editável. Abrir Restaurante pela visualização da cozinha, com reprodução acessível. Pode seguir no mesmo PR do item 1. |
+| 3 | P1 | Comparar desconto menor e reforço de equipe | Mostrar lado a lado pedidos prontos, contribuição, custo adicional de equipe e resultado após esse custo. Destacar contribuição negativa e aviso de turnos com durações diferentes no resumo. |
+| 4 | P1 | Comparar a promoção por canal | Usar a mesma ficha e o mesmo turno de referência. Permitir editar comissão, taxa de pagamento, frete, parcela do desconto paga pela loja e subsídio da plataforma. |
+| 5 | P1 | RAG de regras comerciais, após o item 4 | Responder por que a mesma promoção deixa contribuições diferentes entre canais. Buscar localmente em um conjunto pequeno de guias oficiais e citar fonte e data. Distinguir regra geral de condição contratual, pedir os valores faltantes e delegar o cálculo ao motor Python. Avaliar casos com fontes claras, condições contratuais e dados ausentes. |
+| 6 | P1 | Simular pico de pedidos | Comparar o mesmo volume, com a mesma equipe, chegando distribuído ou concentrado. Mostrar fila, espera e pedidos prontos. |
+| 7 | P2 | Importar dados de referência | Começar com CSV sintético compatível com os campos documentados do iFood Analytics. Identificar a origem e distinguir pedido pronto de entrega concluída. A conexão autenticada depende do acesso oficial. |
+| 8 | P2 | Guardar e compartilhar cenários | Reabrir ficha, referência e alternativas. Exportar um resumo com hipóteses, resultados e custos considerados. |
+| 9 | P2 | Atualizar o roteiro da demonstração | Cobrir primeiro uso, edição e interpretação dos resultados com dados fictícios. A validação com gestores fica pendente até haver participantes. |
+| 10 | P2 | MCP para assistente externo | Expor duas ferramentas de consulta, **simular promoção** e **comparar alternativas**, com entradas validadas e resultados estruturados. Reutilizar o motor existente e reproduzir os mesmos números em um cliente MCP compatível. |
+
+## Histórico de entregas
+
 | # | Entrega | Branch sugerida | Depende de | Status |
 | --- | --- | --- | --- | --- |
 | 0 | Documentação e coordenação | `docs/project-coordination` | Nenhuma | Concluída (PR #1) |
@@ -14,10 +31,10 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 6 | Revisão final e demonstração | `docs/revisao-final` | 3, 4 e 5 | Concluída (PR #7) |
 | RAI-007 | Interface intuitiva | `feat/rai-007-interface-intuitiva` | 6 | Concluída (PR #8, merge `0cd6855`) |
 | RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Concluída (PR #10) |
-| — | Exemplo de promoção, desconto máximo e ajuste de equipe | `feature/promocoes-e-ficha-tecnica` | RAI-008 | Em revisão |
-| RAI-009 | Ficha técnica de ingredientes por porção | `feature/promocoes-e-ficha-tecnica` | RAI-008 | Em revisão |
-| RAI-013 | Explicação de promoções e avaliação da IA local | `feature/explicacao-local-e-validacao` | PR #25 | Em revisão |
-| — | Validação com usuários | Sem branch | Pessoas reais | Pendente |
+| — | Exemplo de promoção, desconto máximo e ajuste de equipe | `feature/promocoes-e-ficha-tecnica` | RAI-008 | Concluída (PR #25) |
+| RAI-009 | Ficha técnica de ingredientes por porção | `feature/promocoes-e-ficha-tecnica` | RAI-008 | Concluída (PR #25) |
+| RAI-013 | Explicação de promoções e avaliação da IA local | `feature/explicacao-local-e-validacao` | PR #25 | Concluída (PR #27) |
+| — | Radar de pesquisa consolidado | `docs/radar-consolidado` | Rascunhos de pesquisa | Concluída (PR #26) |
 
 ## Classificação final dos critérios
 
@@ -177,7 +194,7 @@ Revisão técnica:
 - [x] Fluidez medida nesta máquina.
 - [x] Busca por credenciais, arquivos temporários, recursos externos e dependências sem uso.
 - [x] Ausência de validação com usuários declarada no README e em `docs/progress.md`.
-- [ ] PR revisado e integrado.
+- [x] PR revisado e integrado (PR #7).
 
 Limitações de ambiente, sem bloquear a revisão técnica:
 
