@@ -79,3 +79,10 @@
 .promocao-alternativas h3 {margin:0 0 .5rem}
 .promocao-alternativas p {margin:.5rem 0}
 .promocao-alternativas .botao {margin:.4rem .5rem .2rem 0}
+
+.promocao-explicacao {
+  margin:.75rem 0 1rem;
+}
+.promocao-explicacao p:not(:empty) {
+  margin-top:.5rem;
+}

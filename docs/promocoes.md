@@ -140,3 +140,10 @@ Entrega em revisão no [PR #10](https://github.com/GabrieliModollo/restaurant-ai
 - Sem LLM, previsão de vendas ou decisão automática sobre a melhor estratégia.
 - Chrome sem janela com tamanhos e temas emulados não equivale a aparelho físico, toque ou leitor de tela.
   Usabilidade com pessoas reais e validação em outros navegadores continuam pendentes.
+
+
+## Explicar este resultado
+
+O botão usa a hipótese exibida e pede uma explicação ao servidor. Por padrão, a explicação é
+por regras. Com Ollama local ativado, a aplicação identifica o modelo e mantém visível a origem
+do texto. Veja [configuração e avaliação](explicacoes-ia.md).

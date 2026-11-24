@@ -2,6 +2,16 @@
 
 Última atualização: 2026-11-24.
 
+## Explicação local e avaliação
+
+A branch `feature/explicacao-local-e-validacao` adiciona explicação opcional com Ollama, referência
+por regras, avaliação reproduzível, vídeo da demonstração, instruções Linux e testes no GitHub Actions.
+Ela depende do PR #25. O radar de pesquisa está em [PR independente](https://github.com/GabrieliModollo/restaurant-ai-insights/pull/26).
+
+O teste local de Ollama gerou uma resposta para cada um dos três casos da avaliação. Os valores
+exibidos foram preservados. A revisão dos textos indicou que a referência por regras continua
+competitiva em clareza. Resultados e limites estão em [Explicação local e avaliação](explicacoes-ia.md).
+
 ## Demo de promoções, alternativas e RAI-009
 
 A branch `feature/promocoes-e-ficha-tecnica` reúne três mudanças para revisão: exemplo de promoção

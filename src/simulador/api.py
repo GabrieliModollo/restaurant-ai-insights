@@ -13,6 +13,7 @@ from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 
+from .explicacao import explicar_promocao
 from .ficha_tecnica import FichaTecnica, calcular_ficha_tecnica
 from .parametros import ParametrosSimulacao, campos_para_interface, exemplos_para_interface
 from .promocoes import ParametrosPromocao, analisar_promocao
@@ -85,6 +86,11 @@ def analisar(parametros: ParametrosPromocao) -> dict:
 @app.post("/api/ficha-tecnica")
 def calcular_ficha(ficha: FichaTecnica) -> dict:
     return calcular_ficha_tecnica(ficha)
+
+
+@app.post("/api/promocoes/explicacao")
+def explicar(parametros: ParametrosPromocao) -> dict:
+    return explicar_promocao(parametros)
 
 
 # Montado por último: as rotas /api acima têm prioridade sobre os arquivos.

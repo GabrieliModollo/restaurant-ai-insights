@@ -53,11 +53,11 @@ Desconto e hipótese de pedidos recebidos podem ser testados localmente, sem mod
 A análise compara a contribuição, resolve o volume mínimo de conclusões para compensar a base e
 avisa quando essa meta é impossível, excede os limites ou não cabe na operação informada.
 Margens não positivas e base negativa têm tratamento próprio, sem recomendar vender mais com prejuízo
-de contribuição. Regras e limites em `docs/promocoes.md`. Não há IA ou previsão de demanda.
+de contribuição. Regras e limites em `docs/promocoes.md`. O botão de explicação pode usar um modelo local para descrever o resultado calculado.
 
 ## Exclusões
 
-- IA integrada, nesta primeira versão.
+- IA para calcular resultados, recomendar preços ou prever demanda.
 - Estimativa de aumento de demanda por desconto.
 - Banco de dados, autenticação e serviços externos.
 - Vários produtos, chegadas aleatórias, tempos variáveis, cancelamentos e desistências.

@@ -16,6 +16,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | RAI-008 | Análise de promoções e ponto de equilíbrio | `feature/rai-008-analise-promocoes` | RAI-007 | Concluída (PR #10) |
 | — | Exemplo de promoção, desconto máximo e ajuste de equipe | `feature/promocoes-e-ficha-tecnica` | RAI-008 | Em revisão |
 | RAI-009 | Ficha técnica de ingredientes por porção | `feature/promocoes-e-ficha-tecnica` | RAI-008 | Em revisão |
+| RAI-013 | Explicação de promoções e avaliação da IA local | `feature/explicacao-local-e-validacao` | PR #25 | Em revisão |
 | — | Validação com usuários | Sem branch | Pessoas reais | Pendente |
 
 ## Classificação final dos critérios
