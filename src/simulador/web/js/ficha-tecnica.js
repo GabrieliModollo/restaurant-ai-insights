@@ -95,13 +95,17 @@ export function criarFichaTecnica(custoManual) {
   const aplicar = document.getElementById("ficha-aplicar");
   const itens = [];
   let totalCentavos = null;
+  let fichaCalculada = null;
   let proximoIndice = 1;
 
   custoManual.closest(".controle").append(ficha);
 
   const executor = criarExecutor({
-    buscar: calcularFicha,
-    aoResultado(dados) {
+    async buscar(entrada, signal) {
+      return { entrada, dados: await calcularFicha(entrada, signal) };
+    },
+    aoResultado({ entrada, dados }) {
+      fichaCalculada = entrada;
       totalCentavos = dados.total_centavos;
       calcular.disabled = false;
       const total = dinheiro.format(totalCentavos / 100);
@@ -133,6 +137,7 @@ export function criarFichaTecnica(custoManual) {
   function invalidar() {
     executor.cancelar();
     totalCentavos = null;
+    fichaCalculada = null;
     resultado.hidden = true;
     calcular.disabled = false;
     status.textContent = "";
@@ -193,4 +198,5 @@ export function criarFichaTecnica(custoManual) {
     custoManual.focus();
     status.textContent = `Custo aplicado: ${dinheiro.format(totalCentavos / 100)} por porção. Os resultados do cenário serão atualizados.`;
   });
+  return { obterFicha: () => fichaCalculada };
 }

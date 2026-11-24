@@ -72,6 +72,7 @@ export function criarComparacaoCanais(hipotese) {
   const formulario = criar("form", { className: "promocao-formulario canais-formulario" }, a.grupo, b.grupo, botao);
   const status = criar("p", { role: "status" });
   const resultado = criar("div");
+  let canaisCalculados = null;
   const secao = criar("details", { id: "comparar-canais", className: "promocao-alternativas" },
     criar("summary", { textContent: "Comparar custos por canal" }),
     criar("p", { textContent: "Parcela da loja e subsídio devem somar " + reais(Math.round(hipotese.promocional.desconto * 100)) +
@@ -84,8 +85,11 @@ export function criarComparacaoCanais(hipotese) {
     botao.setAttribute("aria-disabled", "false");
   }
   const executor = criarExecutor({
-    buscar: compararCanais,
-    aoResultado(dados) {
+    async buscar(opcoes, signal) {
+      return { opcoes, dados: await compararCanais({ ...hipotese, ...opcoes }, signal) };
+    },
+    aoResultado({ dados, opcoes }) {
+      canaisCalculados = opcoes;
       liberar();
       const dif = dados.diferenca_b_menos_a_centavos;
       status.textContent = dif === 0 ? "Os canais têm a mesma contribuição no turno."
@@ -106,6 +110,7 @@ export function criarComparacaoCanais(hipotese) {
   });
   function cancelar() {
     executor.cancelar();
+    canaisCalculados = null;
     consulta.cancelar();
     liberar();
   }
@@ -117,10 +122,11 @@ export function criarComparacaoCanais(hipotese) {
   formulario.addEventListener("submit", evento => {
     evento.preventDefault();
     if (botao.getAttribute("aria-disabled") === "true") return;
+    canaisCalculados = null;
     resultado.replaceChildren();
     status.textContent = "Comparando…";
     botao.setAttribute("aria-disabled", "true");
-    executor.executar({ ...hipotese, canal_a: a.valores(), canal_b: b.valores() });
+    executor.executar({ canal_a: a.valores(), canal_b: b.valores() });
   });
-  return { secao, cancelar };
+  return { secao, cancelar, exportar: () => canaisCalculados };
 }

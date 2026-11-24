@@ -53,6 +53,47 @@ def test_resposta_inclui_o_resumo_por_regras():
     assert resumo["conclusao"]
 
 
+def test_reabrir_cenario_recalcula_base_ficha_e_comparacoes():
+    canal = dict(comissao_bps=1500, pagamento_bps=0, frete_loja_centavos=0,
+                 desconto_loja_centavos=500, subsidio_plataforma_centavos=0)
+    entrada = {
+        "versao": 1, "base": PADRAO, "promocional": {**PADRAO, "desconto": 5},
+        "ficha": {"ingredientes": [{
+            "nome": "Farinha", "preco_compra_centavos": 2000, "quantidade_comprada": 1,
+            "unidade_compra": "kg", "quantidade_usada": 150, "unidade_uso": "g",
+            "data_preco": "2026-11-24",
+        }]},
+        "alternativas": {"desconto_menor_centavos": 300, "estacao": "pessoas_preparo",
+                         "custo_adicional_centavos": 6000},
+        "canais": {"canal_a": canal, "canal_b": {**canal, "frete_loja_centavos": 200}},
+        "pico": True,
+    }
+    resposta = cliente.post("/api/cenarios/reabrir", json=entrada)
+    assert resposta.status_code == 200
+    dados = resposta.json()
+    assert dados["promocao"]["base"]["contribuicao_total_centavos"] == 28350
+    assert dados["ficha"]["total_centavos"] == 300
+    assert dados["alternativas"]["reforco_equipe"]["custo_adicional_centavos"] == 6000
+    assert dados["canais"]["diferenca_b_menos_a_centavos"] == -3600
+    assert dados["pico"]["pico"]["janela_chegadas_min"] == 15
+    assert cliente.post("/api/cenarios/reabrir", json=dados["arquivo"]).json() == dados
+
+
+@pytest.mark.parametrize("alteracao", [
+    {"versao": 2},
+    {"promocional": {**PADRAO, "desconto": 100}},
+    {"alternativas": {"desconto_menor_centavos": 500, "estacao": "pessoas_preparo",
+                      "custo_adicional_centavos": 0}},
+    {"pico": "sim"},
+    {"resultado": {"contribuicao": 100000}},
+])
+def test_reabrir_rejeita_arquivo_incompativel(alteracao):
+    entrada = {"versao": 1, "base": PADRAO, "promocional": {**PADRAO, "desconto": 5}}
+    resposta = cliente.post("/api/cenarios/reabrir", json={**entrada, **alteracao})
+    assert resposta.status_code == 422
+    assert resposta.json()["erros"]
+
+
 def test_csv_de_exemplo_pode_ser_baixado_e_importado():
     arquivo = cliente.get("/exemplos/referencia-sintetica.csv")
     assert arquivo.status_code == 200

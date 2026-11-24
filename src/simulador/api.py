@@ -7,6 +7,7 @@ Execute a partir da raiz do projeto:
 from pathlib import Path
 
 from fastapi import FastAPI, Request
+from fastapi.encoders import jsonable_encoder
 from fastapi.exception_handlers import http_exception_handler
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, Response
@@ -14,6 +15,7 @@ from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 
 from .canais import ParametrosCanais, comparar_canais
+from .cenario_salvo import CenarioSalvo, reabrir_cenario
 from .explicacao import explicar_promocao
 from .ficha_tecnica import FichaTecnica, calcular_ficha_tecnica
 from .parametros import ParametrosSimulacao, campos_para_interface, exemplos_para_interface
@@ -84,6 +86,11 @@ def simular(parametros: ParametrosSimulacao) -> dict:
 @app.post("/api/promocoes")
 def analisar(parametros: ParametrosPromocao) -> dict:
     return analisar_promocao(parametros)
+
+
+@app.post("/api/cenarios/reabrir")
+def abrir_cenario(arquivo: CenarioSalvo) -> dict:
+    return jsonable_encoder(reabrir_cenario(arquivo))
 
 
 @app.post("/api/promocoes/alternativas")

@@ -132,13 +132,14 @@
 #promocao-controles {margin-top:.65rem}
 #promocao-ajustes > summary,
 #promocao-detalhes > summary,
-#comparacao-avancada > summary, #referencia-csv > summary {
+#comparacao-avancada > summary, #referencia-csv > summary, #cenario-salvo > summary {
   cursor:pointer;
   font-weight:650;
   padding-block:.65rem;
 }
 
-#referencia-arquivo {max-width:100%;min-width:0}
+#referencia-arquivo, #cenario-arquivo {max-width:100%;min-width:0}
+#cenario-arquivo-resumo {overflow-wrap:anywhere}
 .referencia-horas {width:100%;table-layout:fixed}
 .referencia-horas th,.referencia-horas td {padding:.45rem .25rem;overflow-wrap:anywhere}
 #promocao-resultado[data-desatualizado="true"] #promocao-detalhes {display:none}

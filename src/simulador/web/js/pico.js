@@ -31,6 +31,7 @@ export function criarComparacaoPico(promocional) {
   const botao = criar("button", { type: "button", className: "botao botao-principal", textContent: "Comparar com pico" });
   const status = criar("p", { role: "status" });
   const resultado = criar("div");
+  let calculado = false;
   const secao = criar("details", { id: "comparar-pico", className: "promocao-alternativas" },
     criar("summary", { textContent: "Simular pico de pedidos" }),
     criar("p", { textContent: "Compare pedidos chegando ao longo do turno ou concentrados no primeiro quarto do turno. A equipe, o volume e os tempos de trabalho são os mesmos." }),
@@ -39,6 +40,7 @@ export function criarComparacaoPico(promocional) {
   const executor = criarExecutor({
     buscar: compararPico,
     aoResultado(dados) {
+      calculado = true;
       botao.setAttribute("aria-disabled", "false");
       status.textContent = "Comparação pronta para " + dados.pedidos_recebidos +
         " pedidos em um turno de " + minutos(dados.duracao_turno_min) + ".";
@@ -55,6 +57,7 @@ export function criarComparacaoPico(promocional) {
   });
   function cancelar() {
     executor.cancelar();
+    calculado = false;
     botao.setAttribute("aria-disabled", "false");
     status.textContent = "";
     resultado.replaceChildren();
@@ -66,5 +69,5 @@ export function criarComparacaoPico(promocional) {
     status.textContent = "Comparando chegadas…";
     executor.executar(promocional);
   });
-  return { secao, cancelar };
+  return { secao, cancelar, exportar: () => calculado };
 }

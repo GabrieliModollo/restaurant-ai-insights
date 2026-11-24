@@ -21,15 +21,16 @@ preservando os valores ao navegar. No celular, o guia inicial fica recolhido.
 | Área | O que você pode fazer |
 | --- | --- |
 | **Visão geral** | Consultar margem de contribuição em reais, pedidos concluídos, tempo total médio, gargalos e resumo do turno |
-| **Simulador** | Ajustar preço e demanda, custos por pedido e equipe/tempos; aplicar três exemplos fictícios |
-| **Cenários** | Guardar, substituir ou limpar o cenário A e comparar parâmetros e resultados com o cenário atual |
+| **Simulador** | Ajustar preço, demanda, custos e equipe, calcular uma ficha técnica e aplicar exemplos fictícios |
+| **Cenários** | Analisar promoções, comparar alternativas, consultar dados de referência e guardar cenários em arquivo |
 | **Financeiro** | Detalhar contribuição, receita atendida, preço líquido, taxa do canal e limites do cálculo |
 | **Restaurante** | Reproduzir o turno, selecionar estações e abrir os indicadores operacionais e os dados de filas |
 | **Ajuda** | Consultar fórmulas, hipóteses, capacidade e significado dos gargalos |
 
 A navegação preserva o formulário e o cenário A, aceita links diretos e acompanha o histórico do
 navegador. Ao sair de **Restaurante**, a reprodução pausa. Ao recarregar a página, o cenário A e
-as alterações no formulário são descartados.
+as alterações no formulário são descartados da sessão. Use **Guardar e compartilhar cenário**
+para conservar uma análise em arquivo.
 
 O layout se adapta a desktop, tablet e celular, com temas claro e escuro conforme a preferência
 do sistema. No celular, os seis destinos ficam visíveis no menu e o guia pode ser expandido.
@@ -61,6 +62,17 @@ de volume. Mais pedidos recebidos, sozinhos, não resolvem essa limitação.
 
 Fórmulas, casos-limite, contrato e testes: [`docs/promocoes.md`](docs/promocoes.md).
 
+### Alternativas e dados de referência
+
+- Em **Ver detalhes e alternativas**, compare desconto menor com reforço de equipe, custos por
+  canal ou chegadas distribuídas com pico de pedidos. Na comparação por canal, consulte guias
+  do iFood e da 99Food e informe as condições comerciais da loja.
+- Em **Consultar pedidos de referência**, carregue o exemplo fictício ou importe um CSV no formato
+  do projeto. O painel mostra pedidos concluídos e cancelados por hora de criação.
+- Em **Guardar e compartilhar cenário**, baixe um JSON para reabrir a referência, a hipótese, a ficha
+  técnica e as comparações já calculadas. Use **Exportar resumo** para compartilhar resultados e
+  custos em texto. Reabrir recalcula os resultados para consulta e mantém a hipótese em edição.
+
 ## Ficha técnica de um produto — RAI-009
 
 No **Simulador**, abra **Calcular ingredientes por ficha técnica** junto ao campo de ingredientes.
@@ -68,7 +80,7 @@ Você pode preencher um ingrediente de exemplo e editar seus valores. Informe o 
 comprada, a quantidade usada por porção e a data do preço. Use g/kg, mL/L ou unidades compatíveis.
 Por exemplo, uma porção de 150 g de um ingrediente comprado a R$ 20/kg custa R$ 3,00.
 **Usar custo no simulador** preenche o custo por pedido e atualiza o cenário. O campo também aceita
-entrada manual. A ficha fica disponível durante a navegação e é descartada ao recarregar a página.
+entrada manual. A ficha calculada também pode acompanhar o arquivo do cenário.
 
 ## Como funciona
 
@@ -120,8 +132,8 @@ servidor ao editar o código, acrescente `--reload`. O roteiro em
 
 ## Testes e validação
 
-[GitHub Actions](.github/workflows/testes.yml) executa as suítes Python e JavaScript e verifica a
-referência por regras da avaliação nos PRs e após alterações na `main`. A avaliação com Ollama é
+[GitHub Actions](.github/workflows/testes.yml) executa as suítes Python e JavaScript, a avaliação
+por regras e testes Playwright e axe em 320 px nos PRs e após alterações na `main`. A avaliação com Ollama é
 local. Os comandos e o roteiro de pontuação estão em [Avaliação da IA local](docs/explicacoes-ia.md).
 
 Para os testes Python, use o ambiente virtual acima. Os testes JavaScript foram verificados com
@@ -135,7 +147,7 @@ node --test "tests/js/*.test.mjs"
 O segundo comando testa a lógica do JavaScript. Ele usa só o Node.js, sem pacotes npm, e não é
 necessário para executar o simulador.
 
-Na validação da RAI-008, o código do commit `d70c28c` passou em clone limpo, com ambiente virtual
+Na validação histórica da RAI-008, o código do commit `d70c28c` passou em clone limpo, com ambiente virtual
 próprio e dependências reinstaladas:
 
 | Verificação | Resultado registrado |
@@ -172,7 +184,12 @@ Com o servidor em execução:
 - `POST /api/ficha-tecnica`: recebe os ingredientes da porção, calcula o custo e informa se cabe no
   limite do campo do simulador. Arredonda para centavos depois da soma dos ingredientes.
 - `POST /api/promocoes/explicacao`: recebe os mesmos parâmetros da promoção e explica os fatos
-  calculados. Informa se a resposta veio da IA local ou das regras.
+  calculados. Informa se o Ollama selecionou a versão alternativa ou se foi usada a frase padrão.
+- `POST /api/promocoes/alternativas`, `/api/promocoes/canais` e `/api/promocoes/pico`:
+  comparam desconto e equipe, custos de canais e distribuição das chegadas.
+- `POST /api/promocoes/regras`: busca guias comerciais por tema e plataforma.
+- `POST /api/referencias/csv`: valida e agrega o CSV de referência por hora de criação.
+- `POST /api/cenarios/reabrir`: valida o JSON versionado e recalcula seus resultados.
 - Entrada inválida recebe o código 422 e `{"erros": {"campo": "mensagem"}}`. Um corpo que não pode
   ser lido usa `corpo` como nome do campo.
 
@@ -184,15 +201,17 @@ Invoke-RestMethod http://127.0.0.1:8010/api/campos
 
 - **Facilidade de uso:** ainda não validada com usuários. O roteiro do teste está em
   [`docs/teste-de-uso.md`](docs/teste-de-uso.md).
-- **Modelo:** um único produto, chegadas em intervalos iguais e tempos constantes, sem pausas,
-  cancelamentos ou desistências.
+- **Modelo:** um único produto, chegadas distribuídas ou concentradas no primeiro quarto do turno
+  e tempos constantes. A operação simulada deixa de fora pausas, cancelamentos e desistências.
 - **Finanças:** o valor que sobra (margem de contribuição) não é lucro líquido. Impostos, salários,
   aluguel e desperdício ficam de fora, assim como os custos de pedidos ainda em processo no fim do
   turno.
 - **Resultados:** descrevem este modelo. Não são previsão, recomendação nem benefício medido.
-- **Cenário A:** fica só na memória da página, e recarregar o descarta.
+- **Arquivos de cenário:** guardam a hipótese e suas comparações calculadas. O CSV de referência
+  e os rascunhos de entrada ficam fora do arquivo.
 - **Reprodução:** os itens mudam de lugar no instante de cada evento, sem deslizar.
-- **Verificação:** feita no Windows, com Python 3.15 e Chrome. Os detalhes estão em
+- **Verificação:** revisões anteriores usaram Windows, Python 3.15 e Chrome. A integração contínua
+  usa Linux, Python 3.12 e Chromium. Os detalhes estão em
   [`docs/progress.md`](docs/progress.md).
 - **Acessibilidade e aparelhos:** leitor de tela, aparelho físico, toque, zoom real e outros
   navegadores permanecem pendentes. A preferência por menos movimento foi emulada na matriz de testes.
@@ -212,7 +231,7 @@ Invoke-RestMethod http://127.0.0.1:8010/api/campos
 | `src/simulador/web/experiencia.css` | Componentes e layout do dashboard, temas e responsividade |
 | `src/simulador/web/js/navegacao.js` | Seis áreas, âncoras, histórico, foco e área ativa |
 | `tests/` e `tests/js/` | Testes Python e JavaScript |
-| `tests/browser/` | Verificação opcional dos fluxos e da acessibilidade no Chrome |
+| `tests/browser/` | Verificações de fluxo e acessibilidade em Chromium |
 | `pytest.ini` | Coleta restrita a `tests/`, sem incluir clones temporários |
 | `docs/` | Produto, backlog, arquitetura, progresso, demonstração e teste de uso |
 
