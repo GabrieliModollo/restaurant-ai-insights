@@ -1,3 +1,4 @@
+import { criarComparacaoCanais } from "./canais.js";
 import { criarComparacaoAlternativas } from "./alternativas.js";
 import { analisarPromocao, explicarPromocao, descreverErro, ErroDeValidacao } from "./api.js";
 import { criarExecutor } from "./execucao.js";
@@ -47,7 +48,7 @@ function criarExplicacao(hipotese) {
   return { secao, cancelar: executor.cancelar };
 }
 
-function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotuloBase, explicacao, comparacao }) {
+function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotuloBase, explicacao, comparacao, canais }) {
   const textos = textosDoEquilibrio(resultado);
   const indicadores = criar("dl", { className: "promocao-metricas" });
   for (const [rotulo, valor] of [
@@ -121,7 +122,7 @@ function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotul
     equipe.addEventListener("click", ajustarEquipe);
     alternativas.append(equipe);
   }
-  partes.push(alternativas, comparacao);
+  partes.push(alternativas, comparacao, canais);
   if (textos.intervalo) partes.push(criar("p", { className: "resumo-atencao", textContent: textos.intervalo }));
   partes.push(criar("p", { className: "dica", textContent:
     `No limite de ${resultado.equilibrio.limite_pedidos_recebidos} pedidos recebidos, este modelo conclui no máximo ${resultado.equilibrio.maximo_concluidos_no_limite} com a equipe, os tempos e o turno promocionais. Não é previsão nem meta de pedidos recebidos.` }),
@@ -197,13 +198,16 @@ export function criarAnalisePromocoes() {
     aoResultado({ dados, hipotese }) {
       const explicacao = criarExplicacao(hipotese);
       const comparacao = criarComparacaoAlternativas(hipotese);
+      const canais = criarComparacaoCanais(hipotese);
       cancelarDetalhes = () => {
         explicacao.cancelar();
         comparacao.cancelar();
+        canais.cancelar();
       };
       renderizar(dados, resultado, {
         explicacao: explicacao.secao,
         comparacao: comparacao.secao,
+        canais: canais.secao,
         rotuloBase: modo === "exemplo" ? "Turno de referência" : "Cenário A",
         aplicarDesconto(centavos) {
           editar();

@@ -181,3 +181,9 @@
 .alternativa-cartao dl > div {margin-top:.45rem}
 .alternativa-cartao dt {font-size:.8rem;color:var(--texto-suave)}
 .alternativa-cartao dd {font-weight:650}
+
+
+.canal-campos {border:1px solid var(--linha);min-width:0}
+.canal-campos legend {font-weight:650}
+.canal-campos > div + div {margin-top:.65rem}
+#comparar-canais > summary {cursor:pointer;font-weight:650}
