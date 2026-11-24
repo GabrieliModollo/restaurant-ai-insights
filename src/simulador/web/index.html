@@ -23,7 +23,7 @@
     <div id="vazio" class="estado-vazio superficie"><h2>Preparando seu primeiro cenário</h2><p>Vamos carregar os parâmetros e calcular um turno de exemplo para você explorar.</p></div>
     <div id="resultados" class="resultados" hidden>
      <div data-pagina="inicio">
-      <header class="boas-vindas"><div><p class="sobretitulo">DECISÕES MELHORES COMEÇAM COM PERGUNTAS</p><h1 id="inicio">Olá! Vamos explorar seu restaurante?</h1><p>Teste possibilidades para seu próximo turno.<br/>Entenda os números antes de mudar a operação.</p></div><svg class="ilustracao" viewBox="0 0 360 180" fill="none" aria-hidden="true">
+      <header class="boas-vindas"><div><h1 id="inicio">O desconto se paga neste turno?</h1><p>Descubra quantos pedidos precisam ficar prontos para o desconto compensar e se a cozinha dá conta.</p><a id="testar-promocao" class="botao botao-principal" href="#titulo-promocoes">Testar uma promoção</a></div><svg class="ilustracao" viewBox="0 0 360 180" fill="none" aria-hidden="true">
 <ellipse cx="188" cy="151" rx="158" ry="20" fill="var(--fundo-positivo)"/>
 <path d="M30 150Q70 15 195 40T338 151" fill="var(--fundo-negativo)"/>
 <rect x="103" y="48" width="113" height="106" rx="13" fill="#d4213d"/>
@@ -69,7 +69,24 @@
           <div id="lista-exemplos"></div>
           <p id="exemplo-aplicado" class="dica" role="status"></p>
         </details>
-        <form id="formulario" novalidate></form><div class="acoes-simulacao"><button id="simular-cenario" class="botao botao-principal" type="submit" form="formulario">Simular cenário <span aria-hidden="true">→</span></button><a href="#inicio">Ver resultados atuais</a></div>
+        <form id="formulario" novalidate></form>
+        <details id="ficha-tecnica" class="ficha-tecnica">
+          <summary>Calcular ingredientes por ficha técnica</summary>
+          <p class="dica">Informe a compra e quanto de cada ingrediente entra em uma porção. Use o resultado para preencher o custo do cenário.</p>
+          <form id="ficha-formulario">
+            <div id="ficha-ingredientes"></div>
+            <div class="ficha-acoes">
+              <button id="ficha-adicionar" class="botao" type="button">Adicionar ingrediente</button>
+              <button id="ficha-calcular" class="botao botao-principal" type="submit">Calcular custo</button>
+            </div>
+          </form>
+          <p id="ficha-status" role="status"></p>
+          <div id="ficha-resultado" hidden>
+            <ul id="ficha-custos"></ul>
+            <button id="ficha-aplicar" class="botao" type="button">Usar custo no simulador</button>
+          </div>
+        </details>
+        <div class="acoes-simulacao"><button id="simular-cenario" class="botao botao-principal" type="submit" form="formulario">Simular cenário <span aria-hidden="true">→</span></button><a href="#inicio">Ver resultados atuais</a></div>
 
       </section><aside class="dicas-simulacao superficie"><span class="icone-grande"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V13h4v8m3 0V8h4v13m3 0V3h4v18"/></svg></span><h2>Pequenas mudanças, novas perspectivas.</h2><p>Comece com os valores preenchidos. Mude um grupo de cada vez para entender seu efeito.</p><ol><li>Informe preço e demanda.</li><li>Confira os custos por pedido.</li><li>Ajuste equipe e duração do turno.</li></ol><p>O cenário já vem preenchido: altere só o que quiser.</p><a href="#titulo-comparacao">Quer comparar duas alternativas? →</a></aside></div></div>
      <div data-pagina="comparacao" hidden><div class="titulo-secao"><div><p class="sobretitulo">CENÁRIOS</p><h1>Compare possibilidades.</h1><p>Guarde uma referência e veja o que muda. Sem escolher um vencedor por você.</p></div><a class="botao botao-principal" href="#titulo-parametros">Simular cenário</a></div><section class="superficie" aria-labelledby="titulo-comparacao">
@@ -90,11 +107,12 @@
           <section class="superficie promocao-painel" aria-labelledby="titulo-promocoes">
             <p class="secao-kicker">PROMOÇÕES · PONTO DE EQUILÍBRIO</p>
             <h2 id="titulo-promocoes">O desconto se paga nesta hipótese?</h2>
-            <p>Compare a contribuição do cenário A com uma hipótese promocional. Desconto não é previsão de vendas.</p>
+            <p>Compare a contribuição do turno de referência com a da promoção. Você informa o volume de pedidos.</p>
+            <button id="promocao-usar-cenarios" class="botao" type="button" hidden>Usar meus cenários</button>
             <p id="promocao-status" class="promocao-status" role="status">Guarde o cenário A acima para começar.</p>
             <div id="promocao-controles" hidden>
               <p id="promocao-referencia" class="promocao-referencia"></p>
-              <p class="dica">Preço, custos, equipe e turno vêm do cenário atual. Desconto e volume abaixo valem só para esta análise; não alteram o simulador nem o cenário A.</p>
+              <p class="dica">Desconto, volume e equipe nesta seção valem apenas para esta análise.</p>
               <form id="promocao-formulario" class="promocao-formulario" novalidate>
                 <div>
                   <label for="promocao-desconto">Desconto promocional por pedido (R$)</label>
@@ -108,6 +126,24 @@
                   <p id="promocao-limite-pedidos" class="limites"></p>
                   <p id="promocao-erro-pedidos" class="erro-campo"></p>
                 </div>
+                <details id="promocao-equipe" class="promocao-equipe">
+                  <summary>Ajustar equipe da promoção</summary>
+                  <p class="dica">A contribuição exibida não desconta o custo adicional de pessoal.</p>
+                  <div class="promocao-equipe-campos">
+                    <div>
+                      <label for="promocao-pessoas_preparo">Pessoas no preparo</label>
+                      <input id="promocao-pessoas_preparo" type="number" inputmode="numeric" required aria-describedby="promocao-limite-pessoas_preparo promocao-erro-pessoas_preparo"/>
+                      <p id="promocao-limite-pessoas_preparo" class="limites"></p>
+                      <p id="promocao-erro-pessoas_preparo" class="erro-campo"></p>
+                    </div>
+                    <div>
+                      <label for="promocao-pessoas_embalagem">Pessoas na embalagem</label>
+                      <input id="promocao-pessoas_embalagem" type="number" inputmode="numeric" required aria-describedby="promocao-limite-pessoas_embalagem promocao-erro-pessoas_embalagem"/>
+                      <p id="promocao-limite-pessoas_embalagem" class="limites"></p>
+                      <p id="promocao-erro-pessoas_embalagem" class="erro-campo"></p>
+                    </div>
+                  </div>
+                </details>
                 <button id="promocao-analisar" type="submit" class="botao botao-principal">Analisar promoção</button>
               </form>
             </div>

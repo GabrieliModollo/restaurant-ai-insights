@@ -4,10 +4,12 @@ Centavos inteiros e Fraction nas decisões; float apenas nos percentuais de saí
 Não estima demanda nem confunde equilíbrio da contribuição com lucro do negócio.
 """
 
+from decimal import Decimal
 from fractions import Fraction
 
 from pydantic import BaseModel, ConfigDict
 
+from .financeiro import calcular_financeiro
 from .parametros import CAMPOS, ParametrosSimulacao
 from .simulacao import executar_simulacao
 
@@ -64,6 +66,32 @@ def _resumir(parametros: ParametrosSimulacao, resultado: dict) -> dict:
     }
 
 
+def _desconto_maximo(cenario: ParametrosSimulacao, concluidos: int, total_base: int) -> int | None:
+    """Maior desconto em centavos para as conclusões da hipótese atual."""
+    if not concluidos:
+        return None
+
+    # A contribuição não aumenta quando o desconto sobe, mesmo com a taxa arredondada.
+    # Busca o último centavo em que a mesma regra financeira ainda alcança a base.
+    inferior = 0
+    superior = int(cenario.preco_venda * 100)
+    while inferior <= superior:
+        centavos = (inferior + superior) // 2
+        financeiro = calcular_financeiro(
+            preco_venda=cenario.preco_venda,
+            desconto=Decimal(centavos).scaleb(-2),
+            taxa_canal_pct=cenario.taxa_canal_pct,
+            custo_ingredientes=cenario.custo_ingredientes,
+            custo_embalagem=cenario.custo_embalagem,
+            pedidos_concluidos=concluidos,
+        )
+        if financeiro["contribuicao_total_centavos"] >= total_base:
+            inferior = centavos + 1
+        else:
+            superior = centavos - 1
+    return superior if superior >= 0 else None
+
+
 def analisar_promocao(parametros: ParametrosPromocao) -> dict:
     base = _resumir(parametros.base, executar_simulacao(parametros.base))
     promocional = _resumir(parametros.promocional, executar_simulacao(parametros.promocional))
@@ -113,6 +141,9 @@ def analisar_promocao(parametros: ParametrosPromocao) -> dict:
         alertas.append("Parte dos pedidos recebidos não termina no turno e não entra na contribuição total. Recebidos não são concluídos.")
     if base["duracao_turno_min"] != promocional["duracao_turno_min"]:
         alertas.append("Os turnos têm durações diferentes. Os totais cobrem períodos diferentes.")
+    if any(getattr(parametros.base, campo) != getattr(parametros.promocional, campo)
+           for campo in ("pessoas_preparo", "pessoas_embalagem")):
+        alertas.append("A equipe mudou. A contribuição exibida não desconta o custo adicional de pessoal.")
     outros = [campo.rotulo for campo in CAMPOS if campo.nome not in {"desconto", "pedidos"}
               and getattr(parametros.base, campo.nome) != getattr(parametros.promocional, campo.nome)]
     if outros:
@@ -133,6 +164,9 @@ def analisar_promocao(parametros: ParametrosPromocao) -> dict:
             **equilibrio,
             "situacao": situacao,
             "atingiu_na_hipotese": atingiu,
+            "desconto_maximo_centavos": _desconto_maximo(
+                parametros.promocional, promocional["pedidos_concluidos"], total_base,
+            ),
             "limite_pedidos_recebidos": limite,
             "maximo_concluidos_no_limite": maximo_operacional,
             "adicionais_na_hipotese": max(0, minimo - promocional["pedidos_concluidos"]) if minimo is not None else None,

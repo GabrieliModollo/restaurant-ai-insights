@@ -13,6 +13,7 @@ from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 
+from .ficha_tecnica import FichaTecnica, calcular_ficha_tecnica
 from .parametros import ParametrosSimulacao, campos_para_interface, exemplos_para_interface
 from .promocoes import ParametrosPromocao, analisar_promocao
 from .simulacao import executar_simulacao
@@ -43,6 +44,9 @@ async def _erros_em_portugues(_: Request, erro: RequestValidationError) -> JSONR
         local = item["loc"]
         if len(local) == 3 and local[1] in {"base", "promocional"} and isinstance(local[2], str):
             erros[f"{local[1]}.{local[2]}"] = mensagens_padrao.get(item["type"], item["msg"])
+        elif local[1:2] == ("ingredientes",) and len(local) >= 3:
+            campo = ".".join(map(str, local[1:]))
+            erros[campo] = mensagens_padrao.get(item["type"], item["msg"]).removeprefix("Value error, ")
         elif len(local) != 2 or not isinstance(local[1], str):
             erros["corpo"] = MENSAGEM_CORPO_INVALIDO
         else:
@@ -76,6 +80,11 @@ def simular(parametros: ParametrosSimulacao) -> dict:
 @app.post("/api/promocoes")
 def analisar(parametros: ParametrosPromocao) -> dict:
     return analisar_promocao(parametros)
+
+
+@app.post("/api/ficha-tecnica")
+def calcular_ficha(ficha: FichaTecnica) -> dict:
+    return calcular_ficha_tecnica(ficha)
 
 
 # Montado por último: as rotas /api acima têm prioridade sobre os arquivos.

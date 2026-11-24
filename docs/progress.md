@@ -1,6 +1,21 @@
 # Progresso
 
-Última atualização: 2026-11-06.
+Última atualização: 2026-11-24.
+
+## Demo de promoções, alternativas e RAI-009
+
+A branch `feature/promocoes-e-ficha-tecnica` reúne três mudanças para revisão: exemplo de promoção
+na tela inicial, desconto máximo por hipótese com ajuste local da equipe e ficha de ingredientes
+por porção. A ficha envia o custo ao campo manual só por ação explícita. O PR #10, que entregou
+a análise de promoções original, foi integrado à `main` em 07/11/2026.
+
+Verificação em Linux com Python 3.12 e Node.js 24: **237 testes Python e 104 JavaScript aprovados**,
+com `pip check` sem erros. Em Chromium sem janela, Playwright validou os fluxos antigos e novos.
+As matrizes de 72 combinações para as seis áreas e 24 para promoções passaram na verificação de
+largura e nas regras automatizadas do axe.
+
+Próximo passo de aprendizado: avaliar se um modelo local explica corretamente as saídas de
+`POST /api/promocoes` nos casos de limite operacional, contribuição negativa e turnos diferentes.
 
 ## Revisão técnica da RAI-008 — 2026-11-06
 

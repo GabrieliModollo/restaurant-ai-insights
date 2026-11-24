@@ -38,6 +38,10 @@ export function textosDoEquilibrio(resultado) {
   const minimo = e.pedidos_concluidos_minimos;
   const maximo = e.pedidos_concluidos_maximos;
   return {
+    conclusao: e.situacao === "capacidade_insuficiente"
+      ? `Com ${reais(resultado.promocional.desconto_centavos)} de desconto, você precisa concluir ${numero.format(minimo)} pedidos para manter a contribuição de referência. Neste turno, a equipe e os tempos informados não concluem mais de ${numero.format(e.maximo_concluidos_no_limite)}.`
+      : e.explicacao,
+    descontoMaximo: e.desconto_maximo_centavos == null ? null : reais(e.desconto_maximo_centavos),
     minimo: minimo === null ? "Sem volume que compense" : `${numero.format(minimo)} concluídos`,
     adicionais: e.adicionais_sobre_base === null ? "Não se aplica" : `${numero.format(e.adicionais_sobre_base)} concluídos a mais`,
     intervalo: maximo === null ? null : `Com contribuição negativa, no máximo ${numero.format(maximo)} conclusões mantêm o total igual ou acima da base. Mais pedidos pioram o resultado.`,

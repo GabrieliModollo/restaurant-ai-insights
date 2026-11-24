@@ -41,10 +41,13 @@ do sistema. No celular, os seis destinos ficam visíveis no menu e o guia pode s
 
 ## Promoções e descontos — RAI-008
 
+Na **Visão geral**, clique em **Testar uma promoção** para analisar o exemplo fictício de R$ 5 de desconto.
 Em **Cenários**, use o A como base e teste desconto e volume no painel **Analisar promoção**.
 A análise mostra preço, taxa, custos, contribuição unitária/total e diferenças absolutas e percentuais.
 Informa quantos pedidos **concluídos**, e quantos adicionais sobre a base, compensariam a mudança.
-As hipóteses locais não alteram o simulador nem o A.
+O desconto máximo usa as conclusões da hipótese informada. É possível ajustar a equipe diretamente
+no painel, com aviso de que o custo adicional de pessoal fica fora da contribuição. As hipóteses
+locais não alteram o simulador nem o A.
 
 A meta financeira é confrontada com o limite operacional. Margem zero ou negativa, base negativa,
 zero pedidos e metas fora dos limites têm explicações específicas. O desconto não prevê aumento de vendas.
@@ -54,6 +57,14 @@ Exemplo padrão: R$ 5 de desconto reduz a contribuição por pedido em R$ 4,25. 
 de volume. Mais pedidos recebidos, sozinhos, não resolvem essa limitação.
 
 Fórmulas, casos-limite, contrato e testes: [`docs/promocoes.md`](docs/promocoes.md).
+
+## Ficha técnica de um produto — RAI-009
+
+No **Simulador**, abra **Ficha técnica** junto ao campo de ingredientes. Informe o preço e a quantidade
+comprada, a quantidade usada por porção e a data do preço. Use g/kg, mL/L ou unidades compatíveis.
+Por exemplo, uma porção de 150 g de um ingrediente comprado a R$ 20/kg custa R$ 3,00.
+**Usar custo no simulador** preenche o custo por pedido e atualiza o cenário. O campo também aceita
+entrada manual. A ficha fica disponível durante a navegação e é descartada ao recarregar a página.
 
 ## Como funciona
 
@@ -142,6 +153,8 @@ Com o servidor em execução:
   turno, e `resumo`. Valores monetários vêm em centavos inteiros.
 - `POST /api/promocoes`: recebe `base` e `promocional`, cada um com os parâmetros completos do
   simulador; compara contribuição e calcula o equilíbrio com limites operacionais. Os endpoints anteriores são preservados.
+- `POST /api/ficha-tecnica`: recebe os ingredientes da porção, calcula o custo e informa se cabe no
+  limite do campo do simulador. Arredonda para centavos depois da soma dos ingredientes.
 - Entrada inválida recebe o código 422 e `{"erros": {"campo": "mensagem"}}`. Um corpo que não pode
   ser lido usa `corpo` como nome do campo.
 

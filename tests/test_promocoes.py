@@ -171,3 +171,26 @@ def test_mais_chegadas_nao_reduzem_conclusoes_no_modelo_fifo(equipe, tempo):
         pessoas_embalagem=2, tempo_preparo_min=tempo, tempo_embalagem_min=1)['pedidos_concluidos']
         for n in range(31)]
     assert resultados == sorted(resultados)
+
+
+def test_desconto_maximo_usa_as_conclusoes_da_hipotese_e_o_centavo_exato():
+    promocao = {"pedidos": 22, "desconto": 5}
+    resultado = analisar(promocional=promocao)
+    assert resultado["promocional"]["pedidos_concluidos"] == 20
+    assert resultado["equilibrio"]["maximo_concluidos_no_limite"] == 22
+    assert resultado["equilibrio"]["desconto_maximo_centavos"] == 185
+    assert analisar(promocional={**promocao, "desconto": 1.85})["equilibrio"]["atingiu_na_hipotese"]
+    assert not analisar(promocional={**promocao, "desconto": 1.86})["equilibrio"]["atingiu_na_hipotese"]
+
+
+def test_desconto_maximo_distingue_zero_de_sem_alternativa():
+    assert analisar(promocional={"desconto": 5})["equilibrio"]["desconto_maximo_centavos"] == 0
+    for pedidos in [0, 10]:
+        assert analisar(promocional={"pedidos": pedidos})["equilibrio"]["desconto_maximo_centavos"] is None
+
+
+def test_mudanca_de_equipe_avisa_que_o_custo_adicional_fica_fora_da_contribuicao():
+    resultado = analisar(promocional={"desconto": 5, "pedidos": 30, "pessoas_preparo": 3})
+    assert resultado["promocional"]["pedidos_concluidos"] == 27
+    assert resultado["equilibrio"]["atingiu_na_hipotese"]
+    assert any("custo adicional de pessoal" in alerta for alerta in resultado["alertas"])

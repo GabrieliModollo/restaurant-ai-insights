@@ -5,6 +5,7 @@ import { criarCena } from "./cena/pagina.js";
 import { criarComparacao } from "./comparacao-pagina.js";
 import { criarExecutor } from "./execucao.js";
 import { criarExemplos } from "./exemplos.js";
+import { criarFichaTecnica } from "./ficha-tecnica.js";
 import { criarFormulario } from "./formulario.js";
 import { renderizarResultado } from "./indicadores.js";
 import { criarNavegacao } from "./navegacao.js";
@@ -102,6 +103,7 @@ async function iniciar() {
       campos,
       agendarSimulacao,
     );
+    criarFichaTecnica(document.getElementById("campo-custo_ingredientes"));
     comparacao.definirCampos(campos);
     agendarSimulacao();
   } catch (erro) {
