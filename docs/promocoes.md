@@ -2,9 +2,14 @@
 
 ## Como usar
 
+**Testar uma promoção**, na Visão geral, abre o exemplo fictício com desconto de R$ 5 e calcula o
+resultado automaticamente. Use **Usar meus cenários** para voltar à comparação própria. O exemplo
+preserva os parâmetros do simulador e o cenário A.
+
+
 1. Em **Cenários**, guarde o cenário atual como A. Ele será a referência da análise.
 2. Use **Simulador** para mudar preço, custos, equipe ou turno, se necessário. O A permanece guardado.
-3. Volte a **Cenários** e abra **Analisar promoção**. Informe desconto em reais e uma hipótese de pedidos recebidos.
+3. Volte a **Cenários** e abra **Analisar promoção**. Informe desconto em reais e uma hipótese de pedidos recebidos. A equipe também pode ser ajustada localmente.
 4. Clique em **Analisar promoção**. Confira diferença por pedido, diferença total, conclusões mínimas,
    pedidos adicionais sobre as conclusões da base e a limitação operacional.
 5. Expanda a comparação financeira e as fórmulas para entender os números. No celular, a comparação
@@ -57,6 +62,13 @@ pedido uniforme, (k − 1) × turno/N para k começando em 1, não fica mais tar
 no minuto zero, como em `operacao.py`. As duas filas FIFO, tempos constantes e pessoas
 fixas preservam a ordem e não atrasam a conclusão do k-ésimo pedido. Assim, aumentar recebimentos
 não diminui o total concluído. Há teste dessa propriedade em diferentes configurações.
+
+O **desconto máximo** usa o número de pedidos que efetivamente ficam prontos na hipótese atual,
+com a equipe e a demanda informadas. Usa a mesma regra de taxa por pedido e retorna o maior centavo
+de desconto que preserva a contribuição da base. R$ 0,00 indica que a hipótese só mantém a base sem
+desconto. O valor fica ausente quando nenhum pedido foi concluído ou quando até desconto zero deixa
+a contribuição abaixo da base. Mudanças de equipe deixam explícito que o custo adicional de pessoal
+está fora da contribuição.
 
 A meta pode ser financeiramente impossível, exceder o limite de recebimentos, exceder as conclusões
 possíveis ou caber no modelo mas não na hipótese atual. A resposta distingue esses casos de uma

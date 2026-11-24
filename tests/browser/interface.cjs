@@ -146,7 +146,34 @@ const destinos = ['inicio', 'titulo-parametros', 'titulo-comparacao', 'titulo-fi
     await page.waitForFunction(() => document.activeElement.id === 'inicio');
     await link.focus(); await page.keyboard.press('Enter');
     await page.waitForFunction(() => document.activeElement.id === 'inicio');
+    // Calcular e aplicar uma ficha reaproveita o campo de valor manual do simulador.
+    await ir('titulo-parametros');
+    await page.getByRole('button', { name: 'Abrir ficha técnica' }).click();
+    for (const width of [320, 390]) {
+      await page.setViewportSize({ width, height: 844 });
+      assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false);
+      const { violations } = await new AxeBuilder({ page }).analyze();
+      assert.deepEqual(violations.map(v => ({ id: v.id, alvos: v.nodes.map(n => n.target) })), []);
+    }
+    const farinha = page.getByRole('group', { name: 'Ingrediente 1' });
+    await farinha.getByLabel('Ingrediente', { exact: true }).fill('Farinha');
+    await farinha.getByLabel('Preço da compra (R$)', { exact: true }).fill('20');
+    await farinha.getByLabel('Quantidade comprada', { exact: true }).fill('1');
+    await farinha.getByLabel('Unidade de compra', { exact: true }).selectOption('kg');
+    await farinha.getByLabel('Quantidade usada por porção', { exact: true }).fill('150');
+    await farinha.getByLabel('Unidade usada', { exact: true }).selectOption('g');
+    await farinha.getByLabel('Data do preço', { exact: true }).fill('2026-11-24');
+    await page.getByRole('button', { name: 'Calcular custo' }).click();
+    await page.waitForSelector('#ficha-resultado:not([hidden])');
+    assert.match(await page.locator('#ficha-status').textContent(), /R\$\s*3,00/);
+    await page.getByRole('button', { name: 'Usar custo no simulador' }).click();
+    await pronto();
+    assert.equal(Number(await page.locator('#campo-custo_ingredientes').inputValue()), 3);
+    await farinha.getByLabel('Unidade usada', { exact: true }).selectOption('ml');
+    assert.equal(await page.locator('#ficha-resultado').isVisible(), false);
+    await page.getByRole('button', { name: 'Calcular custo' }).click();
+    await page.waitForFunction(() => document.querySelector('#ficha-ingredientes .erro-campo').textContent.includes('unidades da mesma medida'));
     assert.deepEqual(erros, []);
-    console.log('OK: simulação, preservação de campos, comparação, validação, zero pedidos, exemplos, gargalos, reprodução, histórico, links diretos, erros e recuperação, teclado e console');
+    console.log('OK: ficha técnica, simulação, preservação de campos, comparação, validação, zero pedidos, exemplos, gargalos, reprodução, histórico, links diretos, erros e recuperação, teclado e console');
   } finally { await browser.close(); }
 })().catch(erro => { console.error(erro); process.exitCode = 1; });

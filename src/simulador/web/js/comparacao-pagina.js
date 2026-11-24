@@ -75,10 +75,18 @@ export function criarComparacao() {
   const conteudo = document.getElementById("a-conteudo");
   const controle = criarControleCenarioA();
   const promocoes = criarAnalisePromocoes();
+  const botaoExemplo = document.getElementById("testar-promocao");
+  const usarCenarios = document.getElementById("promocao-usar-cenarios");
   let campos = [];
+  let exemplo = null;
 
   function mostrar() {
-    promocoes.atualizar(controle.a, controle.ultimo, controle.atualizado, campos);
+    if (exemplo) {
+      promocoes.atualizar(exemplo.base, exemplo.promocional, true, campos, true);
+    } else {
+      promocoes.atualizar(controle.a, controle.ultimo, controle.atualizado, campos);
+    }
+    usarCenarios.hidden = !exemplo;
     const temA = controle.a !== null;
     botaoSalvar.disabled = !controle.podeSalvar;
     botaoSalvar.textContent = temA ? "Substituir cenário A" : "Guardar como cenário A";
@@ -126,15 +134,30 @@ export function criarComparacao() {
     conteudo.replaceChildren(...partes);
   }
 
+  botaoExemplo.addEventListener("click", () => {
+    const padroes = Object.fromEntries(campos.map(({ nome, padrao }) => [nome, padrao]));
+    exemplo = { base: { parametros: padroes }, promocional: { parametros: { ...padroes, desconto: 5 } } };
+    mostrar();
+    promocoes.analisarExemplo();
+  });
+
+  usarCenarios.addEventListener("click", () => {
+    exemplo = null;
+    mostrar();
+    botaoSalvar.focus();
+  });
+
   botaoSalvar.addEventListener("click", () => {
     const substituindo = controle.a !== null;
     if (controle.salvar()) {
+      exemplo = null;
       anuncio.textContent = substituindo ? "Cenário A substituído." : "Cenário A guardado.";
       mostrar();
     }
   });
   botaoLimpar.addEventListener("click", () => {
     controle.limpar();
+    exemplo = null;
     anuncio.textContent = "Cenário A removido.";
     mostrar();
     botaoSalvar.focus(); // o botão de limpar sumiu, e o foco não pode se perder

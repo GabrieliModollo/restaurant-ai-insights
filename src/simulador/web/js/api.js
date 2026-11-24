@@ -85,6 +85,8 @@ async function enviarParametros(url, valores, signal) {
 export const simular = (valores, signal) => enviarParametros("/api/simulacoes", valores, signal);
 export const analisarPromocao = (valores, signal) => enviarParametros("/api/promocoes", valores, signal);
 
+export const calcularFicha = (valores, signal) => enviarParametros("/api/ficha-tecnica", valores, signal);
+
 export function descreverErro(erro) {
   if (erro.name === "TimeoutError") {
     return `O servidor demorou mais de ${TEMPO_LIMITE_MS / 1000} segundos para responder.`;

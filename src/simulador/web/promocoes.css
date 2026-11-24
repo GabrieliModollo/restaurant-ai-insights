@@ -64,3 +64,18 @@
   .tabela-promocao td {padding:.45rem .6rem;display:flex;justify-content:space-between;gap:.8rem;text-align:right}
   .tabela-promocao td::before {content:attr(data-rotulo);font-weight:600;text-align:left;flex:none;max-width:50%}
 }
+
+.boas-vindas #testar-promocao {margin-top:1rem}
+.promocao-equipe {grid-column:1/-1}
+.promocao-equipe summary {cursor:pointer;font-weight:650}
+.promocao-equipe .dica {margin:.5rem 0}
+.promocao-equipe-campos {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(100%,12rem),1fr));
+  gap:.75rem;
+}
+.promocao-conclusao {margin-bottom:1rem}
+.promocao-alternativas {margin:1rem 0;padding:1rem;background:var(--superficie-suave);border-radius:12px}
+.promocao-alternativas h3 {margin:0 0 .5rem}
+.promocao-alternativas p {margin:.5rem 0}
+.promocao-alternativas .botao {margin:.4rem .5rem .2rem 0}
