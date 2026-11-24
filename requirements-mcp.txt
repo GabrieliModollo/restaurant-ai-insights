@@ -1,0 +1,4 @@
+-r requirements.txt
+
+# Integração opcional por stdio e cliente usado nos testes de contrato.
+mcp==1.29.0
