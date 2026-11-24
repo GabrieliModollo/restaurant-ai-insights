@@ -4,7 +4,8 @@
 a contribuição do turno. A equipe consegue concluir no máximo **22** nas condições simuladas.
 
 [**Roteiro da demonstração**](docs/demonstracao.md) ·
-[Como executar](#como-executar) · [Avaliação da IA local](docs/explicacoes-ia.md) · [MCP local](docs/mcp.md)
+[Como executar](#como-executar) · [Avaliação da IA local](docs/explicacoes-ia.md) · [MCP local](docs/mcp.md) ·
+[**Como construí com IA**](docs/como-construi-com-ia.md)
 
 O simulador explora como preço, desconto, custos, volume e equipe afetam um turno de restaurante.
 O Python calcula a operação e as finanças usando dados fictícios. A explicação com IA local é opcional

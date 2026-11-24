@@ -2,9 +2,18 @@
 
 Última atualização: 2026-11-24.
 
+## Como construí com IA — AIB-01
+
+Em revisão na branch `docs/como-construi-com-ia`. Novo documento
+[Como construí com IA](como-construi-com-ia.md), com link no topo do README, e prioridades da
+candidatura AI Builder no [backlog](backlog.md). Só documentação: nenhum código foi alterado.
+Verificação na pasta de trabalho: 306 testes Python aprovados (1 ignorado) e 104 JavaScript.
+
+Próxima entrega sugerida: AIB-03 e AIB-02, após confirmação da pessoa responsável.
+
 ## Demonstração e MCP local
 
-Em revisão na branch `feature/demo-e-mcp`. O roteiro de cinco minutos vai da promoção
+Integrada à main no PR #38, branch `feature/demo-e-mcp`. O roteiro de cinco minutos vai da promoção
 de exemplo à comparação de desconto e equipe, ao pico de pedidos e à exportação.
 O servidor MCP local disponibiliza as ferramentas de promoção e alternativas via stdio,
 com resultados estruturados e os mesmos modelos de validação da API.

@@ -15,8 +15,25 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 6 | P1 | Simular pico de pedidos (concluída, PR #33) | Comparar o mesmo volume, com a mesma equipe, chegando distribuído ou concentrado. Mostrar fila, espera e pedidos prontos. |
 | 7 | P2 | Importar dados de referência (concluída, PR #34) | Começar com CSV sintético baseado nos campos documentados do iFood Analytics. Identificar a origem e distinguir pedido pronto de entrega concluída. A conexão autenticada depende do acesso oficial. |
 | 8 | P2 | Guardar e compartilhar cenários (concluída, PR #37) | Reabrir ficha, referência e alternativas. Exportar um resumo com hipóteses, resultados e custos considerados. |
-| 9 | P2 | Atualizar o roteiro da demonstração (em revisão) | Cobrir primeiro uso, edição e interpretação dos resultados com dados fictícios. A validação com gestores fica pendente até haver participantes. |
-| 10 | P2 | MCP para assistente externo (em revisão) | Expor duas ferramentas de consulta, **simular promoção** e **comparar alternativas**, com entradas validadas e resultados estruturados. Reutilizar o motor existente e reproduzir os mesmos números em um cliente MCP compatível. |
+| 9 | P2 | Atualizar o roteiro da demonstração (concluída, PR #38) | Cobrir primeiro uso, edição e interpretação dos resultados com dados fictícios. A validação com gestores fica pendente até haver participantes. |
+| 10 | P2 | MCP para assistente externo (concluída, PR #38) | Expor duas ferramentas de consulta, **simular promoção** e **comparar alternativas**, com entradas validadas e resultados estruturados. Reutilizar o motor existente e reproduzir os mesmos números em um cliente MCP compatível. |
+
+## Prioridades para a candidatura AI Builder
+
+Proposta de 2026-11-24. Objetivo: tornar visível no portfólio o que já existe e ampliar o papel da
+IA sem perder as proteções atuais. **Planejado não significa implementado.**
+
+| ID | Prioridade | Entrega | Critério de aceite |
+| --- | --- | --- | --- |
+| AIB-01 | P0 | Documento "Como construí com IA" (em revisão) | Papéis de cada ferramenta, como os agentes foram orientados e exemplos reais de revisão, só com fatos verificáveis no repositório. Link no topo do README. |
+| AIB-02 | P0 | Vídeo do agente via MCP | Cliente MCP responde "Um desconto de R$ 5 se paga?" chamando `simular_promocao`, com os mesmos números da interface. GIF curto no README. |
+| AIB-03 | P0 | Topo do README para quem avalia | Em até 5 linhas: o problema, o que a IA faz, o que ela não faz e por quê, e links para vídeo, avaliação e MCP. |
+| AIB-04 | P0 | Demo publicada no modo por regras | **Depende de decisão:** a publicação está excluída em `product.md` e não autorizada em `CLAUDE.md`. |
+| AIB-05 | P1 | Assistente com perguntas livres no app | O LLM escolhe a ferramenta; todo número da resposta vem da ferramenta, com checagem automática e volta às regras se ela falhar. |
+| AIB-06 | P1 | Avaliação com 20 a 30 casos | Pontuação automática de números, ferramenta, recusa fora do escopo e perguntas da consulta comercial; tabela no README. |
+| AIB-07 | P1 | Automação no n8n local | Fluxo versionado que lê o CSV de referência, chama a API e envia um resumo do dia. |
+| AIB-08 | P1 | Ficha técnica a partir de texto colado | Extração em JSON validada pelo modelo existente e revisada antes de aplicar; tempo manual e com IA medidos. |
+| AIB-09 | P2 | Classificar comentários de clientes | Temas como atraso, temperatura e embalagem, ligados aos gargalos do simulador. |
 
 ## Melhorias de arquitetura
 
