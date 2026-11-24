@@ -14,27 +14,33 @@ const url = process.env.RAI_URL || 'http://127.0.0.1:8020';
     async function abrir() {
       await page.goto(`${url}/?revisao=${carga++}#titulo-comparacao`);
       await page.waitForSelector('#status[data-estado="atualizado"]');
-      assert.match(await page.locator('#promocao-status').textContent(), /Guarde o cenário A/);
+      assert.match(await page.locator('#promocao-status').textContent(), /Escolha um exemplo/);
       assert.equal(await page.locator('#promocao-controles').isVisible(), false);
-      await page.locator('#a-salvar').click();
+      await page.locator('#promocao-propria').click();
+    }
+    async function editar() {
+      if (await page.locator('#promocao-ajustes').getAttribute('open') === null) {
+        await page.locator('#promocao-editar').click();
+      }
     }
     async function analisar(desconto = '5', pedidos = '20') {
+      await editar();
       await page.locator('#promocao-desconto').fill(desconto);
       await page.locator('#promocao-pedidos').fill(pedidos);
       await page.locator('#promocao-analisar').click();
-      await page.waitForSelector('#promocao-resultado:not([hidden])');
+      await page.waitForSelector('#promocao-resultado[data-desatualizado="false"]:not([hidden])');
     }
     if (!process.env.RAI_SO_FLUXOS) for (const tema of ['light', 'dark']) {
       await page.emulateMedia({ colorScheme: tema, reducedMotion: 'reduce' });
       for (const width of [320, 390, 768, 1024, 1440, 1920]) {
         await page.setViewportSize({ width, height: 900 });
         await abrir(); await analisar();
-        assert.match(await page.locator('.promocao-metricas').textContent(), /25 concluídos.*7 concluídos a mais/);
-        assert.match(await page.locator('.promocao-conclusao').textContent(), /não concluem/);
+        assert.match(await page.locator('.promocao-metricas').textContent(), /25 concluídos.*22 pedidos/);
+        assert.match(await page.locator('.promocao-conclusao').textContent(), /não se concluem/);
         assert.equal(await page.locator('#campo-pedidos').inputValue(), '20');
         for (const negativo of [false, true]) {
           if (negativo) await analisar('25');
-          await page.locator('.promocao-detalhamento').evaluate(e => e.open = true);
+          await page.locator('#promocao-detalhes, .promocao-detalhamento').evaluateAll(detalhes => detalhes.forEach(e => e.open = true));
           assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth), false, `Estouro em ${width}px`);
           const { violations } = await new AxeBuilder({ page }).analyze();
           assert.deepEqual(violations.map(v => ({ id: v.id, alvos: v.nodes.map(n => n.target) })), [], `${width}, ${tema}, negativo=${negativo}`);
@@ -56,6 +62,7 @@ const url = process.env.RAI_URL || 'http://127.0.0.1:8020';
     await analisar('5', '1000');
     assert.match(await page.locator('.tabela-promocao').textContent(), /1.000/);
     assert.match(await page.locator('#promocao-resultado').textContent(), /máximo 22/);
+    await editar();
     await page.locator('#promocao-desconto').fill('36');
     await page.locator('#promocao-analisar').click();
     assert.match(await page.locator('#promocao-erro-desconto').textContent(), /maior que o preço/);
@@ -74,24 +81,32 @@ const url = process.env.RAI_URL || 'http://127.0.0.1:8020';
     let receber;
     const recebida = new Promise(resolve => receber = resolve);
     await page.route('**/api/promocoes', rota => receber(rota));
+    await editar();
     await page.locator('#promocao-analisar').click();
     const pendente = await recebida;
     assert.equal(await page.locator('#promocao-analisar').isDisabled(), true);
+    await page.locator('#comparacao-avancada > summary').click();
     await page.locator('#a-limpar').click();
     await pendente.continue().catch(() => {});
     await page.unroute('**/api/promocoes');
     assert.equal(await page.locator('#promocao-resultado').isVisible(), false);
     await page.locator('#a-salvar').click();
-    await analisar();
+    await analisar('7', '42');
     await page.locator('.menu-principal a[href="#titulo-parametros"]').click();
     await page.locator('#campo-preco_venda').fill('40');
     await page.waitForSelector('#status[data-estado="atualizado"]');
     await page.locator('.menu-principal a[href="#titulo-comparacao"]').click();
-    assert.equal(await page.locator('#promocao-resultado').isVisible(), false);
-    assert.equal(await page.locator('#promocao-desconto').inputValue(), '0');
+    await page.waitForSelector('#promocao-resultado[data-desatualizado="true"]:visible');
+    assert.equal(await page.locator('#promocao-desatualizada').isVisible(), true);
+    assert.equal(await page.locator('#promocao-desconto').inputValue(), '7');
+    assert.equal(await page.locator('#promocao-pedidos').inputValue(), '42');
+    await editar();
     await page.locator('#promocao-desconto').fill('5');
     await page.locator('#promocao-desconto').press('Enter');
-    await page.waitForSelector('#promocao-resultado:not([hidden])');
+    await page.waitForSelector('#promocao-resultado[data-desatualizado="false"]:not([hidden])');
+    assert.equal(await page.evaluate(() => document.activeElement.id), 'promocao-titulo-resultado');
+    assert.equal(await page.locator('#promocao-desatualizada').isVisible(), false);
+    await page.locator('#promocao-detalhes > summary').click();
     await page.locator('#promocao-resultado .ajuda summary').click();
     assert.match(await page.locator('#promocao-resultado .ajuda').textContent(), /Variação.*base/);
     // Margem zero com referência positiva não oferece uma meta de vendas.
@@ -135,22 +150,25 @@ const url = process.env.RAI_URL || 'http://127.0.0.1:8020';
     await page.goto(url);
     await page.waitForSelector('#status[data-estado="atualizado"]');
     await page.locator('#testar-promocao').click();
-    await page.waitForSelector('#promocao-resultado:not([hidden])');
+    await page.waitForSelector('#promocao-resultado[data-desatualizado="false"]:not([hidden])');
     assert.equal(await page.locator('#promocao-desconto').inputValue(), '5');
     assert.match(await page.locator('.promocao-conclusao').textContent(), /25 pedidos.*22/);
     assert.equal(await page.locator('#a-salvar').textContent(), 'Guardar como cenário A');
-    await page.getByRole('button', { name: 'Explicar este resultado' }).click();
+    await page.locator('#promocao-detalhes > summary').click();
+    await page.getByRole('button', { name: 'Explicar este resultado' }).press('Enter');
     const origem = page.locator('.promocao-explicacao [role="status"]');
     await page.waitForFunction(() => /IA local desativada|gerada por IA local/.test(
       document.querySelector('.promocao-explicacao [role="status"]').textContent,
     ));
     assert.match(await origem.textContent(), /Explicação por regras|gerada por IA local/);
+    assert.equal(await page.evaluate(() => document.activeElement.textContent), 'Explicar este resultado');
     assert.match(await page.locator('.promocao-explicacao p:not([role])').textContent(), /25 pedidos.*22/);
 
     await page.getByRole('button', { name: 'Testar desconto máximo' }).click();
-    await page.waitForSelector('#promocao-resultado:not([hidden])');
+    await page.waitForSelector('#promocao-resultado[data-desatualizado="false"]:not([hidden])');
     assert.equal(Number(await page.locator('#promocao-desconto').inputValue()), 0);
     await analisar();
+    await page.locator('#promocao-detalhes > summary').click();
     await page.getByRole('button', { name: 'Testar outra equipe' }).click();
     assert.equal(await page.evaluate(() => document.activeElement.id), 'promocao-pessoas_preparo');
     await page.locator('#promocao-pessoas_preparo').fill('3');
@@ -158,8 +176,29 @@ const url = process.env.RAI_URL || 'http://127.0.0.1:8020';
     assert.match(await page.locator('.promocao-conclusao').textContent(), /iguala ou supera/);
     assert.match(await page.locator('.promocao-alertas').textContent(), /custo adicional de pessoal/);
     assert.equal(await page.locator('#campo-pessoas_preparo').inputValue(), '2');
-    await page.locator('#promocao-usar-cenarios').click();
-    assert.equal(await page.locator('#promocao-controles').isVisible(), false);
+    await page.locator('#promocao-propria').click();
+    assert.equal(await page.locator('#promocao-desconto').inputValue(), '0');
+    assert.equal(await page.locator('#promocao-pessoas_preparo').inputValue(), '2');
+
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    for (const [width, height] of [[320, 740], [390, 844]]) {
+      await page.setViewportSize({ width, height });
+      await page.goto(url);
+      await page.waitForSelector('#status[data-estado="atualizado"]');
+      await page.locator('#testar-promocao').press('Enter');
+      await page.waitForURL('**/#titulo-promocoes');
+      await page.waitForSelector('.promocao-resumo');
+      const painel = page.locator('.promocao-resumo');
+      assert.match(await painel.textContent(), /25 pedidos.*22.*76,50/);
+      const limite = await painel.boundingBox();
+      assert.ok(limite.y >= 0 && limite.y + limite.height <= height,
+        'Resumo cortado em ' + width + ' px: ' + JSON.stringify(limite));
+      await page.screenshot({ path: 'tmp/rai-p0-promocao-' + width + '.png' });
+      assert.equal(await page.locator('#promocao-ajustes').getAttribute('open'), null);
+      assert.equal(await page.locator('#promocao-exemplo').getAttribute('aria-pressed'), 'true');
+      assert.notEqual(await page.evaluate(() => document.activeElement.tagName), 'BODY');
+      console.log('OK: resumo completo na primeira tela em ' + width + '×' + height);
+    }
     assert.deepEqual(erros, []);
     console.log('OK: demo, desconto máximo, equipe local, base compartilhada, preservação do simulador, validação e foco, hipóteses de volume, falha e recuperação, descarte de resposta antiga, edição de cenário e teclado');
   } finally { await browser.close(); }

@@ -16,6 +16,7 @@ function criar(tag, propriedades = {}, ...filhos) {
 
 function campo(id, rotulo, controle) {
   controle.id = id;
+  controle.setAttribute("form", "ficha-formulario");
   return criar("div", { className: "ficha-campo" },
     criar("label", { htmlFor: id, textContent: rotulo }),
     controle,
@@ -42,21 +43,31 @@ function criarIngrediente(indice, remover) {
   const legenda = criar("legend");
   const erro = criar("p", { className: "erro-campo" });
   const botaoRemover = criar("button", { type: "button", className: "botao", textContent: "Remover ingrediente" });
-  const controles = [
-    ["nome", "Ingrediente", nome],
-    ["preco", "Preço da compra (R$)", preco],
-    ["comprada", "Quantidade comprada", comprada],
-    ["unidade-compra", "Unidade de compra", unidadeCompra],
-    ["usada", "Quantidade usada por porção", usada],
-    ["unidade-uso", "Unidade usada", unidadeUso],
-    ["data", "Data do preço", data],
-  ];
+  const campoDoIngrediente = (chave, rotulo, controle) => campo(`ficha-item-${indice}-${chave}`, rotulo, controle);
   const elemento = criar("fieldset", {}, legenda,
-    ...controles.map(([chave, rotulo, controle]) => campo(`ficha-item-${indice}-${chave}`, rotulo, controle)),
+    campoDoIngrediente("nome", "Ingrediente", nome),
+    campoDoIngrediente("preco", "Preço da compra (R$)", preco),
+    criar("div", { className: "ficha-medida" },
+      campoDoIngrediente("comprada", "Quantidade comprada", comprada),
+      campoDoIngrediente("unidade-compra", "Unidade de compra", unidadeCompra)),
+    criar("div", { className: "ficha-medida" },
+      campoDoIngrediente("usada", "Quantidade usada por porção", usada),
+      campoDoIngrediente("unidade-uso", "Unidade usada", unidadeUso)),
+    campoDoIngrediente("data", "Data do preço", data),
     erro, botaoRemover,
   );
   const item = {
     elemento, legenda, nome, erro, botaoRemover,
+    vazio: () => [nome, preco, comprada, usada, data].every(controle => !controle.value),
+    preencherExemplo() {
+      nome.value = "Farinha";
+      preco.value = "20";
+      comprada.value = "1";
+      unidadeCompra.value = "kg";
+      usada.value = "150";
+      unidadeUso.value = "g";
+      data.value = "2026-11-24";
+    },
     valores: () => ({
       nome: nome.value.trim(),
       preco_compra_centavos: Math.round(Number(preco.value) * 100),
@@ -76,6 +87,7 @@ export function criarFichaTecnica(custoManual) {
   const formulario = document.getElementById("ficha-formulario");
   const lista = document.getElementById("ficha-ingredientes");
   const adicionar = document.getElementById("ficha-adicionar");
+  const exemplo = document.getElementById("ficha-exemplo");
   const calcular = document.getElementById("ficha-calcular");
   const status = document.getElementById("ficha-status");
   const resultado = document.getElementById("ficha-resultado");
@@ -85,12 +97,7 @@ export function criarFichaTecnica(custoManual) {
   let totalCentavos = null;
   let proximoIndice = 1;
 
-  const abrir = criar("button", { type: "button", className: "botao", textContent: "Abrir ficha técnica" });
-  custoManual.closest(".controle").append(abrir);
-  abrir.addEventListener("click", () => {
-    ficha.open = true;
-    itens[0].nome.focus();
-  });
+  custoManual.closest(".controle").append(ficha);
 
   const executor = criarExecutor({
     buscar: calcularFicha,
@@ -138,6 +145,7 @@ export function criarFichaTecnica(custoManual) {
       item.botaoRemover.disabled = itens.length === 1;
     });
     adicionar.disabled = itens.length >= 20;
+    exemplo.disabled = itens.length >= 20;
   }
 
   function adicionarIngrediente() {
@@ -162,7 +170,14 @@ export function criarFichaTecnica(custoManual) {
     item.nome.focus();
   });
 
-  formulario.addEventListener("input", invalidar);
+  exemplo.addEventListener("click", () => {
+    const item = itens.find(ingrediente => ingrediente.vazio()) ?? adicionarIngrediente();
+    item.preencherExemplo();
+    invalidar();
+    item.nome.focus();
+  });
+
+  ficha.addEventListener("input", invalidar);
   formulario.addEventListener("submit", evento => {
     evento.preventDefault();
     invalidar();

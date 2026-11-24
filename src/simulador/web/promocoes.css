@@ -86,3 +86,72 @@
 .promocao-explicacao p:not(:empty) {
   margin-top:.5rem;
 }
+
+.promocao-modos {
+  display:flex;
+  flex-wrap:wrap;
+  gap:.5rem;
+  margin:.75rem 0;
+}
+.promocao-modos [aria-pressed="true"] {
+  background:var(--fundo-negativo);
+  color:var(--texto);
+  border-color:var(--destaque);
+  box-shadow:inset 0 0 0 1px var(--destaque);
+}
+.promocao-modos [aria-disabled="true"],
+.promocao-painel [aria-disabled="true"] {
+  cursor:not-allowed;
+}
+.promocao-resumo {
+  margin:.75rem 0;
+  padding:.85rem;
+  border-radius:12px;
+  border:1px solid var(--linha);
+  background:var(--superficie-suave);
+}
+.promocao-resumo[data-estado="favoravel"] {background:var(--fundo-positivo)}
+.promocao-resumo h2 {font-size:1.2rem}
+.promocao-resumo .promocao-conclusao {
+  margin:.35rem 0 .65rem;
+  padding:0;
+  border:0;
+  background:none;
+}
+.promocao-resumo .promocao-metricas {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:.45rem;
+  margin:.5rem 0 0;
+}
+.promocao-resumo .promocao-metricas > div {
+  background:var(--superficie);
+  padding:.5rem;
+  border-radius:8px;
+}
+.promocao-resumo .promocao-metricas dd {font-size:1rem}
+#promocao-controles {margin-top:.65rem}
+#promocao-ajustes > summary,
+#promocao-detalhes > summary,
+#comparacao-avancada > summary {
+  cursor:pointer;
+  font-weight:650;
+  padding-block:.65rem;
+}
+#promocao-resultado[data-desatualizado="true"] #promocao-detalhes {display:none}
+.promocao-painel .promocao-aviso {
+  color:var(--texto);
+  background:var(--superficie-suave);
+  padding:.55rem .75rem;
+  border-radius:8px;
+}
+.promocao-exclusoes {margin-top:.85rem}
+@media(max-width:380px) {
+  .promocao-resumo .promocao-metricas {grid-template-columns:repeat(2,minmax(0,1fr))}
+  .promocao-resumo .promocao-metricas > div:last-child {grid-column:1/-1}
+}
+
+
+@media(max-width:540px) {
+  .promocao-modos {display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+  .promocao-modos .botao {white-space:normal;justify-content:center;text-align:center}
+}

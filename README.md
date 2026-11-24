@@ -44,7 +44,8 @@ do sistema. No celular, os seis destinos ficam visíveis no menu e o guia pode s
 ## Promoções e descontos — RAI-008
 
 Na **Visão geral**, clique em **Testar uma promoção** para analisar o exemplo fictício de R$ 5 de desconto.
-Em **Cenários**, use o A como base e teste desconto e volume no painel **Analisar promoção**.
+Em **Cenários**, escolha **Testar minha promoção** para usar seu cenário atual como referência, ou uma
+referência já guardada. Abra **Editar hipótese** para ajustar o desconto, volume e equipe.
 A análise mostra preço, taxa, custos, contribuição unitária/total e diferenças absolutas e percentuais.
 Informa quantos pedidos **concluídos**, e quantos adicionais sobre a base, compensariam a mudança.
 O desconto máximo usa as conclusões da hipótese informada. É possível ajustar a equipe diretamente
@@ -62,7 +63,8 @@ Fórmulas, casos-limite, contrato e testes: [`docs/promocoes.md`](docs/promocoes
 
 ## Ficha técnica de um produto — RAI-009
 
-No **Simulador**, abra **Ficha técnica** junto ao campo de ingredientes. Informe o preço e a quantidade
+No **Simulador**, abra **Calcular ingredientes por ficha técnica** junto ao campo de ingredientes.
+Você pode preencher um ingrediente de exemplo e editar seus valores. Informe o preço e a quantidade
 comprada, a quantidade usada por porção e a data do preço. Use g/kg, mL/L ou unidades compatíveis.
 Por exemplo, uma porção de 150 g de um ingrediente comprado a R$ 20/kg custa R$ 3,00.
 **Usar custo no simulador** preenche o custo por pedido e atualiza o cenário. O campo também aceita

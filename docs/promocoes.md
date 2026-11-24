@@ -2,22 +2,20 @@
 
 ## Como usar
 
-**Testar uma promoção**, na Visão geral, abre o exemplo fictício com desconto de R$ 5 e calcula o
-resultado automaticamente. Use **Usar meus cenários** para voltar à comparação própria. O exemplo
-preserva os parâmetros do simulador e o cenário A.
+Na **Visão geral**, **Testar uma promoção** calcula o exemplo fictício de R$ 5 e abre o resumo
+com a meta, a capacidade e a diferença no turno. Em **Cenários**, escolha entre **Experimentar
+exemplo** e **Testar minha promoção**. Os ajustes do exemplo e do cenário próprio ficam separados.
 
+1. **Testar minha promoção** usa o cenário atual como referência se você ainda não guardou um
+   cenário A. Em **Comparar cenários avançados**, você pode guardar, substituir ou limpar essa referência.
+2. Abra **Editar hipótese** para ajustar desconto, demanda e equipe. Use o **Simulador** para alterar
+   outros parâmetros, como preço e ingredientes. Os ajustes que você fez na hipótese são preservados.
+3. Se houver uma análise anterior, recalcule a hipótese com **Analisar promoção**. O resumo antigo
+   fica sinalizado até o recálculo, e ações sobre esse resultado ficam indisponíveis.
+4. Em **Ver detalhes e alternativas**, consulte a análise financeira, o desconto máximo e a
+   explicação. Os dados da sessão são descartados ao recarregar a página.
 
-1. Em **Cenários**, guarde o cenário atual como A. Ele será a referência da análise.
-2. Use **Simulador** para mudar preço, custos, equipe ou turno, se necessário. O A permanece guardado.
-3. Volte a **Cenários** e abra **Analisar promoção**. Informe desconto em reais e uma hipótese de pedidos recebidos. A equipe também pode ser ajustada localmente.
-4. Clique em **Analisar promoção**. Confira diferença por pedido, diferença total, conclusões mínimas,
-   pedidos adicionais sobre as conclusões da base e a limitação operacional.
-5. Expanda a comparação financeira e as fórmulas para entender os números. No celular, a comparação
-   começa recolhida. A hipótese local não modifica o simulador nem o A; recarregar descarta os dados.
-
-Sem cenário A ou com o cenário atual inválido/desatualizado, não é possível analisar.
-Alterar uma hipótese, atualizar/substituir/limpar cenários cancela a requisição anterior e oculta
-os resultados que já não correspondem às entradas. Há feedback de espera, validação e falha com repetição.
+As capturas abaixo registram a interface da primeira entrega da RAI-008.
 
 ![Análise de promoção com capacidade insuficiente](capturas/promocao-rai-008.png)
 

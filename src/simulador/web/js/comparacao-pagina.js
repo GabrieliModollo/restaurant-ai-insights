@@ -76,17 +76,21 @@ export function criarComparacao() {
   const controle = criarControleCenarioA();
   const promocoes = criarAnalisePromocoes();
   const botaoExemplo = document.getElementById("testar-promocao");
-  const usarCenarios = document.getElementById("promocao-usar-cenarios");
+  const modoExemplo = document.getElementById("promocao-exemplo");
+  const modoProprio = document.getElementById("promocao-propria");
   let campos = [];
   let exemplo = null;
+  let modo = null;
 
   function mostrar() {
-    if (exemplo) {
-      promocoes.atualizar(exemplo.base, exemplo.promocional, true, campos, true);
+    modoExemplo.setAttribute("aria-pressed", String(modo === "exemplo"));
+    modoProprio.setAttribute("aria-pressed", String(modo === "propria"));
+    modoProprio.setAttribute("aria-disabled", String(!controle.podeSalvar && !controle.a));
+    if (modo === "exemplo") {
+      promocoes.atualizar(exemplo.base, exemplo.promocional, true, campos, modo);
     } else {
-      promocoes.atualizar(controle.a, controle.ultimo, controle.atualizado, campos);
+      promocoes.atualizar(controle.a, controle.ultimo, controle.atualizado, campos, modo);
     }
-    usarCenarios.hidden = !exemplo;
     const temA = controle.a !== null;
     botaoSalvar.disabled = !controle.podeSalvar;
     botaoSalvar.textContent = temA ? "Substituir cenário A" : "Guardar como cenário A";
@@ -134,30 +138,34 @@ export function criarComparacao() {
     conteudo.replaceChildren(...partes);
   }
 
-  botaoExemplo.addEventListener("click", () => {
+  function abrirExemplo() {
     const padroes = Object.fromEntries(campos.map(({ nome, padrao }) => [nome, padrao]));
-    exemplo = { base: { parametros: padroes }, promocional: { parametros: { ...padroes, desconto: 5 } } };
+    exemplo ??= { base: { parametros: padroes }, promocional: { parametros: { ...padroes, desconto: 5 } } };
+    modo = "exemplo";
     mostrar();
     promocoes.analisarExemplo();
-  });
+  }
 
-  usarCenarios.addEventListener("click", () => {
-    exemplo = null;
+  botaoExemplo.addEventListener("click", abrirExemplo);
+  modoExemplo.addEventListener("click", abrirExemplo);
+
+  modoProprio.addEventListener("click", () => {
+    if (!controle.a && !controle.salvar()) return;
+    modo = "propria";
     mostrar();
-    botaoSalvar.focus();
+    promocoes.editar();
   });
 
   botaoSalvar.addEventListener("click", () => {
     const substituindo = controle.a !== null;
     if (controle.salvar()) {
-      exemplo = null;
+      if (modo !== "exemplo") modo = "propria";
       anuncio.textContent = substituindo ? "Cenário A substituído." : "Cenário A guardado.";
       mostrar();
     }
   });
   botaoLimpar.addEventListener("click", () => {
     controle.limpar();
-    exemplo = null;
     anuncio.textContent = "Cenário A removido.";
     mostrar();
     botaoSalvar.focus(); // o botão de limpar sumiu, e o foco não pode se perder
