@@ -1,12 +1,14 @@
 # Restaurant AI Insights
 
-Simulador local para explorar como preço, desconto, custos, quantidade de pedidos e equipe afetam
-um turno de restaurante. Foi pensado para quem gerencia um pequeno restaurante e tem pouca
-familiaridade com software.
+**Um desconto de R$ 5 se paga?** No exemplo, seriam necessários **25 pedidos concluídos** para preservar
+a contribuição do turno. A equipe consegue concluir no máximo **22** nas condições simuladas.
 
-> Simulação ilustrativa com dados fictícios. **Não há modelo de IA integrado:** o projeto foi
-> desenvolvido com assistência de IA, mas funciona só com regras e cálculos. Não usa serviços pagos,
-> chaves de API nem recursos externos para executar.
+[**Ver a demonstração em 24 segundos (MP4)**](docs/capturas/demo-promocao.mp4) ·
+[Como executar](#como-executar) · [Avaliação da IA local](docs/explicacoes-ia.md)
+
+O simulador explora como preço, desconto, custos, volume e equipe afetam um turno de restaurante.
+O Python calcula a operação e as finanças usando dados fictícios. A explicação com IA local é opcional
+e usa Ollama. A execução padrão funciona com regras e dispensa chaves, APIs pagas e modelo instalado.
 
 ![Dashboard com indicadores e acesso ao simulador](docs/capturas/dashboard-rai-007.png)
 
@@ -91,8 +93,8 @@ zero pedidos e contribuição negativa têm mensagens específicas.
 
 ## Como executar
 
-Ambiente verificado: **Windows e Python 3.15**. A interface usa HTML, CSS, JavaScript e Canvas nativos;
-não exige Node.js, npm, etapa de build, banco de dados, autenticação ou serviços externos para executar.
+Ambientes verificados: **Windows com Python 3.15** nas revisões anteriores e **Linux com Python 3.12**. A interface usa HTML, CSS, JavaScript e Canvas nativos;
+não exige Node.js, npm, etapa de build, banco de dados, autenticação ou serviços externos na execução padrão.
 
 Depois de clonar o repositório e entrar na pasta, execute no PowerShell:
 
@@ -102,11 +104,23 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m uvicorn src.simulador.api:app --port 8010
 ```
 
+No Linux, com Python 3.12:
+
+```bash
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python -m uvicorn src.simulador.api:app --port 8010
+```
+
 Abra <http://127.0.0.1:8010>. Se a porta estiver ocupada, escolha outro número. Para recarregar o
 servidor ao editar o código, acrescente `--reload`. O roteiro em
 [`docs/demonstracao.md`](docs/demonstracao.md) mostra a aplicação em cerca de 5 minutos.
 
 ## Testes e validação
+
+[GitHub Actions](.github/workflows/testes.yml) executa as suítes Python e JavaScript e verifica a
+referência por regras da avaliação nos PRs e após alterações na `main`. A avaliação com Ollama é
+local. Os comandos e o roteiro de pontuação estão em [Avaliação da IA local](docs/explicacoes-ia.md).
 
 Para os testes Python, use o ambiente virtual acima. Os testes JavaScript foram verificados com
 **Node.js 24** e usam o executor nativo, sem instalar pacotes npm:
@@ -155,6 +169,8 @@ Com o servidor em execução:
   simulador; compara contribuição e calcula o equilíbrio com limites operacionais. Os endpoints anteriores são preservados.
 - `POST /api/ficha-tecnica`: recebe os ingredientes da porção, calcula o custo e informa se cabe no
   limite do campo do simulador. Arredonda para centavos depois da soma dos ingredientes.
+- `POST /api/promocoes/explicacao`: recebe os mesmos parâmetros da promoção e explica os fatos
+  calculados. Informa se a resposta veio da IA local ou das regras.
 - Entrada inválida recebe o código 422 e `{"erros": {"campo": "mensagem"}}`. Um corpo que não pode
   ser lido usa `corpo` como nome do campo.
 

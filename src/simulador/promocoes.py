@@ -173,7 +173,7 @@ def analisar_promocao(parametros: ParametrosPromocao) -> dict:
             "explicacao": explicacoes[situacao],
         },
         "alertas": alertas,
-        "identificacao": "Análise determinística das hipóteses informadas. Sem IA conectada e sem previsão de vendas. Contribuição não é lucro líquido.",
+        "identificacao": "Análise determinística das hipóteses informadas, sem previsão de vendas. Contribuição não é lucro líquido.",
         "formulas": [
             "Preço líquido = preço original − desconto. Desconto (%) = desconto ÷ preço original × 100.",
             "Taxa do canal = preço líquido × taxa (%), arredondada por pedido ao centavo, com meio centavo para cima.",

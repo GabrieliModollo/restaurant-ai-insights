@@ -186,7 +186,7 @@ def test_pagina_identifica_a_simulacao_e_explica_os_resultados():
     texto = " ".join(pagina.text.split())
 
     assert pagina.status_code == 200
-    assert "Simulação ilustrativa com dados fictícios — sem IA conectada" in texto
+    assert "Simulação ilustrativa com dados fictícios" in texto
     assert "Contribuição não é lucro líquido" in texto
     assert "Impostos, salários, aluguel e desperdício" in texto
     assert "A demanda é informada por você" in texto

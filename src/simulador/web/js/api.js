@@ -22,8 +22,8 @@ function foiInterrompido(erro) {
   return erro.name === "AbortError" || erro.name === "TimeoutError";
 }
 
-async function pedir(url, opcoes, signal) {
-  const sinais = [AbortSignal.timeout(TEMPO_LIMITE_MS)];
+async function pedir(url, opcoes, signal, tempoLimite = TEMPO_LIMITE_MS) {
+  const sinais = [AbortSignal.timeout(tempoLimite)];
   if (signal) {
     sinais.push(signal);
   }
@@ -58,7 +58,7 @@ export async function buscarExemplos() {
   return lerJson(resposta);
 }
 
-async function enviarParametros(url, valores, signal) {
+async function enviarParametros(url, valores, signal, tempoLimite) {
   const resposta = await pedir(
     url,
     {
@@ -67,6 +67,7 @@ async function enviarParametros(url, valores, signal) {
       body: JSON.stringify(valores),
     },
     signal,
+    tempoLimite,
   );
 
   if (resposta.status === 422) {
@@ -86,6 +87,9 @@ export const simular = (valores, signal) => enviarParametros("/api/simulacoes", 
 export const analisarPromocao = (valores, signal) => enviarParametros("/api/promocoes", valores, signal);
 
 export const calcularFicha = (valores, signal) => enviarParametros("/api/ficha-tecnica", valores, signal);
+
+export const explicarPromocao = (valores, signal) =>
+  enviarParametros("/api/promocoes/explicacao", valores, signal, 35000);
 
 export function descreverErro(erro) {
   if (erro.name === "TimeoutError") {

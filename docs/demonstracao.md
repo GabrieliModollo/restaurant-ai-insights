@@ -17,7 +17,11 @@ Abra <http://127.0.0.1:8010>. Se a porta estiver ocupada, escolha outro número.
 
 ## Passos
 
-1. **O que é.** Mostre o aviso: simulação ilustrativa, dados fictícios e sem IA conectada.
+Na abertura, clique em **Testar uma promoção**. O exemplo usa R$ 5 de desconto e começa
+pela diferença entre a meta de 25 pedidos concluídos e a capacidade de 22. A sequência de
+24 segundos está no [vídeo](capturas/demo-promocao.mp4).
+
+1. **O que é.** Mostre o aviso: simulação ilustrativa com dados fictícios e IA local opcional.
 2. **Resultado sem preencher nada.** Leia o resumo: 18 de 20 pedidos ficaram prontos, e o valor que
    sobra é R$ 283,50. Explique que impostos, salários, aluguel e desperdício não foram descontados.
 3. **Guardar e comparar.** Abra "Cenários", clique em "Guardar como cenário A", abra "Simulador"
@@ -38,7 +42,6 @@ Abra <http://127.0.0.1:8010>. Se a porta estiver ocupada, escolha outro número.
 
 ## O que não afirmar
 
-- Que o projeto tem IA integrada. Ele foi desenvolvido com assistência de IA, mas funciona só com
-  regras e cálculos.
+- Que os cálculos são feitos pela IA. A integração opcional explica valores calculados pelo simulador.
 - Que o simulador aumenta resultados de um negócio. Nenhum benefício foi medido.
 - Que a interface é fácil de usar. Isso depende do teste em `docs/teste-de-uso.md`.

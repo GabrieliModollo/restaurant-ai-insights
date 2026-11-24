@@ -139,6 +139,14 @@ const url = process.env.RAI_URL || 'http://127.0.0.1:8020';
     assert.equal(await page.locator('#promocao-desconto').inputValue(), '5');
     assert.match(await page.locator('.promocao-conclusao').textContent(), /25 pedidos.*22/);
     assert.equal(await page.locator('#a-salvar').textContent(), 'Guardar como cenário A');
+    await page.getByRole('button', { name: 'Explicar este resultado' }).click();
+    const origem = page.locator('.promocao-explicacao [role="status"]');
+    await page.waitForFunction(() => /IA local desativada|gerada por IA local/.test(
+      document.querySelector('.promocao-explicacao [role="status"]').textContent,
+    ));
+    assert.match(await origem.textContent(), /Explicação por regras|gerada por IA local/);
+    assert.match(await page.locator('.promocao-explicacao p:not([role])').textContent(), /25 pedidos.*22/);
+
     await page.getByRole('button', { name: 'Testar desconto máximo' }).click();
     await page.waitForSelector('#promocao-resultado:not([hidden])');
     assert.equal(Number(await page.locator('#promocao-desconto').inputValue()), 0);

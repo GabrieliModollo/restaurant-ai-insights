@@ -1,4 +1,4 @@
-import { analisarPromocao, descreverErro, ErroDeValidacao } from "./api.js";
+import { analisarPromocao, explicarPromocao, descreverErro, ErroDeValidacao } from "./api.js";
 import { criarExecutor } from "./execucao.js";
 import { textoLimites, validarCampo } from "./formulario.js";
 import { linhasDaPromocao, textosDoEquilibrio } from "./promocoes.js";
@@ -9,7 +9,43 @@ function criar(tag, propriedades = {}, ...filhos) {
   return elemento;
 }
 
-function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotuloBase }) {
+function criarExplicacao(hipotese) {
+  const botao = criar("button", { type: "button", className: "botao", textContent: "Explicar este resultado" });
+  const texto = criar("p", { className: "dica", hidden: true });
+  const status = criar("p", { className: "dica", role: "status" });
+  const secao = criar("div", { className: "promocao-explicacao" }, botao, status, texto);
+  const motivos = {
+    desativada: "Explicação por regras · IA local desativada.",
+    indisponivel: "Explicação por regras · Ollama indisponível.",
+    resposta_invalida: "Explicação por regras · o modelo não retornou os dados esperados.",
+  };
+  const executor = criarExecutor({
+    buscar: explicarPromocao,
+    aoResultado(dados) {
+      botao.disabled = false;
+      status.textContent = dados.origem === "ia_local"
+        ? `Explicação gerada por IA local · ${dados.modelo}`
+        : motivos[dados.motivo] ?? "Explicação por regras.";
+      texto.textContent = dados.texto;
+      texto.hidden = false;
+    },
+    aoErro(erro) {
+      botao.disabled = false;
+      status.textContent = erro.name === "TimeoutError"
+        ? "A explicação demorou mais que o esperado. Você pode tentar de novo."
+        : descreverErro(erro);
+    },
+  });
+  botao.addEventListener("click", () => {
+    botao.disabled = true;
+    texto.hidden = true;
+    status.textContent = "Preparando a explicação…";
+    executor.executar(hipotese);
+  });
+  return { secao, cancelar: executor.cancelar };
+}
+
+function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotuloBase, explicacao }) {
   const textos = textosDoEquilibrio(resultado);
   const indicadores = criar("dl", { className: "promocao-metricas" });
   for (const [rotulo, valor] of [
@@ -42,6 +78,7 @@ function renderizar(resultado, elemento, { aplicarDesconto, ajustarEquipe, rotul
     criar("p", { className: "dica", textContent: "A variação usa o valor da base sem o sinal. Se a base for zero, o percentual não é definido." }), tabela);
   const partes = [
     criar("p", { className: "promocao-conclusao", textContent: textos.conclusao }),
+    explicacao,
     indicadores,
   ];
   const maximo = resultado.equilibrio.desconto_maximo_centavos;
@@ -93,20 +130,28 @@ export function criarAnalisePromocoes() {
   let assinatura = "";
   let disponivel = false;
   let rotuloBase = "Base A";
+  let cancelarExplicacao = null;
   function mensagem(texto) {
     status.textContent = texto;
   }
   function cancelar() {
     executor.cancelar();
+    cancelarExplicacao?.();
+    cancelarExplicacao = null;
     resultado.hidden = true;
     resultado.setAttribute("aria-busy", "false");
     botao.disabled = !disponivel;
     botao.textContent = "Analisar promoção";
   }
   const executor = criarExecutor({
-    buscar: analisarPromocao,
-    aoResultado(dados) {
+    async buscar(hipotese, signal) {
+      return { dados: await analisarPromocao(hipotese, signal), hipotese };
+    },
+    aoResultado({ dados, hipotese }) {
+      const explicacao = criarExplicacao(hipotese);
+      cancelarExplicacao = explicacao.cancelar;
       renderizar(dados, resultado, {
+        explicacao: explicacao.secao,
         rotuloBase,
         aplicarDesconto(centavos) {
           const desconto = controles[0].entrada;
@@ -160,6 +205,7 @@ export function criarAnalisePromocoes() {
       primeiroInvalido.focus();
       return;
     }
+    cancelar();
     botao.disabled = true;
     botao.textContent = "Analisando…";
     resultado.hidden = true;
