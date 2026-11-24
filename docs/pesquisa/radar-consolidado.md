@@ -21,6 +21,18 @@ produto. Os exemplos do simulador continuam fictícios, e a facilidade de uso pe
    como temas de pesquisa. Seria necessário entender decisões, dados de entrada e custos de cada
    fluxo antes de incluí-los.
 
+## Pesquisa complementar — 24/11/2026
+
+| Fonte | Informação coletada | Implicação para o backlog |
+| --- | --- | --- |
+| [Pesquisa da Abrasel sobre agosto de 2026](https://abrasel.com.br/noticias/noticias/bares-e-restaurantes-sentem-sinais-de-desaceleracao-no-consumo-em-agosto/) | A matéria relata 40% com lucro, 40% em equilíbrio e 19% com prejuízo no mês, com 1% de negócios que ainda não existiam no período. O recorte é setorial e mensal. | Priorizar contribuição e capacidade na mesma decisão. O levantamento não estima o efeito de descontos em uma loja. |
+| [IA para descrições no Portal do Parceiro](https://blog-parceiros.ifood.com.br/inteligencia-artificial-para-restaurantes/) | O iFood documenta IA que sugere melhorias na descrição de itens do cardápio. A página descreve a função e não traz avaliação independente de resultados. | Usar como referência de interação para uma tarefa delimitada. Neste projeto, o objeto da sugestão é a hipótese promocional e o cálculo vem do motor. |
+| [Custos aplicáveis à loja na 99Food](https://99app.com/99food/restaurantes/guias/como-visualizar-os-custos-aplicaveis-ao-restaurante/) e [faturas financeiras da 99Food](https://99app.com/99food/restaurantes/guias/faturas-financeiras-como-visualizar-e-baixar/) | A 99Food documenta onde consultar condições por modalidade de entrega e onde conferir ofertas e taxas na fatura. Os guias orientam a busca dos valores da própria loja. | Orientar a pessoa até a fonte de cada valor, registrar a data e evitar preencher taxas ou subsídios por suposição. |
+| [Critérios de homologação do iFood Analytics](https://developer.ifood.com.br/en-US/docs/food/guides/modules/analytics/homologation) e [endpoints Analytics](https://developer.ifood.com.br/en-US/docs/food/guides/modules/analytics/endpoints) | O Analytics documenta autenticação, indicadores agregados e dimensões como hora de criação e status. | O CSV sintético segue como referência de horário. Qualquer conexão depende de acesso oficial. Status e hora de criação não estabelecem o instante em que a cozinha concluiu o pedido. |
+
+As fontes sustentam hipóteses de produto. A pesquisa desta rodada foi documental. Nenhum gestor
+participou de teste, e não foi feita uma comparação de desempenho entre plataformas.
+
 ## Rastreabilidade
 
 Foram agrupadas URLs repetidas, reposts e observações sobre o mesmo tema. Estudos setoriais,
