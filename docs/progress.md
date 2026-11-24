@@ -2,9 +2,16 @@
 
 Última atualização: 2026-11-24.
 
+## README para o portfólio
+
+Em revisão na branch `docs/readme-portfolio`. O topo do README resume para quem é o simulador, o que
+ele faz e onde entra a IA, com um GIF de cerca de 1 MB (`docs/capturas/demonstracao.gif`). O GIF foi
+gravado no Chrome a 1280 × 760 px com o servidor local: teste da promoção de exemplo (meta de 25,
+capacidade de 22, −R$ 76,50) e reprodução do turno a 2×. Só documentação e imagem; nenhum código alterado.
+
 ## Demonstração e MCP local
 
-Em revisão na branch `feature/demo-e-mcp`. O roteiro de cinco minutos vai da promoção
+Integrada à main no PR #38, branch `feature/demo-e-mcp`. O roteiro de cinco minutos vai da promoção
 de exemplo à comparação de desconto e equipe, ao pico de pedidos e à exportação.
 O servidor MCP local disponibiliza as ferramentas de promoção e alternativas via stdio,
 com resultados estruturados e os mesmos modelos de validação da API.

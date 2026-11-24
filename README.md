@@ -1,16 +1,24 @@
 # Restaurant AI Insights
 
-**Um desconto de R$ 5 se paga?** No exemplo, seriam necessários **25 pedidos concluídos** para preservar
-a contribuição do turno. A equipe consegue concluir no máximo **22** nas condições simuladas.
+**Simulador de decisões para pequenos restaurantes de delivery:** antes de dar um desconto, mudar
+preço ou equipe, veja se a conta fecha **e** se a cozinha dá conta.
+
+![Demonstração: teste de promoção e reprodução do turno na cozinha](docs/capturas/demonstracao.gif)
+
+**Um desconto de R$ 5 se paga?** No exemplo, seriam necessários **25 pedidos prontos** para manter
+o resultado do turno, mas a equipe só consegue preparar **22**. A promoção perde R$ 76,50.
+
+| | |
+| --- | --- |
+| **Para quem** | Quem gerencia um pequeno restaurante e tem pouca familiaridade com software |
+| **O que faz** | Testa promoções, compara canais (iFood e 99Food), calcula ficha técnica e simula filas e picos de pedidos |
+| **Onde entra a IA** | Explica resultados com um modelo local (Ollama), consulta regras comerciais citando a fonte e expõe as ferramentas a assistentes via MCP. Os números vêm sempre do motor em Python, nunca do modelo |
+| **Como foi feito** | Python, FastAPI, JavaScript puro e Canvas; testes automatizados e de acessibilidade no GitHub Actions |
 
 [**Roteiro da demonstração**](docs/demonstracao.md) ·
 [Como executar](#como-executar) · [Avaliação da IA local](docs/explicacoes-ia.md) · [MCP local](docs/mcp.md)
 
-O simulador explora como preço, desconto, custos, volume e equipe afetam um turno de restaurante.
-O Python calcula a operação e as finanças usando dados fictícios. A explicação com IA local é opcional
-e usa Ollama. A execução padrão funciona com regras e dispensa chaves, APIs pagas e modelo instalado.
-
-![Dashboard com indicadores e acesso ao simulador](docs/capturas/dashboard-rai-007.png)
+Dados fictícios. Funciona sem IA, chaves ou APIs pagas; a explicação com Ollama é opcional.
 
 A interface está organizada em **Visão geral, Simulador, Cenários, Financeiro, Restaurante e Ajuda**.
 Os indicadores principais aparecem no dashboard. Os detalhes ficam nas áreas correspondentes,
