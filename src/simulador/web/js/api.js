@@ -100,6 +100,10 @@ export const calcularFicha = (valores, signal) => enviarParametros("/api/ficha-t
 export const explicarPromocao = (valores, signal) =>
   enviarParametros("/api/promocoes/explicacao", valores, signal, 35000);
 
+// Com a IA local ligada, a interpretação pode levar alguns segundos a mais.
+export const perguntarAssistente = (valores, signal) =>
+  enviarParametros("/api/assistente", valores, signal, 35000);
+
 export function descreverErro(erro) {
   if (erro.name === "TimeoutError") {
     return `O servidor demorou mais de ${TEMPO_LIMITE_MS / 1000} segundos para responder.`;

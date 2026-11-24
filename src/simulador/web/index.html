@@ -35,6 +35,19 @@
 <circle cx="254" cy="116" r="18" fill="#dc654b"/><path d="M250 105v22m8-22v22" stroke="white" stroke-width="3"/>
 <path d="M77 54 64 42m19-5-4-17M296 47l13-10" stroke="#e95870" stroke-width="5" stroke-linecap="round"/>
 </svg></header>
+      <section id="assistente" class="assistente superficie" aria-labelledby="titulo-assistente">
+       <p class="secao-kicker">PERGUNTE EM PORTUGUÊS</p>
+       <h2 id="titulo-assistente">Assistente de decisões</h2>
+       <p class="dica">Ele usa o seu cenário atual e responde com números calculados pelo simulador. A IA local, quando ligada, só interpreta a pergunta.</p>
+       <form id="assistente-formulario" class="assistente-formulario">
+        <label for="assistente-pergunta">Sua pergunta</label>
+        <input id="assistente-pergunta" type="text" maxlength="300" autocomplete="off" placeholder="Ex.: Um desconto de R$ 5 se paga?"/>
+        <button class="botao botao-principal" type="submit">Perguntar</button>
+       </form>
+       <div id="assistente-exemplos" class="assistente-exemplos" role="group" aria-label="Perguntas de exemplo"></div>
+       <p id="assistente-status" class="dica" role="status"></p>
+       <div id="assistente-resposta" class="assistente-resposta" aria-live="polite" hidden></div>
+      </section>
       <details class="guia-recolhivel" open><summary>Primeira vez? Comece por aqui</summary><section class="guia" aria-label="Como usar"><div><h2>Comece por aqui</h2><p>Seu primeiro cenário já está pronto.</p></div><ol>
        <li><a href="#titulo-parametros"><span class="numero-passo">1</span><span><strong>Escolha seus números</strong><small>Ajuste preço, custos e equipe</small></span><span aria-hidden="true">→</span></a></li>
        <li><a href="#titulo-resumo"><span class="numero-passo">2</span><span><strong>Entenda o resultado</strong><small>Veja o que sobra no turno</small></span><span aria-hidden="true">→</span></a></li>

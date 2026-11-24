@@ -14,6 +14,7 @@ from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
 
+from .assistente import PerguntaAssistente, responder
 from .canais import ParametrosCanais, comparar_canais
 from .cenario_salvo import CenarioSalvo, reabrir_cenario
 from .explicacao import explicar_promocao
@@ -48,7 +49,7 @@ async def _erros_em_portugues(_: Request, erro: RequestValidationError) -> JSONR
     erros = {}
     for item in erro.errors():
         local = item["loc"]
-        if len(local) == 3 and local[1] in {"base", "promocional", "canal_a", "canal_b"} and isinstance(local[2], str):
+        if len(local) == 3 and local[1] in {"base", "promocional", "canal_a", "canal_b", "cenario"} and isinstance(local[2], str):
             erros[f"{local[1]}.{local[2]}"] = mensagens_padrao.get(item["type"], item["msg"])
         elif local[1:2] == ("ingredientes",) and len(local) >= 3:
             campo = ".".join(map(str, local[1:]))
@@ -129,6 +130,11 @@ def explicar(parametros: ParametrosPromocao) -> dict:
 @app.post("/api/promocoes/regras")
 def regras(consulta: ConsultaComercial) -> dict:
     return consultar_regras(consulta)
+
+
+@app.post("/api/assistente")
+def assistente(entrada: PerguntaAssistente) -> dict:
+    return responder(entrada)
 
 
 # Montado por último: as rotas /api acima têm prioridade sobre os arquivos.

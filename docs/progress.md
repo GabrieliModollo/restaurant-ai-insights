@@ -2,9 +2,22 @@
 
 Última atualização: 2026-11-24.
 
+## Assistente de decisões
+
+Em revisão na branch `feature/assistente-decisoes`. Painel na Visão geral e rota `POST /api/assistente`:
+a pergunta vira uma intenção em JSON (Ollama opcional ou regras), validada e executada pelo motor
+existente. A resposta é escrita no Python, só com números calculados. Detalhes em [Assistente](assistente.md).
+
+Verificação local: 341 testes Python (1 ignorado) e 107 JavaScript. Chrome, com servidor local, em
+320, 390, 768 e 1280 px, temas claro e escuro: 8 combinações sem estouro horizontal nem violações do
+axe no painel; fluxos de promoção, equipe, regras com fontes, fora do escopo, pergunta curta, cenário
+editado (30 pedidos) e falha 500 aprovados. Com Ollama 0.40.18 e `qwen2.5:1.5b` instalados, a
+avaliação da interpretação deu 20/20 no conjunto de ajuste e 10/13 no conjunto novo (regras sozinhas:
+19/20 e 10/13). A checagem bloqueou três números inventados pelo modelo. Detalhes em [Assistente](assistente.md#avaliação).
+
 ## README para o portfólio
 
-Em revisão na branch `docs/readme-portfolio`. O topo do README resume para quem é o simulador, o que
+Integrado à main no PR #41, branch `docs/readme-portfolio`. O topo do README resume para quem é o simulador, o que
 ele faz e onde entra a IA, com um GIF de cerca de 1 MB (`docs/capturas/demonstracao.gif`). O GIF foi
 gravado no Chrome a 1280 × 760 px com o servidor local: teste da promoção de exemplo (meta de 25,
 capacidade de 22, −R$ 76,50) e reprodução do turno a 2×. Só documentação e imagem; nenhum código alterado.

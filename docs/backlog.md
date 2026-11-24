@@ -15,8 +15,9 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 6 | P1 | Simular pico de pedidos (concluída, PR #33) | Comparar o mesmo volume, com a mesma equipe, chegando distribuído ou concentrado. Mostrar fila, espera e pedidos prontos. |
 | 7 | P2 | Importar dados de referência (concluída, PR #34) | Começar com CSV sintético baseado nos campos documentados do iFood Analytics. Identificar a origem e distinguir pedido pronto de entrega concluída. A conexão autenticada depende do acesso oficial. |
 | 8 | P2 | Guardar e compartilhar cenários (concluída, PR #37) | Reabrir ficha, referência e alternativas. Exportar um resumo com hipóteses, resultados e custos considerados. |
-| 9 | P2 | Atualizar o roteiro da demonstração (em revisão) | Cobrir primeiro uso, edição e interpretação dos resultados com dados fictícios. A validação com gestores fica pendente até haver participantes. |
-| 10 | P2 | MCP para assistente externo (em revisão) | Expor duas ferramentas de consulta, **simular promoção** e **comparar alternativas**, com entradas validadas e resultados estruturados. Reutilizar o motor existente e reproduzir os mesmos números em um cliente MCP compatível. |
+| 9 | P2 | Atualizar o roteiro da demonstração (concluída, PR #38) | Cobrir primeiro uso, edição e interpretação dos resultados com dados fictícios. A validação com gestores fica pendente até haver participantes. |
+| 10 | P2 | MCP para assistente externo (concluída, PR #38) | Expor duas ferramentas de consulta, **simular promoção** e **comparar alternativas**, com entradas validadas e resultados estruturados. Reutilizar o motor existente e reproduzir os mesmos números em um cliente MCP compatível. |
+| 11 | P1 | Assistente de decisões (em revisão) | Pergunta em português sobre desconto, equipe, volume ou regras comerciais. A IA local só interpreta; a resposta usa apenas números do motor; números fora da pergunta e falhas do modelo voltam às regras. Funciona sem IA. |
 
 ## Melhorias de arquitetura
 
