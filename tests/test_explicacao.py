@@ -32,16 +32,41 @@ def test_explicacao_padrao_usa_regras_e_numeros_da_api(monkeypatch, alteracoes, 
 def test_resposta_do_modelo_preserva_a_origem_e_os_fatos(monkeypatch):
     monkeypatch.setenv("RAI_IA_LOCAL", "1")
 
-    def modelo(referencia):
-        assert "menor do que a meta" in referencia
-        return json.dumps({"explicacao": "A equipe conclui menos pedidos do que a meta exige."})
+    def modelo(opcoes):
+        assert "menor do que a meta" in opcoes["padrao"]
+        assert "menos pedidos do que a meta exige" in opcoes["simples"]
+        return json.dumps({"versao": "simples"})
 
     monkeypatch.setattr(explicacao, "consultar_ollama", modelo)
     corpo = enviar(desconto=5).json()
     assert corpo["origem"] == "ia_local"
     assert corpo["modelo"] == explicacao.MODELO
     assert "25 pedidos concluídos" in corpo["texto"]
-    assert corpo["texto"].endswith("A equipe conclui menos pedidos do que a meta exige.")
+    assert "a equipe consegue concluir menos pedidos do que a meta exige" in corpo["texto"]
+
+
+def test_modelo_pode_escolher_a_versao_original(monkeypatch):
+    monkeypatch.setenv("RAI_IA_LOCAL", "1")
+    monkeypatch.setattr(explicacao, "consultar_ollama", lambda *_: '{"versao":"padrao"}')
+    corpo = enviar(desconto=5).json()
+    assert corpo["origem"] == "regras"
+    assert corpo["motivo"] == "preferiu_regras"
+    assert "menor do que a meta" in corpo["texto"]
+
+
+@pytest.mark.parametrize(("desconto", "frase", "esperado"), [
+    (5, "A capacidade é suficiente para alcançar a meta neste turno.", "menor do que a meta"),
+    (25, "Vender mais não reduz a contribuição total.", "reduz a contribuição total"),
+    (25, "A contribuição de cada pedido é positiva.", "é negativa"),
+])
+def test_conclusoes_contraditorias_acionam_regras(monkeypatch, desconto, frase, esperado):
+    monkeypatch.setenv("RAI_IA_LOCAL", "1")
+    monkeypatch.setattr(explicacao, "consultar_ollama", lambda *_: json.dumps({"versao": "simples", "explicacao": frase}))
+    corpo = enviar(desconto=desconto).json()
+    assert corpo["origem"] == "regras"
+    assert corpo["motivo"] == "resposta_invalida"
+    assert esperado in corpo["texto"]
+    assert frase not in corpo["texto"]
 
 
 

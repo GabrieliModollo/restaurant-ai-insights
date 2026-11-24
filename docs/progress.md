@@ -2,9 +2,19 @@
 
 Última atualização: 2026-11-24.
 
+## Melhorias de arquitetura
+
+Em revisão na branch `feature/melhorias-arquitetura`. O Ollama escolhe entre versões
+escritas no servidor, e respostas fora do formato acionam o texto por regras.
+A busca comercial exige que a pergunta indique um tema coberto. O GitHub Actions
+executa Playwright e axe no painel de referência em 320 px.
+
+Verificação local: 300 testes Python, 104 JavaScript, três casos com Ollama e o fluxo
+do CSV no Chromium a 320 px. Próxima entrega após revisão: guardar e compartilhar cenários.
+
 ## Importação de dados de referência
 
-Em revisão na branch `feature/importar-referencia`. A área Cenários carrega um exemplo
+Integrada à main no PR #34. A área Cenários carrega um exemplo
 sintético ou aceita um CSV local no mesmo formato. Mostra origem, período e quantidades
 agregadas pela hora de criação, com concluídos e cancelados em colunas próprias. O arquivo
 é processado pelo servidor do simulador sem armazenamento e não muda a hipótese da promoção.
@@ -12,11 +22,9 @@ agregadas pela hora de criação, com concluídos e cancelados em colunas própr
 Verificação: 289 testes Python e 104 JavaScript aprovados. No Chromium, o fluxo de
 exemplo, erro e importação passou em 320 px, com teclado e verificação pelo axe.
 
-Próxima entrega após revisão: guardar e compartilhar cenários.
-
 ## Simulação de pico de pedidos
 
-Em revisão na branch `feature/simular-pico`. A hipótese promocional compara pedidos chegando
+Integrada à main no PR #33. A hipótese promocional compara pedidos chegando
 ao longo de todo o turno ou concentrados no primeiro quarto, com a mesma equipe e os mesmos
 tempos. Os cartões mostram a maior fila em cada estação, a espera média, os pedidos prontos
 e os pendentes. A média usa apenas pedidos prontos no turno.

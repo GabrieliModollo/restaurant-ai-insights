@@ -37,3 +37,14 @@ jobs:
         run: node --test 'tests/js/*.test.mjs'
       - name: Conferir a referência da avaliação
         run: python -m scripts.avaliar_explicacoes
+      - name: Instalar ferramentas de teste no navegador
+        run: |
+          npm install --no-save --no-package-lock playwright@1.58.2 @axe-core/playwright@4.11.1 axe-core@4.11.4
+          npx --no-install playwright install --with-deps chromium
+      - name: Validar o painel de referência no celular
+        run: |
+          python -m uvicorn src.simulador.api:app --host 127.0.0.1 --port 8020 > "$RUNNER_TEMP/rai-uvicorn.log" 2>&1 &
+          rai_pid=$!
+          trap 'kill "$rai_pid" 2>/dev/null || true; cat "$RUNNER_TEMP/rai-uvicorn.log"' EXIT
+          curl --fail --silent --show-error --retry 15 --retry-connrefused --retry-delay 1 http://127.0.0.1:8020/api/campos > /dev/null
+          node tests/browser/referencia.cjs

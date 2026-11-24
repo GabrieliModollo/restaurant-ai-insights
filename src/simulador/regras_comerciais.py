@@ -57,21 +57,31 @@ def consultar_regras(consulta: ConsultaComercial) -> dict:
     termos = set(re.findall(r"[a-z]+", pergunta))
     temas = set()
     campos = set()
-    if termos & {"desconto", "descontos", "cupom", "cupons", "subsidio", "subsidios",
-                 "incentivo", "banca", "bancado", "custea", "custeia", "promocao", "promocoes"}:
+    desconto = termos & {"desconto", "descontos", "cupom", "cupons", "subsidio", "subsidios",
+                         "promocao", "promocoes"}
+    if desconto:
         temas.add("desconto")
         campos.update(("desconto_loja_centavos", "subsidio_plataforma_centavos"))
-    if termos & {"comissao", "comissoes", "taxa", "taxas", "pagamento", "cartao", "pix", "tarifa"}:
+    if termos & {"comissao", "comissoes"} or re.search(
+        r"\b(?:taxas?|tarifas?|custos?|processamento) (?:d[eo] |no )?(?:pagamentos?|cartao|pix)\b", pergunta
+    ):
         temas.add("taxas")
         campos.update(("comissao_bps", "pagamento_bps"))
-    if termos & {"frete", "fretes", "entrega", "entregas", "logistica"}:
+    if termos & {"frete", "fretes"} or (
+        termos & {"entrega", "entregas", "logistica"}
+        and termos & {"paga", "pagar", "pago", "cobra", "cobrado", "cobranca", "taxa", "custo", "custos"}
+    ):
         temas.add("frete")
         campos.add("frete_loja_centavos")
-    if termos & {"contribuicao", "margem", "sobra", "contribuicoes"} or (not temas and "comparar" in termos):
+    if termos & {"contribuicao", "margem", "sobra", "contribuicoes"} and (
+        desconto or plataformas or termos & {"canal", "canais"}
+    ):
         temas.update(("desconto", "taxas", "frete"))
         campos.update(ROTULOS)
 
     fora_do_escopo = termos & {"rappi", "keeta", "aiqfome", "ubereats"}
+    if termos & {"anunciar", "anuncio", "anuncios", "publicidade", "rastrear", "rastreamento", "senha"}:
+        temas.clear()
     fontes = [
         {"id": codigo, "titulo": titulo, "url": url, "consultado_em": "2026-11-24", "resumo": resumo}
         for codigo, plataforma, assuntos, titulo, url, resumo in FONTES

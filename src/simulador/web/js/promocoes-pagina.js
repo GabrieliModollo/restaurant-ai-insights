@@ -27,7 +27,7 @@ function criarExplicacao(hipotese) {
     aoResultado(dados) {
       botao.setAttribute("aria-disabled", "false");
       status.textContent = dados.origem === "ia_local"
-        ? `Explicação gerada por IA local · ${dados.modelo}`
+        ? `Versão selecionada por IA local · ${dados.modelo}`
         : motivos[dados.motivo] ?? "Explicação por regras.";
       texto.textContent = dados.texto;
       texto.hidden = false;

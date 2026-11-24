@@ -36,8 +36,8 @@ def avaliar(com_ia: bool) -> tuple[list[dict], bool]:
             fato for fato in fatos_esperados
             if not re.search(rf"(?<!\d){re.escape(fato)}(?!\d)", candidato["texto"])
         ]
-        origem_esperada = "ia_local" if com_ia else "regras"
-        passou &= not ausentes and candidato["origem"] == origem_esperada
+        selecao_valida = candidato["origem"] == "ia_local" or candidato.get("motivo") == "preferiu_regras"
+        passou &= not ausentes and (selecao_valida if com_ia else candidato["origem"] == "regras")
         resultados.append({
             "caso": caso,
             "por_regras": regras["texto"],

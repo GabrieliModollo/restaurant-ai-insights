@@ -296,6 +296,8 @@ def test_canais_sem_pedidos_comparam_totais_zero_e_sinalizam_duracao():
 @pytest.mark.parametrize(("pergunta", "fontes"), [
     ("Quem banca o cupom no iFood?", {"ifood-promocoes"}),
     ("Qual é a taxa de pagamento da 99 Food?", {"99food-cobrancas"}),
+    ("Como é calculada a comissão no iFood?", {"ifood-planos"}),
+    ("Quanto a loja paga de frete na 99Food?", {"99food-cobrancas"}),
     ("Quem paga a entrega no iFood?", {"ifood-planos"}),
     ("Por que a contribuição da promoção é diferente no iFood e na 99Food?",
      {"ifood-planos", "ifood-promocoes", "99food-cobrancas", "99food-promocoes"}),
@@ -318,7 +320,15 @@ def test_consulta_comercial_pede_apenas_dados_ainda_nao_confirmados():
     assert dados["dados_faltantes"] == ["subsídio da plataforma"]
 
 
-@pytest.mark.parametrize("pergunta", ["Como alterar minha senha no iFood?", "Qual é a comissão da Rappi?"])
+@pytest.mark.parametrize("pergunta", [
+    "Como alterar minha senha no iFood?",
+    "Qual é a comissão da Rappi?",
+    "Qual é a taxa para anunciar um produto?",
+    "Como rastrear a entrega no iFood?",
+    "Qual é a taxa de cancelamento no iFood?",
+    "Como comparar cardápios?",
+    "Como funciona o pagamento do entregador?",
+])
 def test_consulta_comercial_se_abstem_quando_falta_fonte(pergunta):
     dados = cliente.post("/api/promocoes/regras", json={"pergunta": pergunta}).json()
     assert dados["situacao"] == "sem_fonte"
