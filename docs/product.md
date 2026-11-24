@@ -55,6 +55,12 @@ avisa quando essa meta é impossível, excede os limites ou não cabe na operaç
 Margens não positivas e base negativa têm tratamento próprio, sem recomendar vender mais com prejuízo
 de contribuição. Regras e limites em `docs/promocoes.md`. O botão de explicação pode usar um modelo local para descrever o resultado calculado.
 
+## Assistente de decisões
+
+Perguntas em português sobre desconto, reforço de equipe, volume de pedidos e regras comerciais,
+respondidas sobre o último cenário calculado. A IA local apenas interpreta a pergunta; os cálculos e
+o texto vêm do servidor. Detalhes em `docs/assistente.md`.
+
 ## Exclusões
 
 - IA para calcular resultados, recomendar preços ou prever demanda.

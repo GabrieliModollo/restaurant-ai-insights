@@ -12,11 +12,11 @@ o resultado do turno, mas a equipe só consegue preparar **22**. A promoção pe
 | --- | --- |
 | **Para quem** | Quem gerencia um pequeno restaurante e tem pouca familiaridade com software |
 | **O que faz** | Testa promoções, compara canais (iFood e 99Food), calcula ficha técnica e simula filas e picos de pedidos |
-| **Onde entra a IA** | Explica resultados com um modelo local (Ollama), consulta regras comerciais citando a fonte e expõe as ferramentas a assistentes via MCP. Os números vêm sempre do motor em Python, nunca do modelo |
+| **Onde entra a IA** | Um assistente responde perguntas em português ("Um desconto de R$ 5 se paga?") chamando o simulador; um modelo local (Ollama) interpreta a pergunta e explica resultados; regras comerciais são consultadas citando a fonte; as ferramentas ficam disponíveis a assistentes via MCP. Os números vêm sempre do motor em Python, nunca do modelo |
 | **Como foi feito** | Python, FastAPI, JavaScript puro e Canvas; testes automatizados e de acessibilidade no GitHub Actions |
 
 [**Roteiro da demonstração**](docs/demonstracao.md) ·
-[Como executar](#como-executar) · [Avaliação da IA local](docs/explicacoes-ia.md) · [MCP local](docs/mcp.md)
+[Como executar](#como-executar) · [Assistente de decisões](docs/assistente.md) · [Avaliação da IA local](docs/explicacoes-ia.md) · [MCP local](docs/mcp.md)
 
 Dados fictícios. Funciona sem IA, chaves ou APIs pagas; a explicação com Ollama é opcional.
 
@@ -49,6 +49,14 @@ do sistema. No celular, os seis destinos ficam visíveis no menu e o guia pode s
 <img src="docs/capturas/mobile-rai-007.png" alt="Dashboard no celular com menu das seis áreas, guia recolhido e indicadores" width="390" />
 
 </details>
+
+## Assistente de decisões
+
+Na **Visão geral**, escreva uma pergunta ou use um dos exemplos: desconto, mais uma pessoa na equipe,
+outra quantidade de pedidos ou taxas do iFood e da 99Food. O assistente usa o último cenário calculado
+e responde com os números do simulador. Com a IA local ligada, o Ollama só interpreta a pergunta; se
+falhar ou citar um número que não estava nela, as regras assumem. Fluxo e proteções em
+[`docs/assistente.md`](docs/assistente.md).
 
 ## Promoções e descontos — RAI-008
 
@@ -196,6 +204,8 @@ Com o servidor em execução:
 - `POST /api/promocoes/alternativas`, `/api/promocoes/canais` e `/api/promocoes/pico`:
   comparam desconto e equipe, custos de canais e distribuição das chegadas.
 - `POST /api/promocoes/regras`: busca guias comerciais por tema e plataforma.
+- `POST /api/assistente`: recebe `pergunta` e `cenario`, interpreta a pergunta e responde com o
+  cálculo do simulador, informando a interpretação usada e se ela veio da IA local ou das regras.
 - `POST /api/referencias/csv`: valida e agrega o CSV de referência por hora de criação.
 - `POST /api/cenarios/reabrir`: valida o JSON versionado e recalcula seus resultados.
 - Entrada inválida recebe o código 422 e `{"erros": {"campo": "mensagem"}}`. Um corpo que não pode

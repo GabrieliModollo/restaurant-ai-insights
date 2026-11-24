@@ -199,3 +199,21 @@
 .consulta-regras-formulario {grid-template-columns:minmax(0,1fr)}
 #regras-comerciais-resultado ul {padding-inline-start:1.25rem}
 #regras-comerciais-resultado li {margin-block:.55rem}
+.assistente {margin:1.2rem 0}
+.assistente h2 {margin-bottom:.3rem}
+.assistente-formulario {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.4rem .6rem;margin:1rem 0 .6rem}
+.assistente-formulario label {grid-column:1/-1;font-weight:650;font-size:.9rem}
+.assistente-formulario input {min-width:0;padding:.7rem .8rem;border:1px solid var(--linha);border-radius:10px;color:var(--texto);background:var(--superficie);font:inherit}
+.assistente-exemplos {display:flex;flex-wrap:wrap;gap:.5rem;margin:.4rem 0 .6rem}
+.assistente-exemplos .botao {font-size:.8rem;padding:.45rem .8rem;min-height:2.75rem}
+.assistente-resposta {margin-top:.6rem;padding-top:1rem;border-top:1px solid var(--linha)}
+.assistente-texto {font-size:1.05rem;font-weight:650;margin:0 0 1rem}
+.assistente-rotulo {font-weight:650;font-size:.85rem;margin:.8rem 0 .3rem}
+.assistente-fontes {font-size:.85rem;padding-left:1.2rem}
+.assistente-fontes li {margin:.4rem 0}
+.assistente-origem {font-size:.8rem;margin-top:1rem}
+.assistente-origem .selo {display:inline-block;margin-top:.3rem}
+@media(max-width:700px) {
+  .assistente-formulario {grid-template-columns:minmax(0,1fr)}
+  .assistente-formulario button {justify-self:start}
+}

@@ -1,6 +1,7 @@
 // Liga as partes: mudança no formulário → validação → API → indicadores.
 
 import { buscarCampos, buscarExemplos, descreverErro, ErroDeValidacao, simular } from "./api.js";
+import { iniciarAssistente } from "./assistente.js";
 import { criarCena } from "./cena/pagina.js";
 import { criarComparacao } from "./comparacao-pagina.js";
 import { criarExecutor } from "./execucao.js";
@@ -24,6 +25,9 @@ iniciarReferencia();
 
 let formulario;
 let fichaTecnica;
+// O assistente usa o último cenário calculado, o mesmo que os indicadores mostram.
+let ultimoCenario = null;
+iniciarAssistente(() => ultimoCenario);
 iniciarCenarioSalvo(() => comparacao.exportar(), () => fichaTecnica?.obterFicha());
 let temporizador;
 let repetir = null;
@@ -63,6 +67,7 @@ const executor = criarExecutor({
     resultados.hidden = false;
     cena.atualizar(resultado.operacao);
     comparacao.registrar(parametros, resultado);
+    ultimoCenario = parametros;
     definirStatus("atualizado", "Indicadores calculados pelo servidor para os parâmetros atuais.");
     if (abrirResultado) {
       abrirResultado = false;

@@ -78,17 +78,14 @@ def _referencia(resultado: dict) -> tuple[str, str, list[str]]:
     return fatos, " ".join(motivos) or equilibrio["explicacao"], criterios
 
 
-def consultar_ollama(opcoes: dict[str, str]) -> str:
-    formato = RespostaModelo.model_json_schema()
+def chamar_ollama(mensagens: list[dict[str, str]], formato: dict) -> str:
+    """Envia mensagens ao Ollama local e devolve o texto da resposta, restrito ao esquema JSON."""
     corpo = json.dumps({
         "model": MODELO,
         "stream": False,
         "format": formato,
         "options": {"temperature": 0, "num_ctx": CONTEXTO, "num_predict": 280},
-        "messages": [
-            {"role": "system", "content": _INSTRUCAO},
-            {"role": "user", "content": json.dumps(opcoes, ensure_ascii=False)},
-        ],
+        "messages": mensagens,
     })
     # Conexão direta, sem proxy, redirecionamento ou endereço escolhido pelo navegador.
     conexao = HTTPConnection("127.0.0.1", 11434, timeout=30)
@@ -108,6 +105,16 @@ def consultar_ollama(opcoes: dict[str, str]) -> str:
         raise OllamaIndisponivel from erro
     finally:
         conexao.close()
+
+
+def consultar_ollama(opcoes: dict[str, str]) -> str:
+    return chamar_ollama(
+        [
+            {"role": "system", "content": _INSTRUCAO},
+            {"role": "user", "content": json.dumps(opcoes, ensure_ascii=False)},
+        ],
+        RespostaModelo.model_json_schema(),
+    )
 
 
 def explicar_promocao(parametros: ParametrosPromocao) -> dict:

@@ -26,6 +26,8 @@ Núcleo, sem dependência de HTTP
 | `src/simulador/operacao.py` | Filas, capacidade, diagnóstico e eventos | Pronto |
 | `src/simulador/simulacao.py` | Executa operação e finanças em sequência | Pronto |
 | `src/simulador/api.py` | Rotas e entrega da interface | Pronto |
+| `src/simulador/assistente.py` | Interpreta perguntas (Ollama opcional ou regras), valida e chama o motor | Em revisão |
+| `src/simulador/web/js/assistente.js` | Painel de perguntas na Visão geral | Em revisão |
 | `src/simulador/web/js/api.js` | Comunicação HTTP e descrição das falhas | Pronto |
 | `src/simulador/web/js/execucao.js` | Só o pedido mais recente chega à tela | Pronto |
 | `src/simulador/web/js/formulario.js` | Controles, limites e validação imediata | Pronto |
@@ -50,6 +52,8 @@ Núcleo, sem dependência de HTTP
 
 | Decisão | Justificativa |
 | --- | --- |
+| Assistente: o modelo só devolve a intenção em JSON; a resposta é escrita no Python | O texto exibido nunca depende do modelo. Números da interpretação precisam estar na pergunta; qualquer falha usa as regras. |
+| `chamar_ollama` compartilhado entre explicação e assistente | Uma única conexão local, sem proxy, com o mesmo limite de resposta. |
 | RAI-008: endpoint novo, com duas instâncias de `ParametrosSimulacao` | Reutiliza limites, campos e validação; não altera contratos antigos. |
 | `executar_simulacao` para base, hipótese e volume-limite | Reutiliza financeiro e operação consolidados, com arredondamento por pedido e conclusões reais do modelo. |
 | Equilíbrio como desigualdade `n × u ≥ B`, com inteiros | Trata margens positiva/zero/negativa e base negativa sem divisão por zero ou promessa de crescimento. |
