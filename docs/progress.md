@@ -2,13 +2,18 @@
 
 Última atualização: 2026-11-24.
 
+## Consulta de regras comerciais
+
+A branch feature/rag-regras-comerciais acrescenta busca local em quatro guias oficiais e
+respostas compostas por tema. A tela identifica quais campos ainda precisam ser confirmados
+nos dois canais. As taxas e os valores seguem como entrada do simulador.
+Próxima entrega: simulação de picos de pedidos.
+
 ## Comparação de canais
 
 Na branch feature/comparar-canais, a mesma hipótese pode ser comparada com custos comerciais
 de dois canais. As taxas são informadas na tela, assim como o frete e a divisão do desconto.
 O simulador preserva preço ao cliente, ficha técnica, volume, equipe e turno entre canais.
-
-Próxima entrega: RAG de regras comerciais vinculado à comparação por canal.
 
 ## Comparação entre desconto menor e reforço
 

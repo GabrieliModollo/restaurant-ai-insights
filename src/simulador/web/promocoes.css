@@ -187,3 +187,10 @@
 .canal-campos legend {font-weight:650}
 .canal-campos > div + div {margin-top:.65rem}
 #comparar-canais > summary {cursor:pointer;font-weight:650}
+
+
+#consultar-regras-comerciais {margin-top:1rem}
+#consultar-regras-comerciais > summary {cursor:pointer;font-weight:650}
+.consulta-regras-formulario {grid-template-columns:minmax(0,1fr)}
+#regras-comerciais-resultado ul {padding-inline-start:1.25rem}
+#regras-comerciais-resultado li {margin-block:.55rem}

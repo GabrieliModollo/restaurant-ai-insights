@@ -291,3 +291,40 @@ def test_canais_sem_pedidos_comparam_totais_zero_e_sinalizam_duracao():
     dados = enviar_canais(promocao={"pedidos": 0}, base={"duracao_turno_min": 120}).json()
     assert dados["pedidos_prontos"] == dados["diferenca_b_menos_a_centavos"] == 0
     assert dados["turnos_diferentes"]
+
+
+@pytest.mark.parametrize(("pergunta", "fontes"), [
+    ("Quem banca o cupom no iFood?", {"ifood-promocoes"}),
+    ("Qual é a taxa de pagamento da 99 Food?", {"99food-cobrancas"}),
+    ("Quem paga a entrega no iFood?", {"ifood-planos"}),
+    ("Por que a contribuição da promoção é diferente no iFood e na 99Food?",
+     {"ifood-planos", "ifood-promocoes", "99food-cobrancas", "99food-promocoes"}),
+])
+def test_consulta_comercial_recupera_fontes_por_tema_e_plataforma(pergunta, fontes):
+    resposta = cliente.post("/api/promocoes/regras", json={"pergunta": pergunta})
+    assert resposta.status_code == 200
+    dados = resposta.json()
+    assert dados["situacao"] == "com_fontes"
+    assert {fonte["id"] for fonte in dados["fontes"]} == fontes
+    assert all(fonte["url"].startswith("https://") and fonte["consultado_em"] for fonte in dados["fontes"])
+    assert "contrato" in dados["orientacao"]
+
+
+def test_consulta_comercial_pede_apenas_dados_ainda_nao_confirmados():
+    dados = cliente.post("/api/promocoes/regras", json={
+        "pergunta": "Quem financia o desconto no iFood?",
+        "confirmados": ["desconto_loja_centavos"],
+    }).json()
+    assert dados["dados_faltantes"] == ["subsídio da plataforma"]
+
+
+@pytest.mark.parametrize("pergunta", ["Como alterar minha senha no iFood?", "Qual é a comissão da Rappi?"])
+def test_consulta_comercial_se_abstem_quando_falta_fonte(pergunta):
+    dados = cliente.post("/api/promocoes/regras", json={"pergunta": pergunta}).json()
+    assert dados["situacao"] == "sem_fonte"
+    assert dados["fontes"] == dados["dados_faltantes"] == []
+
+
+@pytest.mark.parametrize("pergunta", ["  ", "x" * 301])
+def test_consulta_comercial_valida_tamanho(pergunta):
+    assert cliente.post("/api/promocoes/regras", json={"pergunta": pergunta}).status_code == 422

@@ -1,3 +1,4 @@
+import { criarConsultaComercial } from "./regras-comerciais.js";
 import { compararCanais, descreverErro, ErroDeValidacao } from "./api.js";
 import { criarExecutor } from "./execucao.js";
 
@@ -20,6 +21,7 @@ function configurarCanal(rotulo, hipotese) {
     ["subsidio_plataforma_centavos", "Subsídio da plataforma (R$)", desconto, 0],
   ];
   const entradas = {};
+  const editados = new Set();
   const grupo = criar("fieldset", { className: "alternativa-cartao canal-campos" },
     criar("legend", { textContent: "Canal " + rotulo }));
   for (const [nome, texto, maximo, valor] of campos) {
@@ -29,10 +31,12 @@ function configurarCanal(rotulo, hipotese) {
       step: "0.01", required: true, value: String(valor),
     });
     entradas[nome] = entrada;
+    entrada.addEventListener("input", () => editados.add(nome));
     grupo.append(criar("div", {}, criar("label", { htmlFor: entrada.id, textContent: texto }), entrada));
   }
   return {
     grupo,
+    confirmados: () => [...editados].filter(nome => entradas[nome].validity.valid),
     valores: () => Object.fromEntries(Object.entries(entradas).map(
       ([nome, entrada]) => [nome, Math.round(entrada.valueAsNumber * 100)],
     )),
@@ -60,6 +64,10 @@ function cartao(rotulo, dados) {
 export function criarComparacaoCanais(hipotese) {
   const a = configurarCanal("A", hipotese);
   const b = configurarCanal("B", hipotese);
+  const consulta = criarConsultaComercial(() => {
+    const confirmadosB = b.confirmados();
+    return a.confirmados().filter(nome => confirmadosB.includes(nome));
+  });
   const botao = criar("button", { className: "botao botao-principal", type: "submit", textContent: "Comparar canais" });
   const formulario = criar("form", { className: "promocao-formulario canais-formulario" }, a.grupo, b.grupo, botao);
   const status = criar("p", { role: "status" });
@@ -69,7 +77,7 @@ export function criarComparacaoCanais(hipotese) {
     criar("p", { textContent: "Parcela da loja e subsídio devem somar " + reais(Math.round(hipotese.promocional.desconto * 100)) +
       " em cada canal. Por padrão, a loja banca todo o desconto. Preencha as taxas e o frete de cada cenário." }),
     criar("p", { className: "dica", textContent: "Comissão e pagamento incidem sobre o preço do item menos o desconto pago pela loja. Informe o frete que a loja paga por pedido." }),
-    formulario, status, resultado,
+    formulario, status, resultado, consulta.secao,
   );
 
   function liberar() {
@@ -98,6 +106,7 @@ export function criarComparacaoCanais(hipotese) {
   });
   function cancelar() {
     executor.cancelar();
+    consulta.cancelar();
     liberar();
   }
   formulario.addEventListener("input", () => {
