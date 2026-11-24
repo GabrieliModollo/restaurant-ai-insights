@@ -2,6 +2,17 @@
 
 Última atualização: 2026-11-24.
 
+## Avaliação de qualidade do assistente — AIB-04
+
+Em revisão na branch `feature/avaliacao-assistente`, criada da `feature/assistente-decisoes` (PR #42).
+45 casos versionados em três conjuntos (ajuste, novos e robustez), avaliados de ponta a ponta em
+interpretação, ferramenta, fidelidade numérica e texto esperado. O portão roda no pytest e no CI.
+Os testes encontraram cinco erros 500 com valores extremos, corrigidos nesta branch.
+
+Verificação local: 375 testes Python (1 ignorado), incluindo 30 cenários aleatórios, e 107 JavaScript.
+Com Ollama 0.40.18 e `qwen2.5:1.5b`: fidelidade 45/45; interpretação 20/20, 10/13 e 10/12 (regras:
+19/20, 10/13 e 12/12). Detalhes em [Assistente](assistente.md#avaliação-de-qualidade).
+
 ## Assistente de decisões
 
 Em revisão na branch `feature/assistente-decisoes`. Painel na Visão geral e rota `POST /api/assistente`:
@@ -13,7 +24,7 @@ Verificação local: 341 testes Python (1 ignorado) e 107 JavaScript. Chrome, co
 axe no painel; fluxos de promoção, equipe, regras com fontes, fora do escopo, pergunta curta, cenário
 editado (30 pedidos) e falha 500 aprovados. Com Ollama 0.40.18 e `qwen2.5:1.5b` instalados, a
 avaliação da interpretação deu 20/20 no conjunto de ajuste e 10/13 no conjunto novo (regras sozinhas:
-19/20 e 10/13). A checagem bloqueou três números inventados pelo modelo. Detalhes em [Assistente](assistente.md#avaliação).
+19/20 e 10/13). A checagem bloqueou três números inventados pelo modelo. Detalhes em [Assistente](assistente.md#avaliação-de-qualidade).
 
 ## README para o portfólio
 

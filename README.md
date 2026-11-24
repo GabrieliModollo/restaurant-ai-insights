@@ -148,7 +148,8 @@ servidor ao editar o código, acrescente `--reload`. O roteiro em
 
 ## Testes e validação
 
-[GitHub Actions](.github/workflows/testes.yml) executa as suítes Python e JavaScript, a avaliação
+[GitHub Actions](.github/workflows/testes.yml) executa as suítes Python e JavaScript, o
+[portão de qualidade do assistente](docs/assistente.md#avaliação-de-qualidade), a avaliação
 por regras, testes do cliente MCP e testes Playwright e axe em 320 px nos PRs e após alterações na `main`. A avaliação com Ollama é
 local. Os comandos e o roteiro de pontuação estão em [Avaliação da IA local](docs/explicacoes-ia.md).
 
