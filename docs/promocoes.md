@@ -45,6 +45,18 @@ O simulador também desconta ingredientes, embalagem e frete pago pela loja. A c
 turno é calculada apenas para pedidos prontos. O resumo mostra o total do turno de referência e
 avisa quando a duração da referência é diferente.
 
+### Consultar regras de iFood e 99Food
+
+Dentro da comparação por canal, abra **Consultar regras de iFood e 99Food**. Experimente
+“Por que a mesma promoção pode deixar contribuições diferentes no iFood e na 99Food?”.
+A busca local recupera paráfrases de guias oficiais por assunto e plataforma e compõe
+uma explicação com links e datas de consulta. Fora dessa cobertura, a tela informa que
+não encontrou uma fonte.
+
+A consulta distingue orientações dos guias de condições da loja e pede os campos ainda
+não preenchidos nos dois canais. Use **Comparar canais** para calcular com as condições
+do seu cenário. A resposta atual usa síntese por regras e funciona sem instalar modelo.
+
 ## Fórmulas e convenções
 
 Todas as decisões usam centavos inteiros. O financeiro e a operação existentes são reutilizados,

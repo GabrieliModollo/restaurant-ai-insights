@@ -18,6 +18,7 @@ from .explicacao import explicar_promocao
 from .ficha_tecnica import FichaTecnica, calcular_ficha_tecnica
 from .parametros import ParametrosSimulacao, campos_para_interface, exemplos_para_interface
 from .promocoes import ParametrosAlternativas, ParametrosPromocao, analisar_promocao, comparar_alternativas
+from .regras_comerciais import ConsultaComercial, consultar_regras
 from .simulacao import executar_simulacao
 
 PASTA_WEB = Path(__file__).parent / "web"
@@ -102,6 +103,11 @@ def calcular_ficha(ficha: FichaTecnica) -> dict:
 @app.post("/api/promocoes/explicacao")
 def explicar(parametros: ParametrosPromocao) -> dict:
     return explicar_promocao(parametros)
+
+
+@app.post("/api/promocoes/regras")
+def regras(consulta: ConsultaComercial) -> dict:
+    return consultar_regras(consulta)
 
 
 # Montado por último: as rotas /api acima têm prioridade sobre os arquivos.
