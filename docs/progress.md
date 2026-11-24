@@ -8,11 +8,12 @@ Em revisão na branch `feature/assistente-decisoes`. Painel na Visão geral e ro
 a pergunta vira uma intenção em JSON (Ollama opcional ou regras), validada e executada pelo motor
 existente. A resposta é escrita no Python, só com números calculados. Detalhes em [Assistente](assistente.md).
 
-Verificação local: 338 testes Python (1 ignorado) e 107 JavaScript. Chrome, com servidor local, em
+Verificação local: 341 testes Python (1 ignorado) e 107 JavaScript. Chrome, com servidor local, em
 320, 390, 768 e 1280 px, temas claro e escuro: 8 combinações sem estouro horizontal nem violações do
 axe no painel; fluxos de promoção, equipe, regras com fontes, fora do escopo, pergunta curta, cenário
-editado (30 pedidos) e falha 500 aprovados. **Ollama não instalado nesta máquina:** o caminho com IA
-foi verificado apenas com respostas simuladas do modelo nos testes.
+editado (30 pedidos) e falha 500 aprovados. Com Ollama 0.40.18 e `qwen2.5:1.5b` instalados, a
+avaliação da interpretação deu 20/20 no conjunto de ajuste e 10/13 no conjunto novo (regras sozinhas:
+19/20 e 10/13). A checagem bloqueou três números inventados pelo modelo. Detalhes em [Assistente](assistente.md#avaliação).
 
 ## README para o portfólio
 

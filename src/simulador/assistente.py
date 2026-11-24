@@ -21,7 +21,7 @@ from .promocoes import ParametrosPromocao, analisar_promocao
 from .regras_comerciais import ConsultaComercial, consultar_regras
 from .simulacao import executar_simulacao
 
-VERSAO_PROMPT = "assistente-v1"
+VERSAO_PROMPT = "assistente-v2"
 _ROTULOS = {campo.nome: campo.rotulo for campo in CAMPOS}
 EXEMPLOS = (
     "Um desconto de R$ 5 se paga?",
@@ -61,7 +61,7 @@ _PERCENTUAL = re.compile(rf"{_NUMERO}\s*(?:%|por\s*cento)")
 _PEDIDOS = re.compile(r"(\d+)\s*pedidos?\b|(?:chegarem|chegar|receber|vierem|entrarem)\s+(\d+)\b")
 _PESSOAS = re.compile(r"\b(\d+|" + "|".join(_POR_EXTENSO) + r")\s+(?:pessoas?|funcionari\w*|cozinheir\w*|ajudantes?|embaladore?s?)\b")
 _TERMOS_DESCONTO = re.compile(r"\b(?:descont\w*|promo\w*|cupo\w*|oferta|baixar|abaixar|diminuir|reduzir|tirar)\b")
-_TERMOS_EQUIPE = re.compile(r"\b(?:pessoas?|funcionari\w*|equipe|contrat\w*|reforc\w*|cozinheir\w*|ajudantes?|embaladore?s?|alguem)\b")
+_TERMOS_EQUIPE = re.compile(r"\b(?:pessoas?|funcionari\w*|equipe|reforc\w*|cozinheir\w*|ajudantes?|embaladore?s?|embalando|alguem)\b")
 _TERMOS_ACRESCIMO = re.compile(r"\b(?:mais|outra|outro|contrat\w*|reforc\w*|colocar|adicionar|extra)\b")
 _TERMOS_REGRAS = re.compile(r"\b(?:comiss\w*|i\s*food|99\s*food|frete|subsidi\w*|plataforma|aplicativo)\b")
 
@@ -127,9 +127,10 @@ def interpretar_por_regras(pergunta: str) -> Interpretacao:
 _INSTRUCAO = (
     "Você transforma perguntas de gerentes de restaurante em JSON para um simulador. "
     "Não calcule nem responda a pergunta. Copie apenas números escritos na pergunta e use null "
-    "para o que não foi dito. intencao: promocao (testar um desconto), equipe (mais pessoas no "
-    "preparo ou na embalagem), pedidos (outra quantidade de pedidos recebidos), regras (comissão, "
-    "taxas, frete ou subsídio do iFood ou da 99Food) ou fora_do_escopo (qualquer outro assunto)."
+    "para o que não foi dito. intencao: promocao (testar um desconto em reais ou em %), equipe "
+    "(mais pessoas no preparo ou na embalagem; cozinha e cozinheiro são preparo), pedidos (outra "
+    "quantidade de pedidos recebidos, sem desconto), regras (comissão, taxas, frete ou subsídio do "
+    "iFood ou da 99Food) ou fora_do_escopo (qualquer outro assunto). Em equipe, sempre informe estacao."
 )
 _VAZIO = {"desconto_reais": None, "desconto_pct": None, "pedidos": None, "estacao": None, "pessoas_a_mais": None}
 _EXEMPLOS_MODELO = (
@@ -137,6 +138,8 @@ _EXEMPLOS_MODELO = (
      {**_VAZIO, "intencao": "promocao", "desconto_pct": 10, "pedidos": 25}),
     ("Se eu puser mais duas pessoas na embalagem melhora?",
      {**_VAZIO, "intencao": "equipe", "estacao": "embalagem", "pessoas_a_mais": 2}),
+    ("Mais um cozinheiro ajuda?", {**_VAZIO, "intencao": "equipe", "estacao": "preparo", "pessoas_a_mais": 1}),
+    ("E se chegarem 45 pedidos?", {**_VAZIO, "intencao": "pedidos", "pedidos": 45}),
     ("Quanto o iFood cobra de comissão?", {**_VAZIO, "intencao": "regras"}),
     ("Qual o melhor sabor de pizza?", {**_VAZIO, "intencao": "fora_do_escopo"}),
 )
@@ -160,6 +163,29 @@ def _numeros_usados(interpretacao: Interpretacao) -> set[Decimal]:
     return numeros
 
 
+def completa(interpretacao: Interpretacao) -> bool:
+    """Tem o que a ferramenta precisa para calcular."""
+    return {
+        "promocao": interpretacao.desconto_reais is not None or interpretacao.desconto_pct is not None,
+        "equipe": bool(interpretacao.estacao and interpretacao.pessoas_a_mais),
+        "pedidos": interpretacao.pedidos is not None,
+    }.get(interpretacao.intencao, True)
+
+
+def _combinar(ia: Interpretacao, regras: Interpretacao) -> tuple[Interpretacao, str | None]:
+    """Completa a IA com valores que as regras leram no texto, ou cede a vez a elas.
+
+    Os valores das regras vêm da própria pergunta, então completar não cria números novos.
+    """
+    if ia.intencao == regras.intencao:
+        faltantes = {campo: valor for campo, valor in regras.model_dump().items()
+                     if valor is not None and getattr(ia, campo) is None}
+        ia = ia.model_copy(update=faltantes)
+    if not completa(ia) and completa(regras):
+        return regras, "interpretacao_incompleta"
+    return ia, None
+
+
 def interpretar(pergunta: str) -> tuple[Interpretacao, dict]:
     """Devolve a interpretação e de onde ela veio. Qualquer falha da IA volta às regras."""
     reserva = interpretar_por_regras(pergunta)
@@ -175,6 +201,9 @@ def interpretar(pergunta: str) -> tuple[Interpretacao, dict]:
         return reserva, {"origem": "regras", "motivo": "resposta_invalida"}
     if not _numeros_usados(interpretacao) <= numeros_da_pergunta(pergunta):
         return reserva, {"origem": "regras", "motivo": "numero_nao_citado"}
+    interpretacao, motivo = _combinar(interpretacao, reserva)
+    if motivo:
+        return interpretacao, {"origem": "regras", "motivo": motivo}
     return interpretacao, {"origem": "ia_local", "modelo": MODELO, "prompt": VERSAO_PROMPT}
 
 

@@ -16,6 +16,7 @@ const MOTIVOS = {
   indisponivel: "Interpretado por regras · Ollama indisponível",
   resposta_invalida: "Interpretado por regras · o modelo não devolveu os dados esperados",
   numero_nao_citado: "Interpretado por regras · o modelo usou um número que não estava na pergunta",
+  interpretacao_incompleta: "Interpretado por regras · a leitura do modelo ficou incompleta",
 };
 
 export function descreverOrigem(dados) {

@@ -176,3 +176,24 @@ def test_entrada_invalida_recebe_erro_por_campo(corpo, campo):
     resposta = CLIENTE.post(ROTA, json=corpo)
     assert resposta.status_code == 422
     assert campo in resposta.json()["erros"]
+
+
+def test_campos_que_a_ia_esquece_sao_completados_pelo_texto(monkeypatch):
+    _com_modelo(monkeypatch, '{"intencao":"equipe","pessoas_a_mais":2}')
+    resposta = perguntar("contratar duas pessoas na embalagem ajuda?")
+    assert resposta["origem"] == "ia_local"
+    assert resposta["interpretacao"] == {"intencao": "equipe", "estacao": "embalagem", "pessoas_a_mais": 2}
+
+
+def test_interpretacao_incompleta_da_ia_cede_para_regras_completas(monkeypatch):
+    _com_modelo(monkeypatch, '{"intencao":"promocao","pedidos":50}')
+    resposta = perguntar("E se o movimento subir para 50 pedidos no turno?")
+    assert resposta["origem"] == "regras" and resposta["motivo"] == "interpretacao_incompleta"
+    assert resposta["interpretacao"] == {"intencao": "pedidos", "pedidos": 50}
+
+
+def test_avaliacao_por_regras_roda_sem_ia():
+    from scripts.avaliar_assistente import CASOS, avaliar
+    relatorio = avaliar(False, CASOS)
+    assert relatorio["respostas_da_ia"] == 0
+    assert relatorio["acertos_regras"] == relatorio["acertos_finais"] >= 19
