@@ -1,38 +1,39 @@
 # Demo online
 
-A demo pública roda no **Hugging Face Spaces** (plano gratuito, SDK Docker), no modo por regras:
-sem Ollama, chaves de API ou serviços pagos. O assistente de decisões e todas as áreas funcionam;
-a explicação e a interpretação com IA local ficam desativadas, e a interface informa isso.
+A demo pública roda no **Render**, no plano gratuito, e usa o modo por regras: sem Ollama, chaves de
+API ou serviços pagos. Todas as áreas e o assistente de decisões funcionam. A explicação e a
+interpretação com IA local ficam desativadas, e a interface informa isso.
 
 Publicação autorizada pela pessoa responsável em 24/11/2026.
 
 ## Como funciona
 
-1. A cada merge na `main` que altere `src/`, `requirements.txt`, `Dockerfile`, `.dockerignore`,
-   `deploy/` ou o próprio workflow, o [`demo.yml`](../.github/workflows/demo.yml) monta uma pasta só com
-   os arquivos do contêiner (`deploy/publicar_space.py`) e a envia ao Space.
-2. O README do Space vem de [`deploy/space-readme.md`](../deploy/space-readme.md), com o cabeçalho que o
-   Hugging Face exige. O README do GitHub não muda.
-3. O Space monta a imagem do [`Dockerfile`](../Dockerfile) (Python 3.12, usuário UID 1000, porta 7860)
-   e inicia o mesmo `uvicorn` da execução local.
+- O [`render.yaml`](../render.yaml) descreve o serviço: Python 3.12.16 (a mesma série do GitHub Actions),
+  `pip install -r requirements.txt` e o mesmo `uvicorn` da execução local, na porta `$PORT` do Render.
+- Cada commit na `main` publica uma nova versão (`autoDeployTrigger: commit`).
+- O Render confere a saúde do serviço em `GET /api/campos`.
+- `tests/test_publicacao.py` confere o plano gratuito, a branch, o comando de início, a rota de saúde e
+  a versão do Python.
 
-Sem a variável `HF_SPACE`, o workflow não roda. O Space gratuito hiberna após cerca de 48 horas sem
-visitas; a primeira visita depois disso leva um tempo para acordar.
+### Limites do plano gratuito
+
+- O serviço **hiberna após 15 minutos sem visitas**; a primeira visita depois disso leva de 30 s a 1 min.
+- São 750 horas de instância por mês no workspace. Uma demo hibernada a maior parte do tempo fica
+  abaixo disso.
+- Arquivos gravados no disco se perdem ao reiniciar. O simulador não grava nada, então isso não o afeta.
 
 ## Configuração (uma vez, pela pessoa responsável)
 
-1. Criar uma conta em <https://huggingface.co> e um token de acesso do tipo **Write**
-   (Settings → Access Tokens).
-2. No GitHub, em **Settings → Secrets and variables → Actions**:
-   - em **Secrets**, criar `HF_TOKEN` com o token;
-   - em **Variables**, criar `HF_SPACE` com `seu-usuario-hf/restaurant-ai-insights`.
-3. Em **Actions → Publicar demo → Run workflow**, executar a primeira publicação. O script cria o
-   Space público se ele ainda não existir.
+1. No Render, com a conta ligada ao GitHub: **New → Blueprint**.
+2. Escolher o repositório `restaurant-ai-insights`, conferir o serviço gratuito descrito no
+   `render.yaml` e aplicar.
+3. Esperar a primeira publicação e copiar o endereço `https://….onrender.com`.
 
-O token fica só nos segredos do GitHub; ele não aparece nos arquivos nem nos registros do workflow.
+Nenhum token ou segredo fica no repositório.
 
-## Verificação local do pacote
+## Hugging Face Spaces (descartado)
 
-`tests/test_publicacao.py` confere o conteúdo da pasta enviada. Antes da primeira publicação, a pasta
-foi montada e iniciada com o mesmo comando do contêiner (porta 7860): página, arquivos estáticos e
-`POST /api/assistente` responderam como na execução local. A imagem Docker é montada pelo Hugging Face.
+A primeira tentativa usou o Hugging Face Spaces com Docker. Em 24/11/2026, a criação do Space
+retornou **402 Payment Required**: Spaces Docker passaram a exigir o plano PRO em contas pessoais.
+Como o projeto tem custo zero, a publicação foi trocada pelo Render. Se a variável `HF_SPACE` e o
+segredo `HF_TOKEN` ainda existirem no GitHub, podem ser apagados.

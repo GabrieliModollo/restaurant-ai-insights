@@ -1,25 +1,42 @@
-"""Pacote da demo: só os arquivos do contêiner, com o README próprio do Space."""
+"""Configuração da demo no Render: plano gratuito, mesmo app e mesma versão de Python do CI."""
 
 import re
+from pathlib import Path
 
-from deploy.publicar_space import RAIZ, montar_pasta
+from fastapi.testclient import TestClient
 
+from src.simulador.api import app
 
-def test_pasta_da_demo_tem_so_o_necessario(tmp_path):
-    pasta = montar_pasta(tmp_path)
-    nomes = {item.name for item in pasta.iterdir()}
-    assert nomes == {"Dockerfile", ".dockerignore", "requirements.txt", "README.md", "src"}
-    assert (pasta / "src" / "simulador" / "api.py").is_file()
-    assert (pasta / "src" / "simulador" / "web" / "index.html").is_file()
-    assert not list(pasta.rglob("__pycache__"))
+RAIZ = Path(__file__).resolve().parents[1]
+RENDER = (RAIZ / "render.yaml").read_text(encoding="utf-8")
 
 
-def test_readme_do_space_declara_docker_na_porta_do_conteiner(tmp_path):
-    cabecalho = (montar_pasta(tmp_path) / "README.md").read_text(encoding="utf-8").split("---")[1]
-    porta = re.search(r'"--port", "(\d+)"', (RAIZ / "Dockerfile").read_text(encoding="utf-8")).group(1)
-    assert "sdk: docker" in cabecalho
-    assert f"app_port: {porta}" in cabecalho
+def _valor(chave: str) -> str:
+    return re.search(rf"^\s*-?\s*{chave}:\s*(.+)$", RENDER, re.MULTILINE).group(1).strip()
 
 
-def test_conteiner_nao_liga_a_ia_local():
-    assert "RAI_IA_LOCAL" not in (RAIZ / "Dockerfile").read_text(encoding="utf-8")
+def test_demo_usa_plano_gratuito_e_publica_a_main():
+    assert _valor("plan") == "free"
+    assert _valor("branch") == "main"
+    assert _valor("runtime") == "python"
+
+
+def test_comando_de_inicio_aponta_para_o_app_e_a_porta_do_render():
+    comando = _valor("startCommand")
+    assert "src.simulador.api:app" in comando
+    assert "--host 0.0.0.0" in comando and "--port $PORT" in comando
+
+
+def test_verificacao_de_saude_usa_rota_existente():
+    assert TestClient(app).get(_valor("healthCheckPath")).status_code == 200
+
+
+def test_python_igual_ao_do_ci():
+    versao = re.search(r"key: PYTHON_VERSION\s+value: ([\d.]+)", RENDER).group(1)
+    ci = (RAIZ / ".github" / "workflows" / "testes.yml").read_text(encoding="utf-8")
+    assert re.fullmatch(r"\d+\.\d+\.\d+", versao)
+    assert f'python-version: "{versao.rsplit(".", 1)[0]}"' in ci
+
+
+def test_demo_nao_liga_a_ia_local():
+    assert "RAI_IA_LOCAL" not in RENDER

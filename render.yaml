@@ -1,0 +1,17 @@
+# Demo pública no Render (plano gratuito). Roda no modo por regras, sem Ollama nem chaves.
+# Cada merge na main publica uma nova versão. Detalhes em docs/demo-online.md.
+services:
+  - type: web
+    name: restaurant-ai-insights
+    runtime: python
+    plan: free
+    region: virginia
+    branch: main
+    autoDeployTrigger: commit
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn src.simulador.api:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/campos
+    envVars:
+      # Mesma versão usada no GitHub Actions; sem ela, o Render escolheria a 3.14.
+      - key: PYTHON_VERSION
+        value: 3.12.16
