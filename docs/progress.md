@@ -2,6 +2,15 @@
 
 Última atualização: 2026-11-24.
 
+## Demo online — AIB-05
+
+Em revisão na branch `feat/demo-hugging-face`. `Dockerfile`, `deploy/publicar_space.py` e o workflow
+`demo.yml` publicam a demo no Hugging Face Spaces a cada merge na `main`, no modo por regras.
+Verificação local: a pasta enviada ao Space subiu com o comando do contêiner, e página, arquivos
+estáticos e assistente responderam como na execução local. Testes do pacote em `tests/test_publicacao.py`.
+**Pendente:** conta, token e variáveis no GitHub pela pessoa responsável; a imagem Docker e o Space
+ainda não foram verificados. Passos em [Demo online](demo-online.md).
+
 ## Avaliação de qualidade do assistente — AIB-04
 
 Integrada à main no PR #43, branch `feature/avaliacao-assistente`.
