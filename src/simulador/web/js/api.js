@@ -97,6 +97,10 @@ export const importarReferencia = (valores, signal) => enviarParametros("/api/re
 
 export const calcularFicha = (valores, signal) => enviarParametros("/api/ficha-tecnica", valores, signal);
 
+// Com a IA local, ler uma receita pode levar mais de um minuto em computadores modestos.
+export const lerFichaTexto = (valores, signal) =>
+  enviarParametros("/api/ficha-tecnica/texto", valores, signal, 180000);
+
 export const explicarPromocao = (valores, signal) =>
   enviarParametros("/api/promocoes/explicacao", valores, signal, 35000);
 

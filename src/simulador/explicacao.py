@@ -78,17 +78,18 @@ def _referencia(resultado: dict) -> tuple[str, str, list[str]]:
     return fatos, " ".join(motivos) or equilibrio["explicacao"], criterios
 
 
-def chamar_ollama(mensagens: list[dict[str, str]], formato: dict) -> str:
+def chamar_ollama(mensagens: list[dict[str, str]], formato: dict, modelo: str = MODELO,
+                  limite_tokens: int = 280, tempo_limite: float = 30) -> str:
     """Envia mensagens ao Ollama local e devolve o texto da resposta, restrito ao esquema JSON."""
     corpo = json.dumps({
-        "model": MODELO,
+        "model": modelo,
         "stream": False,
         "format": formato,
-        "options": {"temperature": 0, "num_ctx": CONTEXTO, "num_predict": 280},
+        "options": {"temperature": 0, "num_ctx": CONTEXTO, "num_predict": limite_tokens},
         "messages": mensagens,
     })
     # Conexão direta, sem proxy, redirecionamento ou endereço escolhido pelo navegador.
-    conexao = HTTPConnection("127.0.0.1", 11434, timeout=30)
+    conexao = HTTPConnection("127.0.0.1", 11434, timeout=tempo_limite)
     try:
         conexao.request("POST", "/api/chat", corpo, {"Content-Type": "application/json"})
         resposta = conexao.getresponse()

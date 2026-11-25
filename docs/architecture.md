@@ -26,6 +26,7 @@ Núcleo, sem dependência de HTTP
 | `src/simulador/operacao.py` | Filas, capacidade, diagnóstico e eventos | Pronto |
 | `src/simulador/simulacao.py` | Executa operação e finanças em sequência | Pronto |
 | `src/simulador/api.py` | Rotas e entrega da interface | Pronto |
+| `src/simulador/ficha_texto.py` | Lê receitas em texto (regras + IA local opcional) e devolve ingredientes para revisão | Em revisão |
 | `src/simulador/assistente.py` | Interpreta perguntas (Ollama opcional ou regras), valida e chama o motor | Integrado (PR #42) |
 | `src/simulador/web/js/assistente.js` | Painel de perguntas na Visão geral | Integrado (PR #42) |
 | `src/simulador/web/js/api.js` | Comunicação HTTP e descrição das falhas | Pronto |
