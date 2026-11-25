@@ -87,6 +87,12 @@
         <details id="ficha-tecnica" class="ficha-tecnica">
           <summary>Calcular ingredientes por ficha técnica</summary>
           <p class="dica">Informe a compra e quanto de cada ingrediente entra em uma porção. Use o resultado para preencher o custo do cenário.</p>
+          <div class="ficha-texto">
+            <label for="ficha-texto">Colar a receita (opcional)</label>
+            <textarea id="ficha-texto" rows="4" maxlength="4000" placeholder="Ex.: Farinha: 150 g por porção, pacote de 1 kg por R$ 20"></textarea>
+            <button id="ficha-ler-texto" class="botao" type="button">Preencher com o texto</button>
+            <p id="ficha-texto-status" class="dica" role="status"></p>
+          </div>
           <button id="ficha-exemplo" class="botao" type="button">Preencher ingrediente de exemplo</button>
             <div id="ficha-ingredientes"></div>
             <div class="ficha-acoes">

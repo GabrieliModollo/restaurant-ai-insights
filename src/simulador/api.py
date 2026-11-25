@@ -19,6 +19,7 @@ from .canais import ParametrosCanais, comparar_canais
 from .cenario_salvo import CenarioSalvo, reabrir_cenario
 from .explicacao import explicar_promocao
 from .ficha_tecnica import FichaTecnica, calcular_ficha_tecnica
+from .ficha_texto import TextoFicha, extrair_ficha
 from .parametros import ParametrosSimulacao, campos_para_interface, exemplos_para_interface
 from .promocoes import ParametrosAlternativas, ParametrosPromocao, analisar_promocao, comparar_alternativas
 from .referencia import ArquivoReferencia, importar_referencia
@@ -120,6 +121,11 @@ def importar_csv(arquivo: ArquivoReferencia) -> Response:
 @app.post("/api/ficha-tecnica")
 def calcular_ficha(ficha: FichaTecnica) -> dict:
     return calcular_ficha_tecnica(ficha)
+
+
+@app.post("/api/ficha-tecnica/texto")
+def ficha_de_texto(entrada: TextoFicha) -> dict:
+    return extrair_ficha(entrada)
 
 
 @app.post("/api/promocoes/explicacao")

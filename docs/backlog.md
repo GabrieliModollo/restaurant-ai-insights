@@ -21,7 +21,8 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 12 | P1 | Avaliação de qualidade do assistente (concluída, PR #43) | Casos versionados com conjunto separado do ajuste; interpretação, ferramenta, fidelidade numérica e texto conferidos de ponta a ponta; portão no CI; cenários aleatórios sem erro nem número sem origem. |
 | 13 | P1 | Demo online gratuita (concluída, PRs #45 e #46) | Render no plano gratuito, modo por regras, publicada automaticamente a cada merge na `main`; sem chaves no repositório. Hugging Face descartado: Spaces Docker exigem plano pago. |
 | 14 | P1 | Automação no n8n (concluída, PR #49) | Fluxo versionado, sem credenciais, que lê o CSV de referência, chama a API e salva um resumo diário em Markdown com os números do motor; execução real verificada. |
-| 15 | P1 | Agente com MCP e vídeo (em revisão) | Modelo local escolhe a ferramenta MCP e responde só com números do motor; respostas com números sem origem são recusadas; GIF montado a partir de uma execução real. |
+| 15 | P1 | Agente com MCP e vídeo (concluída, PR #50) | Modelo local escolhe a ferramenta MCP e responde só com números do motor; respostas com números sem origem são recusadas; GIF montado a partir de uma execução real. |
+| 16 | P1 | Ficha técnica a partir de texto (em revisão) | Texto colado preenche o formulário para revisão; números das linhas lidas pelas regras, IA só para nomes e linhas soltas marcadas para conferir; nenhum número fora do texto; avaliação com conjunto novo. |
 
 ## Melhorias de arquitetura
 

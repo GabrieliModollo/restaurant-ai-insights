@@ -105,6 +105,10 @@ Por exemplo, uma porção de 150 g de um ingrediente comprado a R$ 20/kg custa R
 **Usar custo no simulador** preenche o custo por pedido e atualiza o cenário. O campo também aceita
 entrada manual. A ficha calculada também pode acompanhar o arquivo do cenário.
 
+Também dá para **colar a receita em texto**: os ingredientes preenchem o formulário para revisão. As regras
+leem os números; com a IA local, ela melhora os nomes e completa linhas soltas, marcadas para conferir.
+Detalhes e avaliação em [`docs/ficha-por-texto.md`](docs/ficha-por-texto.md).
+
 ## Como funciona
 
 1. **Comece pela Visão geral.** Um cenário inicial é calculado ao abrir a aplicação, sem precisar

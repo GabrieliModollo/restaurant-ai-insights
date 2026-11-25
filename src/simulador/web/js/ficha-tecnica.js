@@ -1,4 +1,4 @@
-import { calcularFicha, descreverErro, ErroDeValidacao } from "./api.js";
+import { calcularFicha, descreverErro, ErroDeValidacao, lerFichaTexto } from "./api.js";
 import { criarExecutor } from "./execucao.js";
 
 const UNIDADES = [["g", "g"], ["kg", "kg"], ["ml", "mL"], ["l", "L"], ["un", "un"]];
@@ -59,6 +59,15 @@ function criarIngrediente(indice, remover) {
   const item = {
     elemento, legenda, nome, erro, botaoRemover,
     vazio: () => [nome, preco, comprada, usada, data].every(controle => !controle.value),
+    preencher(dados) {
+      nome.value = dados.nome;
+      preco.value = (dados.preco_compra_centavos / 100).toFixed(2);
+      comprada.value = String(dados.quantidade_comprada);
+      unidadeCompra.value = dados.unidade_compra;
+      usada.value = String(dados.quantidade_usada);
+      unidadeUso.value = dados.unidade_uso;
+      data.value = dados.data_preco;
+    },
     preencherExemplo() {
       nome.value = "Farinha";
       preco.value = "20";
@@ -189,6 +198,59 @@ export function criarFichaTecnica(custoManual) {
     calcular.disabled = true;
     status.textContent = "Calculando o custo por porção…";
     executor.executar({ ingredientes: itens.map(item => item.valores()) });
+  });
+
+  const textoReceita = document.getElementById("ficha-texto");
+  const lerTexto = document.getElementById("ficha-ler-texto");
+  const statusTexto = document.getElementById("ficha-texto-status");
+  const origens = {
+    ia_local: "IA local com conferência das regras",
+    regras: "regras",
+  };
+  const leitor = criarExecutor({
+    buscar: lerFichaTexto,
+    aoResultado(dados) {
+      lerTexto.disabled = false;
+      if (!dados.ingredientes.length) {
+        statusTexto.textContent = "Não encontrei ingredientes com preço e quantidades. Escreva um por linha, como no exemplo.";
+        return;
+      }
+      for (const item of [...itens]) {
+        item.elemento.remove();
+        itens.splice(itens.indexOf(item), 1);
+      }
+      dados.ingredientes.forEach((ingrediente, indice) => {
+        const item = adicionarIngrediente();
+        item.preencher(ingrediente);
+        if (dados.conferir.includes(indice)) item.elemento.classList.add("ficha-conferir");
+      });
+      atualizarLista();
+      invalidar();
+      for (const indice of dados.conferir) {
+        itens[indice].erro.textContent = "Lido só pela IA: confira os números antes de calcular. ";
+      }
+      const ignoradas = dados.linhas_ignoradas.length
+        ? ` Não entendi: ${dados.linhas_ignoradas.join(" · ")}.` : "";
+      statusTexto.textContent = `${dados.ingredientes.length} ingrediente(s) preenchido(s) por ${origens[dados.origem] ?? "regras"}. `
+        + `Revise e clique em Calcular custo.${ignoradas}`;
+      itens[0].nome.focus();
+    },
+    aoErro(erro) {
+      lerTexto.disabled = false;
+      statusTexto.textContent = erro instanceof ErroDeValidacao
+        ? "Cole um texto entre 5 e 4.000 caracteres."
+        : erro.name === "TimeoutError" ? "A leitura demorou demais. Tente com menos ingredientes." : descreverErro(erro);
+    },
+  });
+  lerTexto.addEventListener("click", () => {
+    if (textoReceita.value.trim().length < 5) {
+      statusTexto.textContent = "Cole a receita, com preço e quantidades de cada ingrediente.";
+      textoReceita.focus();
+      return;
+    }
+    lerTexto.disabled = true;
+    statusTexto.textContent = "Lendo a receita… com a IA local ligada, pode levar de 30 segundos a 2 minutos.";
+    leitor.executar({ texto: textoReceita.value, data_preco: new Date().toLocaleDateString("en-CA") });
   });
 
   aplicar.addEventListener("click", () => {

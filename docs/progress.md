@@ -2,9 +2,17 @@
 
 Última atualização: 2026-11-24.
 
+## Ficha técnica a partir de texto — AIB-08
+
+Em revisão na branch `feat/ficha-por-texto`. Rota `POST /api/ficha-tecnica/texto` e campo **Colar a
+receita** na ficha técnica: o texto preenche o formulário para revisão, e o custo segue no cálculo de
+sempre. Regras leem os números; a IA local (`qwen2.5:3b`) melhora nomes e completa linhas soltas,
+marcadas para conferir. Avaliação: regras 4/9 e 2/9, regras + IA 7/9 e 6/9 (conjunto novo), sem número
+errado entregue. Chrome com IA local aprovado. Detalhes em [Ficha por texto](ficha-por-texto.md).
+
 ## Agente com MCP — AIB-02
 
-Em revisão na branch `feat/video-agente-mcp`. Nova ferramenta MCP `testar_desconto` (só o desconto e,
+Integrado à main no PR #50, branch `feat/video-agente-mcp`. Nova ferramenta MCP `testar_desconto` (só o desconto e,
 opcionalmente, os pedidos) e `scripts/agente_mcp.py`, que liga um modelo do Ollama ao servidor MCP.
 O GIF `docs/capturas/agente-mcp.gif` foi montado a partir da transcrição real. Descobertas: o esquema
 completo do Pydantic fazia o Ollama devolver resposta vazia, e o qwen2.5:1.5b não chama a ferramenta com
