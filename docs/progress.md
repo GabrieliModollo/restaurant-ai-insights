@@ -2,9 +2,18 @@
 
 Última atualização: 2026-11-24.
 
+## Automação no n8n — AIB-07
+
+Em revisão na branch `feat/automacao-n8n`. O fluxo `automacoes/n8n/resumo-diario.json` gera um resumo
+diário do turno em Markdown com a API do simulador: agrega o CSV de referência, monta o cenário com o
+volume médio e pergunta ao assistente sobre capacidade e promoção. Roda no n8n local (gratuito).
+Verificado com n8n 2.47.3: execução com sucesso e resumo real em `docs/exemplo-resumo-n8n.md`, depois de
+acrescentar novas tentativas para o 503 da demo hibernada. Agendamento diário não testado. Detalhes em
+[Automação no n8n](automacao-n8n.md).
+
 ## Tema claro e noturno
 
-Em revisão na branch `feat/tema-claro-noturno`. O tema deixou de seguir a preferência do sistema:
+Integrado à main no PR #48, branch `feat/tema-claro-noturno`. O tema deixou de seguir a preferência do sistema:
 é claro por padrão, e o seletor **Claro / Noturno** no topo troca as cores. A escolha fica em
 `localStorage` (com proteção para navegadores que bloqueiam o armazenamento) e é aplicada no `<head>`,
 antes de desenhar a página. A cena em Canvas redesenha ao trocar o tema.

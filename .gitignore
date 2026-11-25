@@ -224,3 +224,6 @@ __marimo__/
 tmp/
 temp/
 .tmp-ui/
+
+# Resumos gerados pelo fluxo do n8n (o exemplo versionado fica em docs/)
+automacoes/saida/

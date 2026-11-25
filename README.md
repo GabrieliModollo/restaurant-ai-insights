@@ -17,7 +17,7 @@ o resultado do turno, mas a equipe só consegue preparar **22**. A promoção pe
 
 [**▶ Abrir a demo online**](https://restaurant-ai-insights.onrender.com) ·
 [**Roteiro da demonstração**](docs/demonstracao.md) ·
-[Como executar](#como-executar) · [Assistente de decisões](docs/assistente.md) · [Avaliação da IA local](docs/explicacoes-ia.md) · [MCP local](docs/mcp.md)
+[Como executar](#como-executar) · [Assistente de decisões](docs/assistente.md) · [Automação no n8n](docs/automacao-n8n.md) · [Avaliação da IA local](docs/explicacoes-ia.md) · [MCP local](docs/mcp.md)
 
 Dados fictícios. Funciona sem IA, chaves ou APIs pagas; a explicação com Ollama é opcional.
 
