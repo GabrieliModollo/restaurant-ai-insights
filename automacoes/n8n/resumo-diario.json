@@ -1,0 +1,373 @@
+{
+  "id": "RAIResumoDiario1",
+  "name": "Restaurant AI Insights — resumo diário",
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "nodes": [
+    {
+      "id": "c1a0b2e4-0001-4a00-8000-000000000001",
+      "name": "Todo dia às 23h",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 23
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "c1a0b2e4-0002-4a00-8000-000000000002",
+      "name": "Executar agora",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        200
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "c1a0b2e4-0003-4a00-8000-000000000003",
+      "name": "Configuração",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        240,
+        100
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cfg-1",
+              "name": "api",
+              "value": "https://restaurant-ai-insights.onrender.com",
+              "type": "string"
+            },
+            {
+              "id": "cfg-2",
+              "name": "pasta_saida",
+              "value": "automacoes/saida",
+              "type": "string"
+            },
+            {
+              "id": "cfg-3",
+              "name": "desconto",
+              "value": "R$ 5",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      }
+    },
+    {
+      "id": "c1a0b2e4-0004-4a00-8000-000000000004",
+      "name": "Baixar pedidos de referência",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        480,
+        100
+      ],
+      "parameters": {
+        "url": "={{ $json.api }}/exemplos/referencia-sintetica.csv",
+        "options": {
+          "timeout": 90000,
+          "response": {
+            "response": {
+              "responseFormat": "text",
+              "outputPropertyName": "csv"
+            }
+          }
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "id": "c1a0b2e4-0005-4a00-8000-000000000005",
+      "name": "Agregar pedidos no simulador",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        720,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Configuração').first().json.api }}/api/referencias/csv",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ csv: $json.csv }) }}",
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "id": "c1a0b2e4-0006-4a00-8000-000000000006",
+      "name": "Ler parâmetros do simulador",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        100
+      ],
+      "parameters": {
+        "url": "={{ $('Configuração').first().json.api }}/api/campos",
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "id": "c1a0b2e4-0007-4a00-8000-000000000007",
+      "name": "Montar cenário do dia",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1200,
+        100
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Cenário padrão do simulador com o volume médio diário da referência.\n// Nenhum resultado é calculado aqui: só os parâmetros enviados ao motor.\nconst referencia = $('Agregar pedidos no simulador').first().json;\nconst cenario = {};\nfor (const item of $input.all()) cenario[item.json.nome] = item.json.padrao;\nconst dias = Math.max(1, referencia.dias_com_dados);\ncenario.pedidos = Math.round((referencia.concluidos + referencia.cancelados) / dias);\nreturn [{ json: { cenario, referencia } }];"
+      }
+    },
+    {
+      "id": "c1a0b2e4-0008-4a00-8000-000000000008",
+      "name": "Perguntar: capacidade",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1440,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Configuração').first().json.api }}/api/assistente",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ pergunta: 'Quantos pedidos ficam prontos se chegarem ' + $json.cenario.pedidos + '?', cenario: $json.cenario }) }}",
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "id": "c1a0b2e4-0009-4a00-8000-000000000009",
+      "name": "Perguntar: promoção",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1680,
+        100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "={{ $('Configuração').first().json.api }}/api/assistente",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ pergunta: 'Um desconto de ' + $('Configuração').first().json.desconto + ' se paga?', cenario: $('Montar cenário do dia').first().json.cenario }) }}",
+        "options": {
+          "timeout": 90000
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "id": "c1a0b2e4-0010-4a00-8000-000000000010",
+      "name": "Escrever resumo",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1920,
+        100
+      ],
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// Junta as respostas da API em Markdown. Os números vêm todos do simulador.\nconst { referencia, cenario } = $('Montar cenário do dia').first().json;\nconst capacidade = $('Perguntar: capacidade').first().json;\nconst promocao = $('Perguntar: promoção').first().json;\nconst config = $('Configuração').first().json;\nconst pico = [...referencia.por_hora].sort((a, b) => b.concluidos - a.concluidos)[0];\nconst total = referencia.concluidos + referencia.cancelados;\nconst taxaCancelados = total ? (referencia.cancelados * 100 / total).toFixed(1).replace('.', ',') : '0';\nconst lista = dados => dados.map(d => `| ${d.rotulo} | ${d.valor} |`).join('\\n');\nconst hoje = new Date().toISOString().slice(0, 10);\nconst texto = [\n  `# Resumo do turno — ${hoje}`,\n  '',\n  `Dados de referência fictícios de ${referencia.inicio} a ${referencia.fim} (${referencia.dias_com_dados} dias).`,\n  '',\n  '## Pedidos de referência',\n  '',\n  `- ${referencia.concluidos} concluídos e ${referencia.cancelados} cancelados (${taxaCancelados}% de cancelamento).`,\n  `- Hora de maior movimento: ${pico.hora}h, com ${pico.concluidos} pedidos concluídos.`,\n  `- Volume usado no cenário: ${cenario.pedidos} pedidos recebidos por turno (média diária).`,\n  '',\n  '## A cozinha dá conta?',\n  '',\n  capacidade.resposta,\n  '',\n  '| Indicador | Valor |',\n  '| --- | --- |',\n  lista(capacidade.dados),\n  '',\n  `## ${config.desconto} de desconto se paga?`,\n  '',\n  promocao.resposta,\n  '',\n  '| Indicador | Valor |',\n  '| --- | --- |',\n  lista(promocao.dados),\n  '',\n  '---',\n  `Gerado pelo n8n com a API do simulador (${config.api}). Interpretação: ${promocao.origem === 'ia_local' ? 'IA local' : 'regras'}.`,\n  'Simulação ilustrativa com dados fictícios. Contribuição não é lucro líquido.',\n  ''\n].join('\\n');\nreturn [{ json: { arquivo: `${config.pasta_saida}/resumo-${hoje}.md`, texto } }];"
+      }
+    },
+    {
+      "id": "c1a0b2e4-0011-4a00-8000-000000000011",
+      "name": "Converter em arquivo",
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        2160,
+        100
+      ],
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "texto",
+        "options": {
+          "fileName": "resumo.md"
+        }
+      }
+    },
+    {
+      "id": "c1a0b2e4-0012-4a00-8000-000000000012",
+      "name": "Salvar resumo",
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        2400,
+        100
+      ],
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Escrever resumo').first().json.arquivo }}",
+        "dataPropertyName": "data",
+        "options": {}
+      }
+    }
+  ],
+  "connections": {
+    "Todo dia às 23h": {
+      "main": [
+        [
+          {
+            "node": "Configuração",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Executar agora": {
+      "main": [
+        [
+          {
+            "node": "Configuração",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Configuração": {
+      "main": [
+        [
+          {
+            "node": "Baixar pedidos de referência",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Baixar pedidos de referência": {
+      "main": [
+        [
+          {
+            "node": "Agregar pedidos no simulador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Agregar pedidos no simulador": {
+      "main": [
+        [
+          {
+            "node": "Ler parâmetros do simulador",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ler parâmetros do simulador": {
+      "main": [
+        [
+          {
+            "node": "Montar cenário do dia",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Montar cenário do dia": {
+      "main": [
+        [
+          {
+            "node": "Perguntar: capacidade",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perguntar: capacidade": {
+      "main": [
+        [
+          {
+            "node": "Perguntar: promoção",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Perguntar: promoção": {
+      "main": [
+        [
+          {
+            "node": "Escrever resumo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escrever resumo": {
+      "main": [
+        [
+          {
+            "node": "Converter em arquivo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Converter em arquivo": {
+      "main": [
+        [
+          {
+            "node": "Salvar resumo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {}
+}

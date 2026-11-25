@@ -20,6 +20,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 11 | P1 | Assistente de decisões (concluída, PR #42) | Pergunta em português sobre desconto, equipe, volume ou regras comerciais. A IA local só interpreta; a resposta usa apenas números do motor; números fora da pergunta e falhas do modelo voltam às regras. Funciona sem IA. |
 | 12 | P1 | Avaliação de qualidade do assistente (concluída, PR #43) | Casos versionados com conjunto separado do ajuste; interpretação, ferramenta, fidelidade numérica e texto conferidos de ponta a ponta; portão no CI; cenários aleatórios sem erro nem número sem origem. |
 | 13 | P1 | Demo online gratuita (concluída, PRs #45 e #46) | Render no plano gratuito, modo por regras, publicada automaticamente a cada merge na `main`; sem chaves no repositório. Hugging Face descartado: Spaces Docker exigem plano pago. |
+| 14 | P1 | Automação no n8n (em revisão) | Fluxo versionado, sem credenciais, que lê o CSV de referência, chama a API e salva um resumo diário em Markdown com os números do motor; execução real verificada. |
 
 ## Melhorias de arquitetura
 
