@@ -72,8 +72,8 @@ pasta de trabalho podem mudar o resultado.
 existente depois de verificar o destino e abrir PRs com ferramenta autenticada disponível.
 
 **Não autorizado:** merge automático, force push, apagar repositórios ou histórico, publicar
-aplicações, alterar permissões e adicionar serviços pagos. Exceção: a demo gratuita no Hugging
-Face Spaces, autorizada em 24/11/2026 e publicada pelo workflow descrito em `docs/demo-online.md`.
+aplicações, alterar permissões e adicionar serviços pagos. Exceção: a demo gratuita no Render,
+autorizada em 24/11/2026 e descrita em `render.yaml` e `docs/demo-online.md`.
 
 **Divisão de papéis:** o Claude Code implementa, revisa, testa e envia as alterações. A integração
 é feita pelo coordenador no ChatGPT ou pela pessoa responsável. O Claude Code não faz merge sem

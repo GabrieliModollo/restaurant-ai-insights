@@ -148,7 +148,8 @@ servidor ao editar o código, acrescente `--reload`. O roteiro em
 
 ## Demo online
 
-A demo pública roda no Hugging Face Spaces, no modo por regras, e é publicada a cada merge na `main`.
+A demo pública roda no Render (plano gratuito), no modo por regras, e é publicada a cada merge na `main`.
+Depois de 15 minutos sem visitas ela hiberna, e a primeira visita leva até um minuto para abrir.
 Configuração e funcionamento em [`docs/demo-online.md`](docs/demo-online.md).
 
 ## Testes e validação

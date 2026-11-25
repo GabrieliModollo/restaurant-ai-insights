@@ -4,12 +4,11 @@
 
 ## Demo online — AIB-05
 
-Em revisão na branch `feat/demo-hugging-face`. `Dockerfile`, `deploy/publicar_space.py` e o workflow
-`demo.yml` publicam a demo no Hugging Face Spaces a cada merge na `main`, no modo por regras.
-Verificação local: a pasta enviada ao Space subiu com o comando do contêiner, e página, arquivos
-estáticos e assistente responderam como na execução local. Testes do pacote em `tests/test_publicacao.py`.
-**Pendente:** conta, token e variáveis no GitHub pela pessoa responsável; a imagem Docker e o Space
-ainda não foram verificados. Passos em [Demo online](demo-online.md).
+O PR #45 (Hugging Face Spaces) foi integrado, mas a criação do Space retornou 402: Spaces Docker
+passaram a exigir o plano PRO. Em revisão na branch `feat/demo-render`: a publicação passa para o
+Render, plano gratuito, com `render.yaml` e Python 3.12.16. Os arquivos do Hugging Face foram removidos.
+Verificação local: o comando de início com `PORT=10000` respondeu `/api/campos`, a página e o
+assistente. **Pendente:** criar o serviço pelo Blueprint no Render e verificar a demo publicada.
 
 ## Avaliação de qualidade do assistente — AIB-04
 
