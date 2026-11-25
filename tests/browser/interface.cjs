@@ -22,8 +22,11 @@ const destinos = ['inicio', 'titulo-parametros', 'titulo-comparacao', 'titulo-fi
       assert.equal(await page.locator('[data-pagina]:visible').count(), 1);
       assert.equal(await page.locator('.menu-principal [aria-current="page"]').count(), 1);
     }
-    if (!process.env.RAI_SO_FLUXOS) for (const colorScheme of ['light', 'dark']) {
-      await page.emulateMedia({ colorScheme, reducedMotion: 'reduce' });
+    // O tema não segue mais o sistema: claro por padrão e noturno pelo botão, lembrado no navegador.
+    if (!process.env.RAI_SO_FLUXOS) for (const colorScheme of ['claro', 'noturno']) {
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto(url);
+      await page.evaluate(tema => localStorage.setItem('rai-tema', tema), colorScheme);
       for (const width of [320, 390, 768, 1024, 1440, 1920]) {
         await page.setViewportSize({ width, height: 900 });
         await page.goto(url);
@@ -41,7 +44,8 @@ const destinos = ['inicio', 'titulo-parametros', 'titulo-comparacao', 'titulo-fi
         console.log(`OK: ${width}px, ${colorScheme}, seis áreas, axe e dimensões`);
       }
     }
-    await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'no-preference' });
+    await page.evaluate(() => localStorage.removeItem('rai-tema'));
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
     await page.setViewportSize({ width: 1440, height: 1000 });
     await page.goto(url);
     await pronto();

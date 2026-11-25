@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
  <meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
- <meta name="color-scheme" content="light dark"/><title>Restaurant AI Insights</title>
+ <meta name="color-scheme" content="light"/><script>try{if(localStorage.getItem("rai-tema")==="noturno")document.documentElement.dataset.tema="noturno"}catch(e){}</script><title>Restaurant AI Insights</title>
  <link rel="icon" href="data:,"/><link rel="stylesheet" href="estilos.css"/><link rel="stylesheet" href="experiencia.css"/>
  <script type="module" src="js/principal.js"></script>
  <link rel="stylesheet" href="promocoes.css"/>
@@ -17,7 +17,7 @@
    <div class="menu-rodape"><span class="etiqueta">AMBIENTE DEMONSTRATIVO</span><p>Um turno. Muitas possibilidades.</p><small>Dados fictícios · IA local opcional</small></div>
   </aside>
   <div class="conteudo-aplicacao">
-   <header class="barra-topo"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v11h16V10M3 10l2-7h14l2 7M9 21v-7h6v7M3 10c0 3 4 3 4 0 0 3 5 3 5 0 0 3 5 3 5 0 0 3 4 3 4 0"/></svg> Restaurante exemplo</span><span class="selo">Simulador de operação</span></header>
+   <header class="barra-topo"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 10v11h16V10M3 10l2-7h14l2 7M9 21v-7h6v7M3 10c0 3 4 3 4 0 0 3 5 3 5 0 0 3 5 3 5 0 0 3 4 3 4 0"/></svg> Restaurante exemplo</span><span class="selo">Simulador de operação</span><div id="seletor-tema" class="seletor-tema" role="group" aria-label="Tema da página"><button type="button" data-tema-opcao="claro" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>Claro</button><button type="button" data-tema-opcao="noturno" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>Noturno</button></div></header>
    <main id="conteudo" class="conteudo">
     <div class="barra-status"><p id="status" class="status" role="status" tabindex="-1" data-estado="calculando">Carregando…</p><button id="tentar-novamente" class="botao" type="button" hidden>Tentar novamente</button></div>
     <div id="vazio" class="estado-vazio superficie"><h2>Preparando seu primeiro cenário</h2><p>Vamos carregar os parâmetros e calcular um turno de exemplo para você explorar.</p></div>

@@ -2,6 +2,20 @@
 
 Última atualização: 2026-11-24.
 
+## Tema claro e noturno
+
+Em revisão na branch `feat/tema-claro-noturno`. O tema deixou de seguir a preferência do sistema:
+é claro por padrão, e o seletor **Claro / Noturno** no topo troca as cores. A escolha fica em
+`localStorage` (com proteção para navegadores que bloqueiam o armazenamento) e é aplicada no `<head>`,
+antes de desenhar a página. A cena em Canvas redesenha ao trocar o tema.
+
+Verificação: 380 testes Python (1 ignorado) e 111 JavaScript, incluindo `tests/js/tema.test.mjs`.
+No Chrome, com o sistema em modo escuro: a página abre clara; o botão aplica o noturno e o Canvas muda
+de cor; a escolha é lembrada ao recarregar; o teclado volta ao claro; axe sem violações nas duas cores.
+Em 320 px, a barra do topo estourava a largura com o seletor; corrigido com quebra de linha.
+Os roteiros `tests/browser/interface.cjs` e `promocoes.cjs` foram adaptados ao seletor, mas não
+foram executados nesta entrega.
+
 ## Demo online — AIB-05
 
 No ar em <https://restaurant-ai-insights.onrender.com>, publicada pelo Render (plano gratuito, PR #46)

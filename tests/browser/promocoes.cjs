@@ -30,8 +30,11 @@ const url = process.env.RAI_URL || 'http://127.0.0.1:8020';
       await page.locator('#promocao-analisar').click();
       await page.waitForSelector('#promocao-resultado[data-desatualizado="false"]:not([hidden])');
     }
-    if (!process.env.RAI_SO_FLUXOS) for (const tema of ['light', 'dark']) {
-      await page.emulateMedia({ colorScheme: tema, reducedMotion: 'reduce' });
+    // O tema não segue mais o sistema: claro por padrão e noturno pelo botão, lembrado no navegador.
+    if (!process.env.RAI_SO_FLUXOS) for (const tema of ['claro', 'noturno']) {
+      await page.emulateMedia({ reducedMotion: 'reduce' });
+      await page.goto(url);
+      await page.evaluate(valor => localStorage.setItem('rai-tema', valor), tema);
       for (const width of [320, 390, 768, 1024, 1440, 1920]) {
         await page.setViewportSize({ width, height: 900 });
         await abrir(); await analisar();
@@ -45,11 +48,11 @@ const url = process.env.RAI_URL || 'http://127.0.0.1:8020';
           const { violations } = await new AxeBuilder({ page }).analyze();
           assert.deepEqual(violations.map(v => ({ id: v.id, alvos: v.nodes.map(n => n.target) })), [], `${width}, ${tema}, negativo=${negativo}`);
         }
-        if (width === 1440 && tema === 'light') {
+        if (width === 1440 && tema === 'claro') {
           await analisar();
           await page.locator('.promocao-painel').screenshot({ path: 'tmp/rai-008-promocao-desktop.png' });
         }
-        if (width === 390 && tema === 'light') {
+        if (width === 390 && tema === 'claro') {
           await analisar();
           await page.locator('.promocao-painel').screenshot({ path: 'tmp/rai-008-promocao-mobile.png' });
         }
@@ -140,7 +143,7 @@ const url = process.env.RAI_URL || 'http://127.0.0.1:8020';
     assert.match(await page.locator('.tabela-promocao').textContent(), /Não definido \(base zero\)/);
     if (process.env.RAI_SO_FLUXOS) {
       await abrir(); await analisar();
-      await page.emulateMedia({ colorScheme: 'light' });
+      await page.evaluate(() => { localStorage.removeItem('rai-tema'); delete document.documentElement.dataset.tema; });
       await page.locator('.promocao-painel').screenshot({ path: 'tmp/rai-008-promocao-desktop.png' });
       await page.setViewportSize({ width: 390, height: 844 });
       await analisar();

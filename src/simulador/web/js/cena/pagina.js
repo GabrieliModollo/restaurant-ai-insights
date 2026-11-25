@@ -297,7 +297,7 @@ export function criarCena() {
 
   new ResizeObserver(ajustarTamanho).observe(quadro);
   window.addEventListener("resize", ajustarTamanho); // o zoom muda a densidade de pixels
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", desenhar);
+  document.addEventListener("tema-alterado", desenhar);
   menosMovimento.addEventListener("change", aplicarPreferenciaDeMovimento);
 
   aplicarPreferenciaDeMovimento();

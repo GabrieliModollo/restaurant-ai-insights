@@ -41,8 +41,8 @@ navegador. Ao sair de **Restaurante**, a reprodução pausa. Ao recarregar a pá
 as alterações no formulário são descartados da sessão. Use **Guardar e compartilhar cenário**
 para conservar uma análise em arquivo.
 
-O layout se adapta a desktop, tablet e celular, com temas claro e escuro conforme a preferência
-do sistema. No celular, os seis destinos ficam visíveis no menu e o guia pode ser expandido.
+O layout se adapta a desktop, tablet e celular. O tema é claro por padrão; o seletor **Claro / Noturno**
+no topo troca as cores e a escolha fica lembrada no navegador. No celular, os seis destinos ficam visíveis no menu e o guia pode ser expandido.
 
 <details>
 <summary>Ver a interface no celular</summary>

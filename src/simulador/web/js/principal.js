@@ -2,6 +2,7 @@
 
 import { buscarCampos, buscarExemplos, descreverErro, ErroDeValidacao, simular } from "./api.js";
 import { iniciarAssistente } from "./assistente.js";
+import { iniciarTema } from "./tema.js";
 import { criarCena } from "./cena/pagina.js";
 import { criarComparacao } from "./comparacao-pagina.js";
 import { criarExecutor } from "./execucao.js";
@@ -130,6 +131,7 @@ async function iniciar() {
 }
 
 criarNavegacao();
+iniciarTema();
 
 document.getElementById("formulario").addEventListener("submit", evento => {
   evento.preventDefault();
