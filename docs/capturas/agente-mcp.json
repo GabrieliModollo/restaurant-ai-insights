@@ -1,0 +1,43 @@
+{
+  "pergunta": "Um desconto de R$ 5 se paga?",
+  "modelo": "qwen2.5:3b",
+  "passos": [
+    {
+      "tipo": "ferramentas",
+      "nomes": [
+        "testar_desconto"
+      ]
+    },
+    {
+      "tipo": "chamada",
+      "ferramenta": "testar_desconto",
+      "argumentos": {
+        "desconto_reais": 5
+      },
+      "segundos": 6.9
+    },
+    {
+      "tipo": "resultado",
+      "dados": {
+        "situacao": "capacidade_insuficiente",
+        "se_paga": false,
+        "pedidos_prontos_necessarios": 25,
+        "capacidade_do_turno": 22,
+        "pedidos_prontos_na_hipotese": 18,
+        "pedidos_recebidos": 20,
+        "diferenca_no_turno_centavos": -7650,
+        "desconto_maximo_centavos": 0,
+        "explicacao": "Mesmo no limite de pedidos recebidos, a equipe e os tempos informados não concluem a quantidade mínima neste turno."
+      }
+    },
+    {
+      "tipo": "resposta_modelo",
+      "texto": "Um desconto de R$ 5 não se paga neste cenário.",
+      "segundos": 15.1
+    }
+  ],
+  "conclusao": {
+    "origem": "modelo",
+    "texto": "Um desconto de R$ 5 não se paga neste cenário."
+  }
+}

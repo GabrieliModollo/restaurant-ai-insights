@@ -2,9 +2,18 @@
 
 Última atualização: 2026-11-24.
 
+## Agente com MCP — AIB-02
+
+Em revisão na branch `feat/video-agente-mcp`. Nova ferramenta MCP `testar_desconto` (só o desconto e,
+opcionalmente, os pedidos) e `scripts/agente_mcp.py`, que liga um modelo do Ollama ao servidor MCP.
+O GIF `docs/capturas/agente-mcp.gif` foi montado a partir da transcrição real. Descobertas: o esquema
+completo do Pydantic fazia o Ollama devolver resposta vazia, e o qwen2.5:1.5b não chama a ferramenta com
+confiança; o agente usa esquema simplificado e o qwen2.5:3b (6 de 6 chamadas certas). Detalhes em
+[MCP local](mcp.md#agente-local).
+
 ## Automação no n8n — AIB-07
 
-Em revisão na branch `feat/automacao-n8n`. O fluxo `automacoes/n8n/resumo-diario.json` gera um resumo
+Integrada à main no PR #49, branch `feat/automacao-n8n`. O fluxo `automacoes/n8n/resumo-diario.json` gera um resumo
 diário do turno em Markdown com a API do simulador: agrega o CSV de referência, monta o cenário com o
 volume médio e pergunta ao assistente sobre capacidade e promoção. Roda no n8n local (gratuito).
 Verificado com n8n 2.47.3: execução com sucesso e resumo real em `docs/exemplo-resumo-n8n.md`, depois de
