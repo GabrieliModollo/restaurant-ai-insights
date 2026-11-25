@@ -67,7 +67,7 @@ o texto vêm do servidor. Detalhes em `docs/assistente.md`.
 - Estimativa de aumento de demanda por desconto.
 - Banco de dados, autenticação e serviços externos.
 - Vários produtos, chegadas aleatórias, tempos variáveis, cancelamentos e desistências.
-- Publicação da aplicação.
+- Publicação paga ou com dados reais. A demo gratuita, com dados fictícios e sem IA, está em `docs/demo-online.md`.
 
 ## Hipóteses do modelo
 

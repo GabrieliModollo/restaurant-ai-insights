@@ -146,6 +146,11 @@ Abra <http://127.0.0.1:8010>. Se a porta estiver ocupada, escolha outro número.
 servidor ao editar o código, acrescente `--reload`. O roteiro em
 [`docs/demonstracao.md`](docs/demonstracao.md) mostra a aplicação em cerca de 5 minutos.
 
+## Demo online
+
+A demo pública roda no Hugging Face Spaces, no modo por regras, e é publicada a cada merge na `main`.
+Configuração e funcionamento em [`docs/demo-online.md`](docs/demo-online.md).
+
 ## Testes e validação
 
 [GitHub Actions](.github/workflows/testes.yml) executa as suítes Python e JavaScript, o
