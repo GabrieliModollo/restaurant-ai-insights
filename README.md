@@ -15,6 +15,7 @@ o resultado do turno, mas a equipe só consegue preparar **22**. A promoção pe
 | **Onde entra a IA** | Um assistente responde perguntas em português ("Um desconto de R$ 5 se paga?") chamando o simulador; um modelo local (Ollama) interpreta a pergunta e explica resultados; regras comerciais são consultadas citando a fonte; as ferramentas ficam disponíveis a assistentes via MCP. Os números vêm sempre do motor em Python, nunca do modelo |
 | **Como foi feito** | Python, FastAPI, JavaScript puro e Canvas; testes automatizados e de acessibilidade no GitHub Actions |
 
+[**▶ Abrir a demo online**](https://restaurant-ai-insights.onrender.com) ·
 [**Roteiro da demonstração**](docs/demonstracao.md) ·
 [Como executar](#como-executar) · [Assistente de decisões](docs/assistente.md) · [Avaliação da IA local](docs/explicacoes-ia.md) · [MCP local](docs/mcp.md)
 
@@ -147,6 +148,8 @@ servidor ao editar o código, acrescente `--reload`. O roteiro em
 [`docs/demonstracao.md`](docs/demonstracao.md) mostra a aplicação em cerca de 5 minutos.
 
 ## Demo online
+
+**<https://restaurant-ai-insights.onrender.com>**
 
 A demo pública roda no Render (plano gratuito), no modo por regras, e é publicada a cada merge na `main`.
 Depois de 15 minutos sem visitas ela hiberna, e a primeira visita leva até um minuto para abrir.

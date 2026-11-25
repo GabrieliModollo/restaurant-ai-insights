@@ -4,11 +4,10 @@
 
 ## Demo online — AIB-05
 
-O PR #45 (Hugging Face Spaces) foi integrado, mas a criação do Space retornou 402: Spaces Docker
-passaram a exigir o plano PRO. Em revisão na branch `feat/demo-render`: a publicação passa para o
-Render, plano gratuito, com `render.yaml` e Python 3.12.16. Os arquivos do Hugging Face foram removidos.
-Verificação local: o comando de início com `PORT=10000` respondeu `/api/campos`, a página e o
-assistente. **Pendente:** criar o serviço pelo Blueprint no Render e verificar a demo publicada.
+No ar em <https://restaurant-ai-insights.onrender.com>, publicada pelo Render (plano gratuito, PR #46)
+a cada merge na `main`. A tentativa anterior no Hugging Face (PR #45) foi descartada: Spaces Docker
+passaram a exigir plano pago. Verificação no endereço público em Chrome, 8 combinações de largura e
+tema, com os fluxos do assistente aprovados. Detalhes em [Demo online](demo-online.md).
 
 ## Avaliação de qualidade do assistente — AIB-04
 
