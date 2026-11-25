@@ -38,9 +38,11 @@ def test_ferramentas_mcp_via_stdio_reproduzem_a_api_e_validam_entradas():
             async with ClientSession(leitura, escrita) as sessao:
                 await sessao.initialize()
                 inventario = (await sessao.list_tools()).tools
-                assert {item.name for item in inventario} == {caso[0] for caso in casos}
+                assert {item.name for item in inventario} == {caso[0] for caso in casos} | {"testar_desconto"}
                 assert all(item.annotations.readOnlyHint and item.outputSchema for item in inventario)
                 for item in inventario:
+                    if item.name == "testar_desconto":
+                        continue
                     campos = item.inputSchema["$defs"]["ParametrosSimulacao"]["properties"]
                     assert campos["preco_venda"]["type"] == "number"
                 for nome, rota, dados in casos:
@@ -59,3 +61,35 @@ def test_ferramentas_mcp_via_stdio_reproduzem_a_api_e_validam_entradas():
                     assert resposta.isError
 
     asyncio.run(asyncio.wait_for(conferir(), timeout=30))
+
+
+def test_testar_desconto_resume_a_analise_do_cenario_inicial():
+    cliente = TestClient(app)
+
+    async def conferir():
+        processo = StdioServerParameters(
+            command=sys.executable, args=["-m", "src.simulador.mcp_servidor"], cwd=RAIZ,
+        )
+        async with stdio_client(processo) as (leitura, escrita):
+            async with ClientSession(leitura, escrita) as sessao:
+                await sessao.initialize()
+                ferramenta = next(t for t in (await sessao.list_tools()).tools if t.name == "testar_desconto")
+                assert set(ferramenta.inputSchema["properties"]) == {"desconto_reais", "pedidos"}
+                assert ferramenta.inputSchema["required"] == ["desconto_reais"]
+                for argumentos, pedidos in (({"desconto_reais": 5}, PADRAO["pedidos"]), ({"desconto_reais": 2, "pedidos": 30}, 30)):
+                    resposta = await sessao.call_tool("testar_desconto", argumentos)
+                    assert not resposta.isError
+                    dados = resposta.structuredContent
+                    esperado = cliente.post("/api/promocoes", json={
+                        "base": PADRAO, "promocional": {**PADRAO, "desconto": argumentos["desconto_reais"], "pedidos": pedidos},
+                    }).json()
+                    assert dados["pedidos_prontos_necessarios"] == esperado["equilibrio"]["pedidos_concluidos_minimos"]
+                    assert dados["capacidade_do_turno"] == esperado["equilibrio"]["maximo_concluidos_no_limite"]
+                    assert dados["diferenca_no_turno_centavos"] == esperado["diferencas"]["contribuicao_total_centavos"]["absoluta"]
+                    assert dados["se_paga"] == esperado["equilibrio"]["atingiu_na_hipotese"]
+                padrao = (await sessao.call_tool("testar_desconto", {"desconto_reais": 5})).structuredContent
+                assert (padrao["pedidos_prontos_necessarios"], padrao["capacidade_do_turno"], padrao["diferenca_no_turno_centavos"]) == (25, 22, -7650)
+                for invalido in ({"desconto_reais": 0}, {"desconto_reais": 50}, {"desconto_reais": 5, "pedidos": -1}):
+                    assert (await sessao.call_tool("testar_desconto", invalido)).isError
+
+    asyncio.run(conferir())

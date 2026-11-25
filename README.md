@@ -59,6 +59,12 @@ e responde com os números do simulador. Com a IA local ligada, o Ollama só int
 falhar ou citar um número que não estava nela, as regras assumem. Fluxo e proteções em
 [`docs/assistente.md`](docs/assistente.md).
 
+**Agente com MCP:** um modelo local escolhe a ferramenta do simulador e responde com os números do motor.
+
+![Agente local chamando a ferramenta testar_desconto pelo MCP](docs/capturas/agente-mcp.gif)
+
+Como rodar e o que foi medido: [`docs/mcp.md`](docs/mcp.md#agente-local).
+
 ## Promoções e descontos — RAI-008
 
 Na **Visão geral**, clique em **Testar uma promoção** para analisar o exemplo fictício de R$ 5 de desconto.
