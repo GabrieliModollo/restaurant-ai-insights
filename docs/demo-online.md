@@ -4,7 +4,8 @@ A demo pública roda no **Render**, no plano gratuito, e usa o modo por regras: 
 API ou serviços pagos. Todas as áreas e o assistente de decisões funcionam. A explicação e a
 interpretação com IA local ficam desativadas, e a interface informa isso.
 
-Publicação autorizada pela pessoa responsável em 24/11/2026.
+Endereço: <https://restaurant-ai-insights.onrender.com>. Publicação autorizada pela pessoa responsável
+em 24/11/2026.
 
 ## Como funciona
 
@@ -30,6 +31,13 @@ Publicação autorizada pela pessoa responsável em 24/11/2026.
 3. Esperar a primeira publicação e copiar o endereço `https://….onrender.com`.
 
 Nenhum token ou segredo fica no repositório.
+
+## Verificação da demo publicada
+
+Em 24/11/2026, depois da primeira publicação, o mesmo roteiro de Chrome usado no assistente rodou
+contra o endereço público: 320, 390, 768 e 1280 px, temas claro e escuro, sem estouro horizontal nem
+violações do axe no painel do assistente; fluxos de promoção (25 / 22 / −R$ 76,50), regras com fontes,
+fora do escopo, pergunta curta, cenário editado (30 pedidos) e falha 500 simulada aprovados.
 
 ## Hugging Face Spaces (descartado)
 
