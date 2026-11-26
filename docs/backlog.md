@@ -22,7 +22,7 @@ Uma entrega só é concluída depois do merge, feito pela pessoa responsável.
 | 13 | P1 | Demo online gratuita (concluída, PRs #45 e #46) | Render no plano gratuito, modo por regras, publicada automaticamente a cada merge na `main`; sem chaves no repositório. Hugging Face descartado: Spaces Docker exigem plano pago. |
 | 14 | P1 | Automação no n8n (concluída, PR #49) | Fluxo versionado, sem credenciais, que lê o CSV de referência, chama a API e salva um resumo diário em Markdown com os números do motor; execução real verificada. |
 | 15 | P1 | Agente com MCP e vídeo (concluída, PR #50) | Modelo local escolhe a ferramenta MCP e responde só com números do motor; respostas com números sem origem são recusadas; GIF montado a partir de uma execução real. |
-| 16 | P1 | Ficha técnica a partir de texto (em revisão) | Texto colado preenche o formulário para revisão; números das linhas lidas pelas regras, IA só para nomes e linhas soltas marcadas para conferir; nenhum número fora do texto; avaliação com conjunto novo. |
+| 16 | P1 | Ficha técnica a partir de texto (concluída, PR #51) | Texto colado preenche o formulário para revisão; números das linhas lidas pelas regras, IA só para nomes e linhas soltas marcadas para conferir; nenhum número fora do texto; avaliação com conjunto novo. |
 
 ## Melhorias de arquitetura
 
@@ -233,3 +233,15 @@ Validação com pessoas reais, que depende da pessoa responsável:
 ## Decisões tomadas
 
 - **Branch `feature/analise-avaliacoes`:** permanece separada do simulador.
+
+## Radar 26/11/2026 — propostas de próximo ciclo
+
+Fonte: [radar de 26/11](pesquisa/radar-2026-11-26.md). Não são entregas implementadas.
+
+| Prioridade | Proposta | Valor / esforço / confiança | Aceite |
+| --- | --- | --- | --- |
+| P1 | Avaliar sensibilidade a custos e demanda no assistente existente | Alto / baixo / média | Casos sintéticos com variação de preço e volume, números do motor e hipóteses explícitas; não prever demanda. |
+| P2 | Discovery de perdas por ingrediente | Médio potencial / baixo / média-baixa | Definir dados mínimos, distinguir perda de consumo e testar cálculo em exemplos fictícios antes de implementar. |
+| Adiar | ERP de estoque | Incerto / alto / baixa | Reavaliar após evidências específicas e validação. |
+
+Validação com gestores continua pendente; testes sintéticos não substituem essa etapa.
